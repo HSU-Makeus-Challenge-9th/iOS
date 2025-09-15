@@ -1,0 +1,30 @@
+## Xcode 관련
+xcuserdata/
+*.xcuserstate
+*.xcworkspace
+*.plist
+## Exception
+!*/Info.plist
+
+## Swift Package Manager
+.swiftpm/
+.build/
+
+## App 빌드 및 디버그 파일
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+## macOS 시스템 파일
+.DS_Store
+.AppleDouble
+.LSOverride
+
+## xcconfig 파일 (보안 관련 파일 제외)
+*.xcconfig
+
+## OSRM 관련 파일
+*.osm.pbf
+*.osrm*
+osrm
