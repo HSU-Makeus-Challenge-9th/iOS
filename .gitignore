@@ -27,4 +27,20 @@ xcuserdata/
 ## OSRM 관련 파일
 *.osm.pbf
 *.osrm*
-osrm
+osrm# Xcode
+DerivedData/
+build/
+*.xcuserdatad/
+*.xcuserdata/
+*.xcscmblueprint
+*.xccheckout
+
+# SwiftPM
+.swiftpm/
+**/Package.resolved
+
+# CocoaPods
+Pods/
+
+# macOS
+.DS_Store
