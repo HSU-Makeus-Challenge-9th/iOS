@@ -15,11 +15,16 @@ struct LoginView: View {
             Spacer()
             VStack{
                 Spacer()
-                loginTextView
-                    .padding(.vertical,50)
-                loginButtonView
-                    .padding(.vertical,30)
-                socialLogin
+                Group{
+                    loginTextView
+                        .padding(.vertical,50)
+                    loginButtonView
+                        .padding(.vertical,30)
+                    socialLogin
+                    
+                    Spacer().frame(height:39)
+                    
+                }
             }
             
             Spacer().frame(height:39)
@@ -66,7 +71,12 @@ private var loginButtonView: some View {
                 .font(.pretend(type: .bold, size: 18))
                 .frame(maxWidth: .infinity,alignment: .center)
         })
-        .buttonStyle(RoundedButtonStyle())
+        .foregroundColor(.white)
+        .padding()
+        .background(Color.loginBackgroundColor)
+        .cornerRadius(10)
+        .frame(maxWidth: .infinity)
+//        .buttonStyle(RoundedButtonStyle())
         
         Text("회원가입")
             .font(.pretend(type: .medium, size: 12))
@@ -86,25 +96,25 @@ private var socialLogin: some View {
     }.frame(width:266,height:40,alignment:.bottom)
 }
 
-struct RoundedButtonStyle:ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .foregroundColor(.white)
-            .padding()
-            .background(Color.loginBackgroundColor)
-            .cornerRadius(10)
-            .frame(maxWidth: .infinity)
-    }
-}
+//struct RoundedButtonStyle:ButtonStyle {
+//    func makeBody(configuration: Configuration) -> some View {
+//        configuration.label
+//            .foregroundColor(.white)
+//            .padding()
+//            .background(Color.loginBackgroundColor)
+//            .cornerRadius(10)
+//            .frame(maxWidth: .infinity)
+//    }
+//}
 
 
 
 private var UMCImage: some View {
     VStack{
         Image(.umcLogo)
-            .foregroundStyle(Color.clear)
-            .frame(width: 408, height: 266)
-            .clipped()
+            .resizable()
+            .frame(height: 266)
+            
     }
 }
 #Preview {
