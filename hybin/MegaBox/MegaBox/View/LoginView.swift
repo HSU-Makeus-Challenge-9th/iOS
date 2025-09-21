@@ -43,14 +43,14 @@ private var loginTextView: some View {
         Group{
             Text("아이디")
                 .frame(maxWidth: .infinity,alignment:.leading)
-                .font(.pretend(type: .light, size: 18))
+                .font(.pretend(type: .medium, size: 16))
                 .foregroundStyle(Color.loginTextBackgroundColor)
             Divider()
             
             
             Text("비밀번호")
                 .frame(maxWidth:.infinity,alignment: .leading)
-                .font(.pretend(type: .light, size: 18))
+                .font(.pretend(type: .medium, size: 16))
                 .foregroundStyle(Color.loginTextBackgroundColor)
             
             Divider()

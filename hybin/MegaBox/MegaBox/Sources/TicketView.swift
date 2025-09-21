@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-//height
+
 
 struct TicketView: View{
     var body:some View{
@@ -36,7 +36,7 @@ struct TicketView: View{
                     .font(.pretend(type: .bold, size: 14))
             }.foregroundStyle(Color.white)
         }.frame(height:84)
-    }//어차피 하위 뷰를 만들어서 쓰면 그룹화가 되는거 아닌가요?
+    }
     
     private var mainBottomGroup :some View {
         Button(action: {print("hello")}
@@ -60,16 +60,5 @@ struct TicketView: View{
 #Preview() {
     TicketView()
 }
-//
-//struct SwiftUIView_Preview: PreviewProvider {
-//    static var devices = ["iPhone 11", "iPhone 16 Pro"]
-//    
-//    static var previews: some View {
-//        ForEach(devices, id: \.self) { device in
-//            TicketView()
-//                .previewDevice(PreviewDevice(rawValue: device))
-//                .previewDisplayName(device)
-//        }
-//    }
-//}
+
 
