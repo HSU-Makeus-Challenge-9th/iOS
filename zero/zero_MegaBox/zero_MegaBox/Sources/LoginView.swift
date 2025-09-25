@@ -46,12 +46,12 @@ struct LoginView: View
                 }
                 .frame(maxWidth: .infinity, maxHeight: 54)
                 .background(Color("purple03"))
-                .cornerRadius(10)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
                 
                 Text("회원가입")
                     .font(.medium13)
                     .frame(maxHeight: 16)
-                    .foregroundColor(Color("gray04"))
+                    .foregroundStyle(Color("gray04"))
                 Spacer()
                 HStack{
                     Spacer()
@@ -63,7 +63,7 @@ struct LoginView: View
                     Spacer()
                 }
                 Spacer()
-                Image("umc 1")
+                Image("umcPoster")
                     .resizable()
                     .frame(maxWidth: 408, maxHeight: 266)
         }
