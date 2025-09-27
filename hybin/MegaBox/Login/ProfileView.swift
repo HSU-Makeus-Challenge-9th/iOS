@@ -11,6 +11,7 @@ import SwiftUI
 struct ProfileView: View {
     //    @Environment var sessionManager: UserSessionManager
     @Bindable var viewModel: LoginViewModel
+    @AppStorage("Name") private var userName = "Default"
     var body: some View {
         
         
@@ -35,7 +36,8 @@ struct ProfileView: View {
     private var userInformation : some View{
         HStack{
             Group{
-                Text("\(viewModel.userName)님")
+//                Text("\(viewModel.userName)님")
+                Text(userName + "님")
                     .font(.pretend(type: .bold, size: 24))
                 Text("\(viewModel.membership)")
                     .font(.pretend(type:.medium, size:14))

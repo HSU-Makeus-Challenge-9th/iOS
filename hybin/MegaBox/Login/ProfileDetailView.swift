@@ -35,7 +35,9 @@ import SwiftUI
 struct ProfileDetailView: View {
     
     @Bindable var viewModel:LoginViewModel
+    @State var isNameEditing: Bool = false
     @AppStorage("ID") private var userID: String = "Default"
+    @AppStorage("Name") private var userName: String = "Default"
     private var customHeader: some View {
         HStack {
             Button {
@@ -78,7 +80,7 @@ struct ProfileDetailView: View {
                 
                 VStack(spacing: 0){
                     HStack{
-//                        Text(viewModel.userIDInput)
+                        //                        Text(viewModel.userIDInput)
                         Text(userID)
                             .frame(maxWidth: .infinity, alignment:.leading)
                             .font(.pretend(type: .medium, size: 16))
@@ -89,10 +91,35 @@ struct ProfileDetailView: View {
                     Divider()
                     
                     HStack{
-                        Text(viewModel.userName)
-                            .frame(maxWidth: .infinity, alignment:.leading)
-                            .font(.pretend(type: .medium, size: 16))
-                            .foregroundStyle(Color.black)
+                        if isNameEditing {
+                            TextField("이름 입력", text: $userName)
+                                .textFieldStyle(.roundedBorder)
+                                .font(.system(size: 16, weight: .medium))
+                        } else {
+                            Text(userName)
+                                .frame(maxWidth: .infinity, alignment:.leading)
+                                .font(.system(size: 16, weight: .medium))
+                                .foregroundColor(.black)
+                        }
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            if isNameEditing == true {
+                                isNameEditing = false
+                            } else {isNameEditing = true}
+                        }, label: {
+                            Text(isNameEditing ? "저장": "변경")
+                                .font(.pretend(type:.semiBold,size:16))
+                                .padding(5)
+                                .foregroundStyle(Color.gray)
+                                .clipShape(Capsule())
+                                .backgroundStyle(Color.white)
+                                .cornerRadius(8)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 15)
+                                        .stroke(Color.gray.opacity(0.5), lineWidth: 1))
+                        })
                     }
                     .padding(.vertical, 10)
                     .frame(maxWidth: .infinity, alignment: .top)
