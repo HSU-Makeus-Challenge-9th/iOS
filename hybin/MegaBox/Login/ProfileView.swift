@@ -21,26 +21,40 @@ struct ProfileView: View {
                 //                }
                 userInformation
                 membershipPoint
+                    .padding(.bottom ,15)
+                clubMembership
             }
-            clubMembership
             customerStatus
             bottomImage
         }.frame(alignment:.topLeading)
-            .padding(16)
+            .padding(.top, 20)
+            .padding(.horizontal, 15)
         Spacer()
     }
     
     private var userInformation : some View{
         HStack{
             Group{
-                Text("\(viewModel.userName)")
+                Text("\(viewModel.userName)님")
                     .font(.pretend(type: .bold, size: 24))
                 Text("\(viewModel.membership)")
                     .font(.pretend(type:.medium, size:14))
+                    .foregroundStyle(Color.white)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(Color(red: 0.28, green: 0.8, blue: 0.82))
+                
+                    .cornerRadius(6)
                 Spacer()
-                Text("Info") // button 처리
-            }.padding(.horizontal,10)
-                .padding(.top,15)
+                Text("회원정보")
+                    .font(.pretend(type:.semiBold, size:14))
+                    .foregroundStyle(Color.white)
+                    .padding(4)
+                    .frame(width: 72, alignment: .center)
+                    .background(Color(red: 0.28, green: 0.28, blue: 0.28))
+                
+                    .cornerRadius(16)// button 처리
+            }.padding(0)
         }
     }
     
@@ -58,10 +72,34 @@ struct ProfileView: View {
     }
     
     private var clubMembership: some View {
-        VStack{
-            Text("클럽 멤버십")// 버튼
-        }.padding(.horizontal, 10)
-            .font(.pretend(type: .semiBold, size: 16))
+        HStack(alignment: .center, spacing: 3) {
+            Text("클럽 멤버십")
+                .font(.pretend(type:.semiBold,size:16))
+                .multilineTextAlignment(.trailing)
+                .foregroundColor(.white)
+            
+            Image(systemName: "chevron.right")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 12, height: 12)
+                .foregroundColor(.white)
+        }
+        .padding(.leading, 8)
+        .padding(.trailing, 30)
+        .padding(.vertical, 12)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(
+            LinearGradient(
+                stops: [
+                    Gradient.Stop(color: Color(red: 0.67, green: 0.55, blue: 1), location: 0.00),
+                    Gradient.Stop(color: Color(red: 0.56, green: 0.68, blue: 0.95), location: 0.53),
+                    Gradient.Stop(color: Color(red: 0.36, green: 0.8, blue: 0.93), location: 1.00),
+                ],
+                startPoint: UnitPoint(x: 0, y: 0.5),
+                endPoint: UnitPoint(x: 1, y: 0.5)
+            )
+        )
+        .cornerRadius(8)
         
     }
     
@@ -85,7 +123,7 @@ struct ProfileView: View {
             
             VStack(spacing: 10) {
                 Text("스토어 교환권")
-                    .font(.pretend(type: .semiBold, size: 16))
+                    .font(.pretend(type: .semiBold, size: 14))
                     .foregroundColor(Color(red: 0.84, green: 0.84, blue: 0.84))
                 Text("0")
                     .font(.pretend(type: .semiBold, size: 18))
@@ -126,7 +164,7 @@ struct ProfileView: View {
                         .foregroundColor(.clear)
                         .frame(width: 36, height: 36)
                         .background(
-                            Image("PATH_TO_IMAGE")
+                            Image(.flim)
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: 36, height: 36)
@@ -137,16 +175,11 @@ struct ProfileView: View {
                 .frame(width: 36, height: 36, alignment: .center)
                 HStack(alignment: .center, spacing: 0) {
                     Text("영화별예매")
-                        .font(.pretend(type:.medium,size:16))
+                        .font(.pretend(type:.medium,size:14))
                 }
                 .padding(0)
                 .frame(width: 66, height: 19, alignment: .center)
-                .overlay(
-                Rectangle()
-                .inset(by: 0.5)
-                .stroke(.black, lineWidth: 1)
-
-                )
+                
             }.frame(width:66, height:67)
             Spacer()
             VStack{
@@ -155,7 +188,7 @@ struct ProfileView: View {
                         .foregroundColor(.clear)
                         .frame(width: 36, height: 36)
                         .background(
-                            Image("PATH_TO_IMAGE")
+                            Image(.locate)
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: 36, height: 36)
@@ -166,16 +199,11 @@ struct ProfileView: View {
                 .frame(width: 36, height: 36, alignment: .center)
                 HStack(alignment: .center, spacing: 0) {
                     Text("극장별예매")
-                        .font(.pretend(type:.medium,size:16))
+                        .font(.pretend(type:.medium,size:14))
                 }
                 .padding(0)
                 .frame(width: 66, height: 19, alignment: .center)
-                .overlay(
-                Rectangle()
-                .inset(by: 0.5)
-                .stroke(.black, lineWidth: 1)
-
-                )
+                
             }.frame(width:66, height:67)
             Spacer()
             VStack{
@@ -184,7 +212,7 @@ struct ProfileView: View {
                         .foregroundColor(.clear)
                         .frame(width: 36, height: 36)
                         .background(
-                            Image("PATH_TO_IMAGE")
+                            Image(.sofa)
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: 36, height: 36)
@@ -195,16 +223,10 @@ struct ProfileView: View {
                 .frame(width: 36, height: 36, alignment: .center)
                 HStack(alignment: .center, spacing: 0) {
                     Text("특별관예매")
-                        .font(.pretend(type:.medium,size:16))
+                        .font(.pretend(type:.medium,size:14))
                 }
                 .padding(0)
                 .frame(width: 66, height: 19, alignment: .center)
-                .overlay(
-                Rectangle()
-                .inset(by: 0.5)
-                .stroke(.black, lineWidth: 1)
-
-                )
             }.frame(width:66, height:67)
             Spacer()
             VStack{
@@ -213,7 +235,7 @@ struct ProfileView: View {
                         .foregroundColor(.clear)
                         .frame(width: 36, height: 36)
                         .background(
-                            Image("PATH_TO_IMAGE")
+                            Image(.popcorn)
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: 36, height: 36)
@@ -224,16 +246,10 @@ struct ProfileView: View {
                 .frame(width: 36, height: 36, alignment: .center)
                 HStack(alignment: .center, spacing: 0) {
                     Text("모바일오더")
-                        .font(.pretend(type:.medium,size:16))
+                        .font(.pretend(type:.medium,size:14))
                 }
                 .padding(0)
                 .frame(width: 66, height: 19, alignment: .center)
-                .overlay(
-                Rectangle()
-                .inset(by: 0.5)
-                .stroke(.black, lineWidth: 1)
-
-                )
             }.frame(width:66, height:67)
         }
     }
