@@ -16,7 +16,6 @@ struct UserInfoView: View
     var body: some View
     {
         VStack{
-            
             HStack(alignment: .center){//헤더
                 VStack{
                     HStack(alignment: .center){
@@ -83,12 +82,9 @@ struct UserInfoView: View
             
             UserStateView()
             BookingView()
-            
-            
-            
+            Spacer()
         }
         .padding(10)
-        Spacer()
     }
     
     private func makeChevron(name: String, action: @escaping () -> Void) -> some View {
@@ -198,7 +194,14 @@ struct BookingView: View
 
 
 
-#Preview {
-    UserInfoView()
-}
+//#Preview {
+//    UserInfoView()
+//}
 
+struct UserInfoView_Preview: PreviewProvider {
+    static var previews: some View {
+        devicePreviews {
+            UserInfoView()
+        }
+    }
+}
