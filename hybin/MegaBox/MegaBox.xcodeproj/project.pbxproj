@@ -107,7 +107,6 @@
 		4CF19C232E880B8C0078679E /* Exceptions for "View" folder in "MegaBox" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				LoginView.swift,
 				SplashView.swift,
 			);
 			target = 4CF19AF32E8806EE0078679E /* MegaBox */;
@@ -115,7 +114,6 @@
 		4CF19C242E880B8C0078679E /* Exceptions for "View" folder in "MegaBoxTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				LoginView.swift,
 				SplashView.swift,
 			);
 			target = 4CF19B002E8806F00078679E /* MegaBoxTests */;
@@ -123,8 +121,43 @@
 		4CF19C252E880B8C0078679E /* Exceptions for "View" folder in "MegaBoxUITests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				LoginView.swift,
 				SplashView.swift,
+			);
+			target = 4CF19B0A2E8806F00078679E /* MegaBoxUITests */;
+		};
+		4CF19D352E8812790078679E /* Exceptions for "Login" folder in "MegaBox" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				LoginView.swift,
+				LoginViewModel.swift,
+				ProfileDetailView.swift,
+				ProfileView.swift,
+				UserModel.swift,
+				UserSessionManager.swift,
+			);
+			target = 4CF19AF32E8806EE0078679E /* MegaBox */;
+		};
+		4CF19D362E8812790078679E /* Exceptions for "Login" folder in "MegaBoxTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				LoginView.swift,
+				LoginViewModel.swift,
+				ProfileDetailView.swift,
+				ProfileView.swift,
+				UserModel.swift,
+				UserSessionManager.swift,
+			);
+			target = 4CF19B002E8806F00078679E /* MegaBoxTests */;
+		};
+		4CF19D372E8812790078679E /* Exceptions for "Login" folder in "MegaBoxUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				LoginView.swift,
+				LoginViewModel.swift,
+				ProfileDetailView.swift,
+				ProfileView.swift,
+				UserModel.swift,
+				UserSessionManager.swift,
 			);
 			target = 4CF19B0A2E8806F00078679E /* MegaBoxUITests */;
 		};
@@ -173,6 +206,16 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		4CF19D342E8812700078679E /* Login */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4CF19D352E8812790078679E /* Exceptions for "Login" folder in "MegaBox" target */,
+				4CF19D362E8812790078679E /* Exceptions for "Login" folder in "MegaBoxTests" target */,
+				4CF19D372E8812790078679E /* Exceptions for "Login" folder in "MegaBoxUITests" target */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,6 +246,7 @@
 		4CF19AEB2E8806EE0078679E = {
 			isa = PBXGroup;
 			children = (
+				4CF19D342E8812700078679E /* Login */,
 				4CF19BDC2E880B8C0078679E /* Resources */,
 				4CF19BE02E880B8C0078679E /* Sources */,
 				4CF19BE12E880B8C0078679E /* Tests */,
