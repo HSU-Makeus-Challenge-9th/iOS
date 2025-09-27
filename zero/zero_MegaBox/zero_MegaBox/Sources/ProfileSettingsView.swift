@@ -81,6 +81,14 @@ struct ProfileSettingsView: View
 
 
 
-#Preview {
-    ProfileSettingsView()
+//#Preview {
+//    ProfileSettingsView()
+//}
+
+struct ProfileSettingView_Preview: PreviewProvider {
+    static var previews: some View {
+        devicePreviews {
+            ProfileSettingsView()
+        }
+    }
 }

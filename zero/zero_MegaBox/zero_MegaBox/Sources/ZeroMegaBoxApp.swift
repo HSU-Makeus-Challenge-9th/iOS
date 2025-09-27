@@ -9,5 +9,3 @@ struct ZeroMegaBoxApp: App {
         }
     }
 }
-
-
