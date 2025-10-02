@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-extension Color {
+public extension Color {
     static let loginBackgroundColor = Color("LoginBackgroundColor")
     static let loginTextBackgroundColor = Color("LoginTextBackgroundColor")
 }
