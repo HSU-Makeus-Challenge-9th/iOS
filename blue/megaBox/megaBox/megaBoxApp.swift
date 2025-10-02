@@ -8,13 +8,15 @@ import SwiftUI
 
 @main
 struct megaBoxApp: App {
+    @AppStorage("is_logged_in") private var isLoggedIn: Bool = false
+
     var body: some Scene {
         WindowGroup {
-            // 여기 원하는 화면으로 교체해서 확인하면 됨
-            // SplashView()
-            // LoginView()
-            // UserInfo()
-             UserInfoManage()
+            if isLoggedIn {
+                TabView()
+            } else {
+                LoginView();
+            }
         }
     }
 }
