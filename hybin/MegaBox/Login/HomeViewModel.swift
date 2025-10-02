@@ -20,5 +20,6 @@ class HomeViewModel {
         .init(title: "보스", posterImage: .init(.보스)  , audience: 12, bookranking: 5),
     ]
     
+    //MovieArticle, MovieFeed 관련해서 만들어야함.
     
 }
