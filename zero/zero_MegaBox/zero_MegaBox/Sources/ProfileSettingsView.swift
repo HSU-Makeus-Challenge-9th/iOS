@@ -12,7 +12,7 @@ import SwiftUI
 struct ProfileSettingsView: View
 {
     @Environment(\.dismiss) private var dismiss
-    
+    @Binding var path: NavigationPath
     @AppStorage("userId") private var userId: String = "zero"
     
     @AppStorage("userName") private var userName: String = "sumini"
@@ -24,7 +24,12 @@ struct ProfileSettingsView: View
         VStack(spacing: 53){
             HStack{
                 Button(action: {
-                    dismiss()
+                    if !path.isEmpty {
+                            path.removeLast()
+                        } else {
+                            dismiss()
+                        }
+                    print("\(path)")
                 }) {
                     Image(systemName: "arrow.left")
                         .resizable()
@@ -75,6 +80,7 @@ struct ProfileSettingsView: View
             Spacer()
         }
         .padding(10)
+        .navigationBarBackButtonHidden(true)
     }
 }
     
@@ -85,10 +91,10 @@ struct ProfileSettingsView: View
 //    ProfileSettingsView()
 //}
 
-struct ProfileSettingView_Preview: PreviewProvider {
-    static var previews: some View {
-        devicePreviews {
-            ProfileSettingsView()
-        }
-    }
-}
+//struct ProfileSettingView_Preview: PreviewProvider {
+//    static var previews: some View {
+//        devicePreviews {
+//            ProfileSettingsView()
+//        }
+//    }
+//}
