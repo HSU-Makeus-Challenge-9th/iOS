@@ -12,6 +12,22 @@ struct UserModel {
     var userId: String
     var password: String
     var userName: String
-    var membership: String //enum 처리
+    var membership: MembershipLevel //enum 처리
     var membershipPoints : Int
+    
+    
+    //MARK: MembershipEnum
+    enum MembershipLevel : String, CaseIterable , CustomStringConvertible {
+        case wellcome = "WELLCOME"
+        case bronze = "BRONZE"
+        case silver = "SILVER"
+        case gold = "GOLD"
+        case vip = "VIP"
+        
+        
+        var description: String {
+            return self.rawValue
+        }
+    }
 }
+

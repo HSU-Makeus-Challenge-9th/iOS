@@ -38,11 +38,11 @@ public extension Font {
         return .custom(type.value, size: size)
     }
     
-    static var PretendardBold30: Font {
-        return .pretend(type: .bold, size: 30)
-    }
-    
-    static var PretendardLight26: Font {
-        return .pretend(type: .light, size: 26)
-    }
+//    static var PretendardBold30: Font {
+//        return .pretend(type: .bold, size: 30)
+//    }
+//    
+//    static var PretendardLight26: Font {
+//        return .pretend(type: .light, size: 26)
+//    }
 }

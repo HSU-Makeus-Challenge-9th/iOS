@@ -10,11 +10,15 @@ import SwiftUI
 import Observation
 
 struct LoginView: View {
-    @State var viewModel: LoginViewModel = .init()
+//    @State var viewModel: LoginViewModel = .init()
+//    
+//    @AppStorage("ID") private var userID: String = "?"
+//    @AppStorage("PWD") private var userPWD: String = "!"
     
-    @AppStorage("ID") private var userID: String = "?"
-    @AppStorage("PWD") private var userPWD: String = "!"
+    @Environment(UserSessionManager.self) var usm : UserSessionManager
     
+    @State private var userIDInput: String = ""
+    @State private var userPWDInput: String = ""
     
     var body: some View {
         VStack{
@@ -43,13 +47,13 @@ struct LoginView: View {
     private var loginTextView: some View {
         VStack(alignment : .center){
             
-                TextField("아이디", text: $viewModel.userIDInput)
+                TextField("아이디", text: $userIDInput)
                     .frame(maxWidth: .infinity,alignment:.leading)
                     .font(.pretend(type: .medium, size: 16))
                     .foregroundStyle(Color.loginTextBackgroundColor)
                 Divider()
                 
-                SecureField("비밀번호", text:$viewModel.passwordInput)
+                SecureField("비밀번호", text:$userPWDInput)
                     .frame(maxWidth:.infinity,alignment: .leading)
                     .font(.pretend(type: .medium, size: 16))
                     .foregroundStyle(Color.loginTextBackgroundColor)
@@ -72,9 +76,16 @@ struct LoginView: View {
         VStack{
             Button(action: {
                 print("login")
-                userID = viewModel.userIDInput
-                userPWD = viewModel.passwordInput
-                print(userID + "/" + userPWD)
+                //nil 이 들어오는 경우 방지
+                let success = usm.login(id: userIDInput, password: userPWDInput)
+                if success {
+                    //currentUser가 nil일 경우 방지 (옵셔널이니까)
+                    if let current = usm.currentUser {
+                        print("Current User: \(current)")
+                    } else {print("No user")}
+                } else {
+                    print("No user logged in")
+                }
             },label:{
                 Text("로그인")
                     .font(.pretend(type: .bold, size: 18))
@@ -120,4 +131,5 @@ struct LoginView: View {
 }
 #Preview {
     LoginView()
+        .environment(UserSessionManager())
 }

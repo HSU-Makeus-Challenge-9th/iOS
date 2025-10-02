@@ -8,36 +8,13 @@
 import Foundation
 import SwiftUI
 
-//struct ProfileDetailView: View {
-//    var body: some View {
-//        VStack(alignment:.center){
-//            navigationBarTitle
-//
-////            userInformation
-//            Text("name")
-//            Text("id")
-//        }.padding(.horizontal,20)
-//
-//    }
-//
-//    private var navigationBarTitle: some View {
-//        HStack{
-//            Text("<<")
-//                .font(.largeTitle)
-//                .foregroundColor(.primary)
-//            Spacer()
-//            Text("profile")
-//            Spacer()
-//        }.frame(maxWidth:.infinity,maxHeight: .infinity, alignment: .center)
-//    }
-//}
-
 struct ProfileDetailView: View {
     
-    @Bindable var viewModel:LoginViewModel
+    @Environment(UserSessionManager.self) var usm : UserSessionManager
+    
     @State var isNameEditing: Bool = false
-    @AppStorage("ID") private var userID: String = "Default"
-    @AppStorage("Name") private var userName: String = "Default"
+    @State var tempName : String = ""
+    
     private var customHeader: some View {
         HStack {
             Button {
@@ -46,7 +23,7 @@ struct ProfileDetailView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 12, height: 18)
-                    .foregroundColor(.black)
+                    .foregroundStyle(Color.black)
             }
             .padding(.trailing, 20)
             
@@ -80,8 +57,7 @@ struct ProfileDetailView: View {
                 
                 VStack(spacing: 0){
                     HStack{
-                        //                        Text(viewModel.userIDInput)
-                        Text(userID)
+                        Text(usm.currentUser?.userId ?? "")
                             .frame(maxWidth: .infinity, alignment:.leading)
                             .font(.pretend(type: .medium, size: 16))
                             .foregroundStyle(Color.black)
@@ -92,30 +68,33 @@ struct ProfileDetailView: View {
                     
                     HStack{
                         if isNameEditing {
-                            TextField("이름 입력", text: $userName)
+                            TextField("이름 입력", text: $tempName)
                                 .textFieldStyle(.roundedBorder)
                                 .font(.system(size: 16, weight: .medium))
                         } else {
-                            Text(userName)
+                            Text(usm.currentUser?.userName ?? "")
                                 .frame(maxWidth: .infinity, alignment:.leading)
                                 .font(.system(size: 16, weight: .medium))
-                                .foregroundColor(.black)
+                                .foregroundStyle(Color.black)
                         }
                         
                         Spacer()
                         
                         Button(action: {
                             if isNameEditing == true {
+                                usm.updateUserName(editName: tempName)
                                 isNameEditing = false
-                            } else {isNameEditing = true}
+                            } else {
+                                tempName = usm.currentUser?.userName ?? ""
+                                isNameEditing = true
+                            }
                         }, label: {
                             Text(isNameEditing ? "저장": "변경")
                                 .font(.pretend(type:.semiBold,size:16))
                                 .padding(5)
                                 .foregroundStyle(Color.gray)
-                                .clipShape(Capsule())
                                 .backgroundStyle(Color.white)
-                                .cornerRadius(8)
+                                .clipShape(RoundedRectangle(cornerRadius:8))
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 15)
                                         .stroke(Color.gray.opacity(0.5), lineWidth: 1))
@@ -133,5 +112,6 @@ struct ProfileDetailView: View {
     }
 }
 #Preview {
-    ProfileDetailView(viewModel: LoginViewModel())
+    ProfileDetailView()
+        .environment(UserSessionManager())
 }

@@ -9,37 +9,34 @@ import Foundation
 import SwiftUI
 
 struct ProfileView: View {
-    //    @Environment var sessionManager: UserSessionManager
-    @Bindable var viewModel: LoginViewModel
-    @AppStorage("Name") private var userName = "Default"
+    
+    @Environment(UserSessionManager.self) var usm : UserSessionManager
+    
     var body: some View {
-        
-        
-        VStack(alignment: .leading,spacing:33){
-            VStack(alignment:.leading){
-                //                if let user : UserModel = sessionManager.currentUser{
-                //                    userInformation(user:user)
-                //                }
-                userInformation
-                membershipPoint
-                    .padding(.bottom ,15)
-                clubMembership
-            }
-            customerStatus
-            bottomImage
-        }.frame(alignment:.topLeading)
-            .padding(.top, 20)
-            .padding(.horizontal, 15)
-        Spacer()
+        NavigationStack{
+            VStack(alignment: .leading,spacing:33){
+                VStack(alignment:.leading){
+                    
+                    userInformation
+                    membershipPoint
+                        .padding(.bottom ,15)
+                    clubMembership
+                }
+                customerStatus
+                bottomImage
+            }.frame(alignment:.topLeading)
+                .padding(.top, 20)
+                .padding(.horizontal, 15)
+            Spacer()
+        }
     }
     
     private var userInformation : some View{
         HStack{
             Group{
-//                Text("\(viewModel.userName)님")
-                Text(userName + "님")
+                Text(usm.currentUser?.userName ?? "" + "님")
                     .font(.pretend(type: .bold, size: 24))
-                Text("\(viewModel.membership)")
+                Text(usm.currentUser?.membership.rawValue ?? "")
                     .font(.pretend(type:.medium, size:14))
                     .foregroundStyle(Color.white)
                     .padding(.horizontal, 8)
@@ -48,14 +45,17 @@ struct ProfileView: View {
                 
                     .cornerRadius(6)
                 Spacer()
-                Text("회원정보")
-                    .font(.pretend(type:.semiBold, size:14))
-                    .foregroundStyle(Color.white)
-                    .padding(4)
-                    .frame(width: 72, alignment: .center)
-                    .background(Color(red: 0.28, green: 0.28, blue: 0.28))
                 
-                    .cornerRadius(16)// button 처리
+                NavigationLink(destination: ProfileDetailView().environment(usm)){
+                    Text("회원정보")
+                        .font(.pretend(type:.semiBold, size:14))
+                        .foregroundStyle(Color.white)
+                        .padding(4)
+                        .frame(width: 72, alignment: .center)
+                        .background(Color(red: 0.28, green: 0.28, blue: 0.28))
+                    
+                        .clipShape(RoundedRectangle(cornerRadius: 16)) //button 처리
+                }
             }.padding(0)
         }
     }
@@ -66,7 +66,7 @@ struct ProfileView: View {
                 .font(.pretend(type:.semiBold, size:14))
                 .padding(.horizontal,10)
                 .padding(.top,15)
-            Text(String(viewModel.membershipPoints) + "P")
+            Text(String(usm.currentUser?.membershipPoints ?? 0) + "P")
                 .font(.pretend(type:.medium, size:14))
                 .padding(.top,15)
             Spacer()
@@ -101,7 +101,7 @@ struct ProfileView: View {
                 endPoint: UnitPoint(x: 1, y: 0.5)
             )
         )
-        .cornerRadius(8)
+        .clipShape(RoundedRectangle(cornerRadius: 8))
         
     }
     
@@ -258,5 +258,6 @@ struct ProfileView: View {
 }
 
 #Preview {
-    ProfileView(viewModel:LoginViewModel())
+    ProfileView()
+        .environment(UserSessionManager())
 }
