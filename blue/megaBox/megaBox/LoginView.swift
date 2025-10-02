@@ -6,39 +6,96 @@
 //
 
 import SwiftUI
+import Observation
+
+@Observable
+final class LoginModel {
+    var id: String = ""
+    var pwd: String = ""
+}
+
+@Observable
+final class LoginViewModel {
+    var model: LoginModel
+
+    @ObservationIgnored
+    @AppStorage("login_id") private var storedId: String = ""
+
+    @ObservationIgnored
+    @AppStorage("login_pwd") private var storedPwd: String = ""
+
+    init(model: LoginModel = LoginModel()) {
+        self.model = model
+    }
+
+    func login() {
+        storedId = model.id
+        storedPwd = model.pwd
+    }
+}
 
 struct LoginView: View {
-    // 입력 상태
-    @State private var id: String = ""
-    @State private var pw: String = ""
+    @State private var viewModel = LoginViewModel()
 
-    // 피그마 메인 보라색(원하면 값 맞춰 수정해도 됨)
     private let primaryPurple = Color.purple
 
     var body: some View {
+        @Bindable var vm = viewModel
+
         ZStack {
             Color.white.ignoresSafeArea()
 
-            // 전체 하위뷰를 body에 VStack으로 배치
             VStack(spacing: 28) {
                 topBar
 
-                inputFields
+                // 입력 영역
+                VStack(alignment: .leading, spacing: 22) {
 
-                loginButton
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("아이디")
+                            .font(.system(size: 16))
+                            .foregroundStyle(.secondary)
+
+                        TextField("megabox123", text: $vm.model.id)
+                            .textFieldStyle(.plain)
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled()
+                        Divider()
+                    }
+
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("비밀번호")
+                            .font(.system(size: 16))
+                            .foregroundStyle(.secondary)
+
+                        SecureField("********", text: $vm.model.pwd)
+                            .textFieldStyle(.plain)
+                        Divider()
+                    }
+                }
+
+                // 로그인 버튼
+                Button {
+                    vm.login()
+                } label: {
+                    Text("로그인")
+                        .font(.system(size: 18, weight: .bold))
+                        .foregroundStyle(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16)
+                }
+                .background(primaryPurple)
+                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                .padding(.top, 4)
 
                 signUpText
-
                 socialLoginRow
-
                 umcPoster
             }
             .padding(.horizontal, 24)
             .padding(.vertical, 16)
         }
     }
-
-    //-------------------------------------------------//
 
     private var topBar: some View {
         HStack {
@@ -49,46 +106,6 @@ struct LoginView: View {
             Spacer()
         }
         .padding(.top, 8)
-    }
-
-    private var inputFields: some View {
-        VStack(alignment: .leading, spacing: 22) {
-
-            VStack(alignment: .leading, spacing: 8) {
-                Text("아이디")
-                    .font(.system(size: 16))
-                    .foregroundStyle(.secondary)
-
-                TextField("", text: $id)
-                    .textFieldStyle(.plain)
-                Divider()
-            }
-
-            VStack(alignment: .leading, spacing: 8) {
-                Text("비밀번호")
-                    .font(.system(size: 16))
-                    .foregroundStyle(.secondary)
-
-                SecureField("", text: $pw)
-                    .textFieldStyle(.plain)
-                Divider()
-            }
-        }
-    }
-
-    private var loginButton: some View {
-        Button {
-            // TODO: 로그인 액션
-        } label: {
-            Text("로그인")
-                .font(.system(size: 18, weight: .bold))
-                .foregroundStyle(.white)
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 16)
-        }
-        .background(primaryPurple)
-        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-        .padding(.top, 4)
     }
 
     private var signUpText: some View {
@@ -122,12 +139,11 @@ struct LoginView: View {
         .padding(.top, 6)
     }
 
-    // ▸ UMC 포스터(에셋) — 피그마 크기에 맞춰 조절
     private var umcPoster: some View {
         Image("umcLogo")
             .renderingMode(.original)
             .resizable()
-            .scaledToFit()                               // 비율 유지
+            .scaledToFit()
             .frame(maxWidth: .infinity)
             .clipShape(RoundedRectangle(cornerRadius: 1, style: .continuous))
     }
