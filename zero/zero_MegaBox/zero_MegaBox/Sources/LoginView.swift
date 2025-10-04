@@ -9,7 +9,7 @@ import SwiftUI
 
 enum Route: Hashable, Equatable {
     case logined
-//    case home
+    case home
     case profile
     case profileSettings
     case movieDetail(Movie)
@@ -76,14 +76,14 @@ struct LoginView: View
                         switch route {
                             case .logined:
                                 MainTabView(path: $path)
-//                            case .home:
-//                                HomeView(path: $path)
+                            case .home:
+                                HomeView(path: $path)
                             case .profile:
                                 ProfileSettingsView(path: $path)
                             case .profileSettings:
                                 ProfileSettingsView(path: $path)
-                            case .movieDetail:
-                            MovieDetailView(movie: Movie)
+                            case .movieDetail(let movie):
+                            MovieDetailView(path: $path, movie: movie)
                         }
                     }
                     Text("회원가입")

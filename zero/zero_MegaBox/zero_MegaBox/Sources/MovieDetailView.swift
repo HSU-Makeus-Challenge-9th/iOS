@@ -10,7 +10,7 @@ import SwiftUI
 
 struct MovieDetailView: View {
     @Environment(\.dismiss) private var dismiss
-//    @Binding var path: NavigationPath
+    @Binding var path: NavigationPath
     let movie: Movie
 
     @State private var selectedTab: Int = 0
@@ -22,11 +22,11 @@ struct MovieDetailView: View {
             HStack{
                 Button(action: {
                     dismiss()
-    //                if !path.isEmpty {
-    //                        path.removeLast()
-    //                    } else {
-    //                        dismiss()
-    //                    }
+                    if !path.isEmpty {
+                            path.removeLast()
+                        } else {
+                            dismiss()
+                        }
                 }) {
                     Image(systemName: "arrow.left")
                         .resizable()
@@ -116,6 +116,6 @@ struct MovieDetailView: View {
     }
 }
 
-#Preview {
-    MovieDetailView()
-}
+//#Preview {
+//    MovieDetailView()
+//}

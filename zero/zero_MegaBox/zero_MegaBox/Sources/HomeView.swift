@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HomeView: View
 {
-//    @Binding var path: NavigationPath
+    @Binding var path: NavigationPath
     var body: some View
     {
         
@@ -63,7 +63,7 @@ struct HomeView: View
                 Spacer()
                 
             }
-            MovieView()
+            MovieView(path: $path)
                 .frame(height: 318)
                 .padding(.vertical,37)
 
@@ -91,6 +91,6 @@ struct HomeView: View
     }
 }
 
-#Preview {
-    HomeView()
-}
+//#Preview {
+//    HomeView()
+//}

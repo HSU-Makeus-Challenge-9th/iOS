@@ -19,8 +19,9 @@ struct MovieView: View {
                 ForEach(MovieModel.allCases, id: \.self) { movie in
                     makeMovieCard(movie)
                         .onTapGesture {
+                            let movieData = movie.returnMovie()
                             viewModel.selectedMovieModel = movie
-                            path.append(Route.movieDetail(movie))
+                            path.append(Route.movieDetail(movieData))
                         }
                 }
             }
