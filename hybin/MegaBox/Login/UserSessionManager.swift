@@ -18,6 +18,17 @@ class UserSessionManager {
     @ObservationIgnored @AppStorage("Membership") private var storedMembership: String = ""
     @ObservationIgnored @AppStorage("Points") private var storedPoints: Int = 0
     
+    var isLoggedIn = false
+    
+    init() {
+            // 앱 시작 시 강제로 초기화
+            storedUserID = ""
+            storedUserPassword = ""
+            storedUserName = ""
+            storedMembership = ""
+            storedPoints = 0
+        }
+    
     var currentUser : UserModel? {
         guard !storedUserID.isEmpty else { return nil } //@Appstorage에 저장된 값이 빈 문자열일 경우 nil 반환 (즉 로그인이 실행이 안된경우)
         
@@ -33,10 +44,6 @@ class UserSessionManager {
         )
     }
     
-    var isLoggedIn: Bool {
-        return currentUser != nil
-    }
-    
     //로그인 뷰에서 id,pwd 입력받는 함수
     func login(id: String, password: String) -> Bool {
         guard !id.isEmpty && !password.isEmpty else { return false }
@@ -47,6 +54,8 @@ class UserSessionManager {
         storedMembership = "wellcome"
         storedPoints = 500
         //기본 값 제공
+        
+        isLoggedIn = true
         return true
     }
     //ProfileDetailView에서 이름 바꾸는 함수

@@ -24,7 +24,7 @@ struct HomeView: View{
                 headerSegement2View
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                     .padding(.horizontal, 20)
-                moviePosterView(movieVM: viewModel)
+                moviePoster
                     .padding(.top, 20)
                     .padding(.leading, 15)
                 movieFeedView
@@ -94,11 +94,21 @@ struct HomeView: View{
         }
     }
     
-    private func moviePosterView(movieVM: HomeViewModel) -> some View {
-        ScrollView(.horizontal) {
+//    private func moviePosterView(movieVM: HomeViewModel) -> some View {
+//        ScrollView(.horizontal) {
+//            LazyHStack(spacing:24){
+//                ForEach(movieVM.movieModel) { movie in
+//                    
+//                    movieCardView(movie: movie)
+//                }
+//            }
+//        }
+//    }
+    
+    private var moviePoster : some View{
+        ScrollView(.horizontal){
             LazyHStack(spacing:24){
-                ForEach(movieVM.movieModel) { movie in
-                    
+                ForEach(viewModel.movieModel) { movie in
                     movieCardView(movie: movie)
                 }
             }
@@ -175,7 +185,7 @@ struct HomeView: View{
                     .foregroundStyle(Color.clear)
                     .frame(width: 100, height: 100)
                     .background(
-                        Image(.exampleMovieArticle21)
+                        Image(.exampleMovieArticle1)
                             .resizable()
                             .scaledToFit()
                             .clipped()
@@ -188,7 +198,7 @@ struct HomeView: View{
                     
                     Text("<모노노케 히메>,<퍼펙트 블루>")
                         .font(.pretend(type: .semiBold, size: 11))
-                        .foregroundStyle(Color.loginTextBackground)
+                        .foregroundStyle(Color.loginTextBackgroundColor)
                 }
                 .frame(maxWidth: .infinity ,alignment: .leading)
             }
@@ -213,7 +223,7 @@ struct HomeView: View{
                     
                     Text("영화 속 양극적인 감정의 대비")
                         .font(.pretend(type: .semiBold, size: 11))
-                        .foregroundStyle(Color.loginTextBackground)
+                        .foregroundStyle(Color.loginTextBackgroundColor)
                 }
             }
             

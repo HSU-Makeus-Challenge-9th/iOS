@@ -11,8 +11,10 @@ struct MegaBoxApp: App {
             {
                 if userSession.isLoggedIn == false {
                     LoginView()
+
                 } else {
                     MainTabView()
+
                 }
             }
             .environment(userSession)

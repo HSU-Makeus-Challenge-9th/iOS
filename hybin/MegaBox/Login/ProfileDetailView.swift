@@ -11,45 +11,42 @@ import SwiftUI
 struct ProfileDetailView: View {
     
     @Environment(UserSessionManager.self) var usm : UserSessionManager
-    
+    @Environment(\.dismiss) private var dismiss
     @State var isNameEditing: Bool = false
     @State var tempName : String = ""
     
-    private var customHeader: some View {
-        HStack {
-            Button {
-            } label: {
-                Image(systemName: "chevron.left")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 12, height: 18)
-                    .foregroundStyle(Color.black)
-            }
-            .padding(.trailing, 20)
-            
-            Spacer()
-            
-            Text("회원정보 관리")
-                .font(.pretend(type: .medium, size: 18))
-                .multilineTextAlignment(.center)
-                .foregroundStyle(Color.black)
-            
-            Spacer()
-            
-            Rectangle()
-                .fill(Color.clear)
-                .frame(width: 12 + 20, height: 18)
-        }
-        .padding(.horizontal, 20)
-        .padding(.top, 10)
-    }
-    
+//    private var customHeader: some View {
+//        HStack {
+//            Button {
+//                dismiss()
+//            } label: {
+//                Image(systemName: "chevron.left")
+//                    .resizable()
+//                    .scaledToFit()
+//                    .frame(width: 12, height: 18)
+//                    .foregroundStyle(Color.black)
+//            }
+//            .padding(.trailing, 20)
+//            
+//            Spacer()
+//            
+//            Text("회원정보 관리")
+//                .font(.pretend(type: .medium, size: 18))
+//                .multilineTextAlignment(.center)
+//                .foregroundStyle(Color.black)
+//            
+//            Spacer()
+//            
+//            Rectangle()
+//                .fill(Color.clear)
+//                .frame(width: 12 + 20, height: 18)
+//        }
+//        .padding(.horizontal, 20)
+//        .padding(.top, 10)
+//    }
+    //SwiftUI 내장 네비게이션 UI 사용
     var body: some View {
         VStack(spacing: 0) {
-            
-            customHeader
-            
-                .padding(.bottom, 26)
             
             VStack(alignment: .leading, spacing: 26) {
                 Text("기본정보")
@@ -109,9 +106,12 @@ struct ProfileDetailView: View {
             
             Spacer()
         }
+        .navigationTitle("회원 정보")
     }
 }
 #Preview {
-    ProfileDetailView()
-        .environment(UserSessionManager())
+    NavigationStack{
+        ProfileDetailView()
+            .environment(UserSessionManager())
+    }
 }

@@ -19,29 +19,32 @@ struct LoginView: View {
     
     @State private var userIDInput: String = ""
     @State private var userPWDInput: String = ""
+    @State private var navigateToHome: Bool = false
     
     var body: some View {
-        VStack{
-            NavigationBarTitle
-            Spacer()
+        NavigationStack{
             VStack{
+                NavigationBarTitle
                 Spacer()
-                Group{
-                    loginTextView
-                        .padding(.vertical,50)
-                    loginButtonView
-                        .padding(.vertical,30)
-                    socialLogin
-                    
-                    Spacer().frame(height:39)
-                    
+                VStack{
+                    Spacer()
+                    Group{
+                        loginTextView
+                            .padding(.vertical,50)
+                        loginButtonView
+                            .padding(.vertical,30)
+                        socialLogin
+                        
+                        Spacer().frame(height:39)
+                        
+                    }
                 }
+                
+                Spacer().frame(height:39)
+                UMCImage
             }
-            
-            Spacer().frame(height:39)
-            UMCImage
+            .padding(.horizontal)
         }
-        .padding(.horizontal)
     }
     
     private var loginTextView: some View {
@@ -82,6 +85,8 @@ struct LoginView: View {
                     //currentUser가 nil일 경우 방지 (옵셔널이니까)
                     if let current = usm.currentUser {
                         print("Current User: \(current)")
+                        print(usm.isLoggedIn)
+                        navigateToHome = true
                     } else {print("No user")}
                 } else {
                     print("No user logged in")
@@ -96,7 +101,9 @@ struct LoginView: View {
             .background(Color.loginBackgroundColor)
             .clipShape(RoundedRectangle(cornerRadius: 10))
             .frame(maxWidth: .infinity)
-            
+            .navigationDestination(isPresented: $navigateToHome){
+                MainTabView()
+            }
             
             Text("회원가입")
                 .font(.pretend(type: .medium, size: 12))

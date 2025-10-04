@@ -34,7 +34,7 @@ struct ProfileView: View {
     private var userInformation : some View{
         HStack{
             Group{
-                Text(usm.currentUser?.userName ?? "" + "님")
+                Text((usm.currentUser?.userName ?? "") + "님")
                     .font(.pretend(type: .bold, size: 24))
                 Text(usm.currentUser?.membership.rawValue ?? "")
                     .font(.pretend(type:.medium, size:14))
@@ -43,10 +43,10 @@ struct ProfileView: View {
                     .padding(.vertical, 4)
                     .background(Color(red: 0.28, green: 0.8, blue: 0.82))
                 
-                    .cornerRadius(6)
+                    .clipShape(RoundedRectangle(cornerRadius: 6))
                 Spacer()
                 
-                NavigationLink(destination: ProfileDetailView().environment(usm)){
+                NavigationLink(destination: ProfileDetailView()){
                     Text("회원정보")
                         .font(.pretend(type:.semiBold, size:14))
                         .foregroundStyle(Color.white)
@@ -111,7 +111,7 @@ struct ProfileView: View {
             VStack(spacing: 10) {
                 Text("쿠폰")
                     .font(.pretend(type: .semiBold, size: 16))
-                    .foregroundColor(Color(red: 0.84, green: 0.84, blue: 0.84))
+                    .foregroundStyle(Color.loginTextBackgroundColor)
                 Text("2")
                     .font(.pretend(type: .semiBold, size: 18))
                     .foregroundStyle(Color.black)
@@ -119,14 +119,15 @@ struct ProfileView: View {
             .frame(maxWidth: .infinity)
             
             Rectangle()
-                .foregroundColor(.clear)
+                .foregroundStyle(Color.clear)
                 .frame(width: 1, height: 31)
                 .background(Color(red: 0.84, green: 0.84, blue: 0.84))
             
             VStack(spacing: 10) {
                 Text("스토어 교환권")
                     .font(.pretend(type: .semiBold, size: 14))
-                    .foregroundColor(Color(red: 0.84, green: 0.84, blue: 0.84))
+                    .foregroundStyle(Color.loginTextBackgroundColor)
+                //                    .foregroundColor(Color(red: 0.84, green: 0.84, blue: 0.84))
                 Text("0")
                     .font(.pretend(type: .semiBold, size: 18))
                     .foregroundStyle(Color.black)
@@ -134,14 +135,14 @@ struct ProfileView: View {
             .frame(maxWidth: .infinity)
             
             Rectangle()
-                .foregroundColor(.clear)
+                .foregroundStyle(Color.clear)
                 .frame(width: 1, height: 31)
                 .background(Color(red: 0.84, green: 0.84, blue: 0.84))
             
             VStack(spacing: 10) {
                 Text("모바일 티켓")
                     .font(.pretend(type: .semiBold, size: 16))
-                    .foregroundColor(Color(red: 0.84, green: 0.84, blue: 0.84))
+                    .foregroundStyle(Color.loginTextBackgroundColor)
                 Text("0")
                     .font(.pretend(type: .semiBold, size: 18))
                     .foregroundStyle(Color.black)
