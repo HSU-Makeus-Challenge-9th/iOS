@@ -1,0 +1,746 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		4CF19B022E8806F00078679E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4CF19AEC2E8806EE0078679E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4CF19AF32E8806EE0078679E;
+			remoteInfo = MegaBox;
+		};
+		4CF19B0C2E8806F00078679E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4CF19AEC2E8806EE0078679E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4CF19AF32E8806EE0078679E;
+			remoteInfo = MegaBox;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		4CF19AF42E8806EE0078679E /* MegaBox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MegaBox.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4CF19B012E8806F00078679E /* MegaBoxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MegaBoxTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4CF19B0B2E8806F00078679E /* MegaBoxUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MegaBoxUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		4CF19B772E88075A0078679E /* Exceptions for "MegaBox" folder in "MegaBox" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 4CF19AF32E8806EE0078679E /* MegaBox */;
+		};
+		4CF19C1E2E880B8C0078679E /* Exceptions for "Resources" folder in "MegaBoxTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets.xcassets,
+				Color.xcassets,
+				"Font/Pretendard-Black.otf",
+				"Font/Pretendard-Bold.otf",
+				"Font/Pretendard-ExtraBold.otf",
+				"Font/Pretendard-ExtraLight.otf",
+				"Font/Pretendard-Light.otf",
+				"Font/Pretendard-Medium.otf",
+				"Font/Pretendard-Regular.otf",
+				"Font/Pretendard-SemiBold.otf",
+				"Font/Pretendard-Thin.otf",
+				Fonts.swift,
+				MegaBoxColors.swift,
+				"Preview Content/Preview Assets.xcassets",
+			);
+			target = 4CF19B002E8806F00078679E /* MegaBoxTests */;
+		};
+		4CF19C1F2E880B8C0078679E /* Exceptions for "Resources" folder in "MegaBoxUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets.xcassets,
+				Color.xcassets,
+				"Font/Pretendard-Black.otf",
+				"Font/Pretendard-Bold.otf",
+				"Font/Pretendard-ExtraBold.otf",
+				"Font/Pretendard-ExtraLight.otf",
+				"Font/Pretendard-Light.otf",
+				"Font/Pretendard-Medium.otf",
+				"Font/Pretendard-Regular.otf",
+				"Font/Pretendard-SemiBold.otf",
+				"Font/Pretendard-Thin.otf",
+				Fonts.swift,
+				MegaBoxColors.swift,
+				"Preview Content/Preview Assets.xcassets",
+			);
+			target = 4CF19B0A2E8806F00078679E /* MegaBoxUITests */;
+		};
+		4CF19C202E880B8C0078679E /* Exceptions for "Sources" folder in "MegaBox" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				ContentView.swift,
+				MegaBoxApp.swift,
+				TicketView.swift,
+			);
+			target = 4CF19AF32E8806EE0078679E /* MegaBox */;
+		};
+		4CF19C212E880B8C0078679E /* Exceptions for "Sources" folder in "MegaBoxTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				ContentView.swift,
+				MegaBoxApp.swift,
+				TicketView.swift,
+			);
+			target = 4CF19B002E8806F00078679E /* MegaBoxTests */;
+		};
+		4CF19C222E880B8C0078679E /* Exceptions for "Sources" folder in "MegaBoxUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				ContentView.swift,
+				MegaBoxApp.swift,
+				TicketView.swift,
+			);
+			target = 4CF19B0A2E8806F00078679E /* MegaBoxUITests */;
+		};
+		4CF19C232E880B8C0078679E /* Exceptions for "View" folder in "MegaBox" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				SplashView.swift,
+			);
+			target = 4CF19AF32E8806EE0078679E /* MegaBox */;
+		};
+		4CF19C242E880B8C0078679E /* Exceptions for "View" folder in "MegaBoxTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				SplashView.swift,
+			);
+			target = 4CF19B002E8806F00078679E /* MegaBoxTests */;
+		};
+		4CF19C252E880B8C0078679E /* Exceptions for "View" folder in "MegaBoxUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				SplashView.swift,
+			);
+			target = 4CF19B0A2E8806F00078679E /* MegaBoxUITests */;
+		};
+		4CF19D352E8812790078679E /* Exceptions for "Login" folder in "MegaBox" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				LoginView.swift,
+				LoginViewModel.swift,
+				ProfileDetailView.swift,
+				ProfileView.swift,
+				UserModel.swift,
+				UserSessionManager.swift,
+			);
+			target = 4CF19AF32E8806EE0078679E /* MegaBox */;
+		};
+		4CF19D362E8812790078679E /* Exceptions for "Login" folder in "MegaBoxTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				LoginView.swift,
+				LoginViewModel.swift,
+				ProfileDetailView.swift,
+				ProfileView.swift,
+				UserModel.swift,
+				UserSessionManager.swift,
+			);
+			target = 4CF19B002E8806F00078679E /* MegaBoxTests */;
+		};
+		4CF19D372E8812790078679E /* Exceptions for "Login" folder in "MegaBoxUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				LoginView.swift,
+				LoginViewModel.swift,
+				ProfileDetailView.swift,
+				ProfileView.swift,
+				UserModel.swift,
+				UserSessionManager.swift,
+			);
+			target = 4CF19B0A2E8806F00078679E /* MegaBoxUITests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		4CF19AF62E8806EE0078679E /* MegaBox */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4CF19B772E88075A0078679E /* Exceptions for "MegaBox" folder in "MegaBox" target */,
+			);
+			path = MegaBox;
+			sourceTree = "<group>";
+		};
+		4CF19BDC2E880B8C0078679E /* Resources */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4CF19C1E2E880B8C0078679E /* Exceptions for "Resources" folder in "MegaBoxTests" target */,
+				4CF19C1F2E880B8C0078679E /* Exceptions for "Resources" folder in "MegaBoxUITests" target */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		4CF19BE02E880B8C0078679E /* Sources */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4CF19C202E880B8C0078679E /* Exceptions for "Sources" folder in "MegaBox" target */,
+				4CF19C212E880B8C0078679E /* Exceptions for "Sources" folder in "MegaBoxTests" target */,
+				4CF19C222E880B8C0078679E /* Exceptions for "Sources" folder in "MegaBoxUITests" target */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		4CF19BE12E880B8C0078679E /* Tests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		4CF19BE42E880B8C0078679E /* View */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4CF19C232E880B8C0078679E /* Exceptions for "View" folder in "MegaBox" target */,
+				4CF19C242E880B8C0078679E /* Exceptions for "View" folder in "MegaBoxTests" target */,
+				4CF19C252E880B8C0078679E /* Exceptions for "View" folder in "MegaBoxUITests" target */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		4CF19D342E8812700078679E /* Login */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4CF19D352E8812790078679E /* Exceptions for "Login" folder in "MegaBox" target */,
+				4CF19D362E8812790078679E /* Exceptions for "Login" folder in "MegaBoxTests" target */,
+				4CF19D372E8812790078679E /* Exceptions for "Login" folder in "MegaBoxUITests" target */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4CF19AF12E8806EE0078679E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4CF19AFE2E8806F00078679E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4CF19B082E8806F00078679E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4CF19AEB2E8806EE0078679E = {
+			isa = PBXGroup;
+			children = (
+				4CF19D342E8812700078679E /* Login */,
+				4CF19BDC2E880B8C0078679E /* Resources */,
+				4CF19BE02E880B8C0078679E /* Sources */,
+				4CF19BE12E880B8C0078679E /* Tests */,
+				4CF19BE42E880B8C0078679E /* View */,
+				4CF19AF62E8806EE0078679E /* MegaBox */,
+				4CF19AF52E8806EE0078679E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4CF19AF52E8806EE0078679E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4CF19AF42E8806EE0078679E /* MegaBox.app */,
+				4CF19B012E8806F00078679E /* MegaBoxTests.xctest */,
+				4CF19B0B2E8806F00078679E /* MegaBoxUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4CF19AF32E8806EE0078679E /* MegaBox */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4CF19B152E8806F00078679E /* Build configuration list for PBXNativeTarget "MegaBox" */;
+			buildPhases = (
+				4CF19AF02E8806EE0078679E /* Sources */,
+				4CF19AF12E8806EE0078679E /* Frameworks */,
+				4CF19AF22E8806EE0078679E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				4CF19AF62E8806EE0078679E /* MegaBox */,
+				4CF19BDC2E880B8C0078679E /* Resources */,
+			);
+			name = MegaBox;
+			packageProductDependencies = (
+			);
+			productName = MegaBox;
+			productReference = 4CF19AF42E8806EE0078679E /* MegaBox.app */;
+			productType = "com.apple.product-type.application";
+		};
+		4CF19B002E8806F00078679E /* MegaBoxTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4CF19B182E8806F00078679E /* Build configuration list for PBXNativeTarget "MegaBoxTests" */;
+			buildPhases = (
+				4CF19AFD2E8806F00078679E /* Sources */,
+				4CF19AFE2E8806F00078679E /* Frameworks */,
+				4CF19AFF2E8806F00078679E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4CF19B032E8806F00078679E /* PBXTargetDependency */,
+			);
+			name = MegaBoxTests;
+			packageProductDependencies = (
+			);
+			productName = MegaBoxTests;
+			productReference = 4CF19B012E8806F00078679E /* MegaBoxTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		4CF19B0A2E8806F00078679E /* MegaBoxUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4CF19B1B2E8806F00078679E /* Build configuration list for PBXNativeTarget "MegaBoxUITests" */;
+			buildPhases = (
+				4CF19B072E8806F00078679E /* Sources */,
+				4CF19B082E8806F00078679E /* Frameworks */,
+				4CF19B092E8806F00078679E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4CF19B0D2E8806F00078679E /* PBXTargetDependency */,
+			);
+			name = MegaBoxUITests;
+			packageProductDependencies = (
+			);
+			productName = MegaBoxUITests;
+			productReference = 4CF19B0B2E8806F00078679E /* MegaBoxUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4CF19AEC2E8806EE0078679E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2600;
+				LastUpgradeCheck = 2600;
+				TargetAttributes = {
+					4CF19AF32E8806EE0078679E = {
+						CreatedOnToolsVersion = 26.0;
+					};
+					4CF19B002E8806F00078679E = {
+						CreatedOnToolsVersion = 26.0;
+						TestTargetID = 4CF19AF32E8806EE0078679E;
+					};
+					4CF19B0A2E8806F00078679E = {
+						CreatedOnToolsVersion = 26.0;
+						TestTargetID = 4CF19AF32E8806EE0078679E;
+					};
+				};
+			};
+			buildConfigurationList = 4CF19AEF2E8806EE0078679E /* Build configuration list for PBXProject "MegaBox" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 4CF19AEB2E8806EE0078679E;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 4CF19AF52E8806EE0078679E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4CF19AF32E8806EE0078679E /* MegaBox */,
+				4CF19B002E8806F00078679E /* MegaBoxTests */,
+				4CF19B0A2E8806F00078679E /* MegaBoxUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4CF19AF22E8806EE0078679E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4CF19AFF2E8806F00078679E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4CF19B092E8806F00078679E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4CF19AF02E8806EE0078679E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4CF19AFD2E8806F00078679E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4CF19B072E8806F00078679E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4CF19B032E8806F00078679E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4CF19AF32E8806EE0078679E /* MegaBox */;
+			targetProxy = 4CF19B022E8806F00078679E /* PBXContainerItemProxy */;
+		};
+		4CF19B0D2E8806F00078679E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4CF19AF32E8806EE0078679E /* MegaBox */;
+			targetProxy = 4CF19B0C2E8806F00078679E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		4CF19B132E8806F00078679E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		4CF19B142E8806F00078679E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		4CF19B162E8806F00078679E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MegaBox/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Jeon.MegaBox;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4CF19B172E8806F00078679E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MegaBox/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Jeon.MegaBox;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		4CF19B192E8806F00078679E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Jeon.MegaBoxTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MegaBox.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MegaBox";
+			};
+			name = Debug;
+		};
+		4CF19B1A2E8806F00078679E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Jeon.MegaBoxTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MegaBox.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MegaBox";
+			};
+			name = Release;
+		};
+		4CF19B1C2E8806F00078679E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Jeon.MegaBoxUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MegaBox;
+			};
+			name = Debug;
+		};
+		4CF19B1D2E8806F00078679E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Jeon.MegaBoxUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MegaBox;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4CF19AEF2E8806EE0078679E /* Build configuration list for PBXProject "MegaBox" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4CF19B132E8806F00078679E /* Debug */,
+				4CF19B142E8806F00078679E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4CF19B152E8806F00078679E /* Build configuration list for PBXNativeTarget "MegaBox" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4CF19B162E8806F00078679E /* Debug */,
+				4CF19B172E8806F00078679E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4CF19B182E8806F00078679E /* Build configuration list for PBXNativeTarget "MegaBoxTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4CF19B192E8806F00078679E /* Debug */,
+				4CF19B1A2E8806F00078679E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4CF19B1B2E8806F00078679E /* Build configuration list for PBXNativeTarget "MegaBoxUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4CF19B1C2E8806F00078679E /* Debug */,
+				4CF19B1D2E8806F00078679E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4CF19AEC2E8806EE0078679E /* Project object */;
+}

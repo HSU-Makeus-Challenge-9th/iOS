@@ -9,6 +9,10 @@ import SwiftUI
 
 struct LoginView: View
 {
+    @State private var loginModel = LoginViewModel()
+    @AppStorage("id") private var userId: String = ""
+    @AppStorage("pwd") private var userPwd: String = ""
+    
     var body: some View
     {
         VStack{
@@ -21,23 +25,27 @@ struct LoginView: View
                 
             }
             VStack{
-                
                 Spacer()
-                Text("아이디")
+                
+                TextField("아이디", text: $loginModel.id)
                     .font(.medium16)
                     .foregroundStyle(Color("gray03"))
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Divider()
                 
                 Spacer()
-                Text("비밀번호")
+                
+                SecureField("비밀번호", text: $loginModel.pwd)
                     .font(.medium16)
                     .foregroundStyle(Color("gray03"))
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Divider()
                 
                 Spacer()
+                
                 Button(action: {
+                    userId = loginModel.id
+                    userPwd = loginModel.pwd
                 }) {
                     Text("로그인")
                         .frame(alignment: .center)
@@ -46,12 +54,12 @@ struct LoginView: View
                 }
                 .frame(maxWidth: .infinity, maxHeight: 54)
                 .background(Color("purple03"))
-                .cornerRadius(10)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
                 
                 Text("회원가입")
                     .font(.medium13)
                     .frame(maxHeight: 16)
-                    .foregroundColor(Color("gray04"))
+                    .foregroundStyle(Color("gray04"))
                 Spacer()
                 HStack{
                     Spacer()
@@ -63,7 +71,7 @@ struct LoginView: View
                     Spacer()
                 }
                 Spacer()
-                Image("umc 1")
+                Image("umcPoster")
                     .resizable()
                     .frame(maxWidth: 408, maxHeight: 266)
         }
