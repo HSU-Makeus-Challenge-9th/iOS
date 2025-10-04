@@ -47,64 +47,65 @@ struct ProfileDetailView: View {
     //SwiftUI 내장 네비게이션 UI 사용
     var body: some View {
         VStack(spacing: 0) {
-            
-            VStack(alignment: .leading, spacing: 26) {
-                Text("기본정보")
-                    .font(.pretend(type: .bold, size: 24))
-                
-                VStack(spacing: 0){
-                    HStack{
-                        Text(usm.currentUser?.userId ?? "")
-                            .frame(maxWidth: .infinity, alignment:.leading)
-                            .font(.pretend(type: .medium, size: 16))
-                            .foregroundStyle(Color.black)
-                    }
-                    .padding(.vertical, 10)
-                    .frame(maxWidth: .infinity, alignment: .top)
-                    Divider()
+            if let user = usm.currentUser{
+                VStack(alignment: .leading, spacing: 26) {
+                    Text("기본정보")
+                        .font(.pretend(type: .bold, size: 24))
                     
-                    HStack{
-                        if isNameEditing {
-                            TextField("이름 입력", text: $tempName)
-                                .textFieldStyle(.roundedBorder)
-                                .font(.system(size: 16, weight: .medium))
-                        } else {
-                            Text(usm.currentUser?.userName ?? "")
+                    VStack(spacing: 0){
+                        HStack{
+                            Text(user.userId)
                                 .frame(maxWidth: .infinity, alignment:.leading)
-                                .font(.system(size: 16, weight: .medium))
+                                .font(.pretend(type: .medium, size: 16))
                                 .foregroundStyle(Color.black)
                         }
+                        .padding(.vertical, 10)
+                        .frame(maxWidth: .infinity, alignment: .top)
+                        Divider()
                         
-                        Spacer()
-                        
-                        Button(action: {
-                            if isNameEditing == true {
-                                usm.updateUserName(editName: tempName)
-                                isNameEditing = false
+                        HStack{
+                            if isNameEditing {
+                                TextField("이름 입력", text: $tempName)
+                                    .textFieldStyle(.roundedBorder)
+                                    .font(.system(size: 16, weight: .medium))
                             } else {
-                                tempName = usm.currentUser?.userName ?? ""
-                                isNameEditing = true
+                                Text(user.userName)
+                                    .frame(maxWidth: .infinity, alignment:.leading)
+                                    .font(.system(size: 16, weight: .medium))
+                                    .foregroundStyle(Color.black)
                             }
-                        }, label: {
-                            Text(isNameEditing ? "저장": "변경")
-                                .font(.pretend(type:.semiBold,size:16))
-                                .padding(5)
-                                .foregroundStyle(Color.gray)
-                                .backgroundStyle(Color.white)
-                                .clipShape(RoundedRectangle(cornerRadius:8))
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 15)
-                                        .stroke(Color.gray.opacity(0.5), lineWidth: 1))
-                        })
+                            
+                            Spacer()
+                            
+                            Button(action: {
+                                if isNameEditing == true {
+                                    usm.updateUserName(editName: tempName)
+                                    isNameEditing = false
+                                } else {
+                                    tempName = user.userName
+                                    isNameEditing = true
+                                }
+                            }, label: {
+                                Text(isNameEditing ? "저장": "변경")
+                                    .font(.pretend(type:.semiBold,size:16))
+                                    .padding(5)
+                                    .foregroundStyle(Color.gray)
+                                    .background(Color.white)
+                                    .clipShape(RoundedRectangle(cornerRadius:8))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 15)
+                                            .stroke(Color.gray.opacity(0.5), lineWidth: 1))
+                            })
+                        }
+                        .padding(.vertical, 10)
+                        .frame(maxWidth: .infinity, alignment: .top)
+                        Divider()
                     }
-                    .padding(.vertical, 10)
-                    .frame(maxWidth: .infinity, alignment: .top)
-                    Divider()
                 }
+                .padding(.horizontal, 20)
+                
+                Spacer()
             }
-            .padding(.horizontal, 20)
-            
-            Spacer()
         }
         .navigationTitle("회원 정보")
     }

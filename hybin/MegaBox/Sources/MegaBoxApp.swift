@@ -7,17 +7,8 @@ struct MegaBoxApp: App {
     
     var body: some Scene {
         WindowGroup {
-            Group
-            {
-                if userSession.isLoggedIn == false {
-                    LoginView()
-
-                } else {
-                    MainTabView()
-
-                }
-            }
-            .environment(userSession)
+            LoginView()
+                .environment(userSession)
         }
     }
 }

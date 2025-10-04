@@ -17,12 +17,11 @@ struct LoginView: View {
     
     @Environment(UserSessionManager.self) var usm : UserSessionManager
     
-    @State private var userIDInput: String = ""
-    @State private var userPWDInput: String = ""
-    @State private var navigateToHome: Bool = false
+    @AppStorage("ID") private var userIDInput: String = ""
+    @AppStorage("PWD") private var userPWDInput: String = ""
+    @State private var showMain: Bool = false
     
     var body: some View {
-        NavigationStack{
             VStack{
                 NavigationBarTitle
                 Spacer()
@@ -44,7 +43,6 @@ struct LoginView: View {
                 UMCImage
             }
             .padding(.horizontal)
-        }
     }
     
     private var loginTextView: some View {
@@ -86,7 +84,7 @@ struct LoginView: View {
                     if let current = usm.currentUser {
                         print("Current User: \(current)")
                         print(usm.isLoggedIn)
-                        navigateToHome = true
+                        showMain = true
                     } else {print("No user")}
                 } else {
                     print("No user logged in")
@@ -101,7 +99,7 @@ struct LoginView: View {
             .background(Color.loginBackgroundColor)
             .clipShape(RoundedRectangle(cornerRadius: 10))
             .frame(maxWidth: .infinity)
-            .navigationDestination(isPresented: $navigateToHome){
+            .fullScreenCover(isPresented: $showMain){
                 MainTabView()
             }
             

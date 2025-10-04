@@ -18,7 +18,7 @@ struct UserModel {
     
     //MARK: MembershipEnum
     enum MembershipLevel : String, CaseIterable , CustomStringConvertible {
-        case wellcome = "WELLCOME"
+        case welcome = "WELCOME"
         case bronze = "BRONZE"
         case silver = "SILVER"
         case gold = "GOLD"
