@@ -7,11 +7,12 @@
 
 import SwiftUI
 
-enum Route: Hashable {
+enum Route: Hashable, Equatable {
     case logined
 //    case home
     case profile
     case profileSettings
+    case movieDetail(Movie)
 }
 
 struct LoginView: View
@@ -81,6 +82,8 @@ struct LoginView: View
                                 ProfileSettingsView(path: $path)
                             case .profileSettings:
                                 ProfileSettingsView(path: $path)
+                            case .movieDetail:
+                            MovieDetailView(movie: Movie)
                         }
                     }
                     Text("회원가입")

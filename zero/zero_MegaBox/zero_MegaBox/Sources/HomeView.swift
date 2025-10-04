@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HomeView: View
 {
-    //    @Binding var path: NavigationPath
+//    @Binding var path: NavigationPath
     var body: some View
     {
         
@@ -64,6 +64,27 @@ struct HomeView: View
                 
             }
             MovieView()
+                .frame(height: 318)
+                .padding(.vertical,37)
+
+            VStack{
+                HStack(){
+                    Text("알고보면 더 재밌는 무비피드")
+                        .frame(alignment: .leading)
+                        .font(.bold24)
+                    Spacer()
+                    Button(action: {
+                    }) {
+                        Image("arrow.right")
+                            .renderingMode(.template)
+                            .foregroundStyle(Color("gray08"))
+                    }
+                }
+                
+                Image("funnyMovie")
+                    .resizable()
+                    .frame(maxWidth: .infinity, maxHeight: 221)
+            }
             Spacer()
         }
         .padding(10)
