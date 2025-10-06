@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+
 struct Movie: Identifiable, Hashable, Equatable{
     var id: UUID    
     let title: String

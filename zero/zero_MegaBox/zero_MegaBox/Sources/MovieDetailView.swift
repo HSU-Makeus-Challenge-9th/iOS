@@ -39,7 +39,7 @@ struct MovieDetailView: View {
                     .foregroundStyle(Color("black"))
                 Spacer()
             }
-            Image(movie.image)
+            Image("f1DetailPoster")
             VStack{
                 Text(movie.title)
                     .font(.bold24)
@@ -96,7 +96,7 @@ struct MovieDetailView: View {
                             }
                             Spacer()
                         }
-                    }
+                    }.padding(10)
                 } else {
                     VStack {
                             Text("아직 등록된 실관람평이 없습니다.")
@@ -107,7 +107,7 @@ struct MovieDetailView: View {
                                     RoundedRectangle(cornerRadius: 10)
                                         .stroke(Color("purple02"), lineWidth: 1)
                                 )
-                        }
+                        }.padding(10)
                     }
                 }
             .padding(20)

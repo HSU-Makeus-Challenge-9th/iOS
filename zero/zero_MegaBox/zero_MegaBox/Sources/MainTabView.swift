@@ -12,7 +12,7 @@ struct MainTabView: View {
     var body: some View {
         TabView {
             Tab("홈", systemImage: "house.fill") {
-//                HomeView(path: $path)
+                HomeView(path: $path) 
             }
             Tab("바로예매", systemImage: "play.laptopcomputer") {
                 
