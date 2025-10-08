@@ -122,23 +122,21 @@ struct HomeView: View{
                 movie.posterImage
                     .resizable()
             }
-            Button(action: {
-                print("reserve")
-            },label: {
+
+            NavigationLink(destination: MovieReserveView(vm:MovieReserveViewModel(homeVM:viewModel,selectedMovie: movie))){
                 Text("바로 예매")
                     .font(.pretend(type: .medium, size: 16))
                     .foregroundStyle(Color.loginBackgroundColor)
-            })
-            .padding(.horizontal)
-            .padding(.vertical, 9)
-            .frame(maxWidth: .infinity , alignment: .center)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .inset(by: 0.5)
-                    .stroke((Color.loginBackgroundColor), lineWidth: 1)
-                
-            )
+                    .padding(.horizontal)
+                    .padding(.vertical, 9)
+                    .frame(maxWidth: .infinity , alignment: .center)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .inset(by: 0.5)
+                            .stroke((Color.loginBackgroundColor), lineWidth: 1)
+                    )
+            }
             
             Text(movie.title)
                 .font(.pretend(type:.bold, size: 22))
