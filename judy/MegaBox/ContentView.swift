@@ -3,18 +3,20 @@ import SwiftUI
 struct ContentView: View {
     @State private var showMainView: Bool = false
 
-    // 아이디가 저장되어 있으면 회원 화면으로
+    // 로그인 여부 체크 (아이디 저장 여부)
     @AppStorage("login.id") private var storedId: String = ""
 
     var body: some View {
         ZStack {
             if showMainView {
-                NavigationStack {
-                    if storedId.isEmpty {
+                if storedId.isEmpty {
+                    // 로그인 안 되어 있으면 로그인 화면
+                    NavigationStack {
                         LoginView()
-                    } else {
-                        MemberView()
                     }
+                } else {
+                    // 로그인 되어 있으면 메인 탭뷰로
+                    MainTabView()
                 }
             } else {
                 SplashView()
@@ -25,18 +27,6 @@ struct ContentView: View {
                         }
                     }
             }
-        }
-        .onAppear {
-            // 폰트 체크 (디버그에서만)
-            #if DEBUG
-            UIFont.familyNames.sorted().forEach { familyName in
-                print("*** \(familyName) ***")
-                UIFont.fontNames(forFamilyName: familyName).forEach { fontName in
-                    print(fontName)
-                }
-                print("---------------------")
-            }
-            #endif
         }
     }
 }
