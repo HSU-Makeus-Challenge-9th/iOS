@@ -5,22 +5,44 @@
 //  Created by 전효빈 on 9/28/25.
 //
 
-//import Foundation
-//import SwiftUI
-//
-//@Observable
-//class UserSessionManager{
-//    var currentUser : UserModel? = nil
-//    
-//    var currentUser: UserModel = UserModel(
-//            userId: "dummmmIDp",
-//            password: "duPWDmp",
-//            userName: "전효duump빈",
-//            membership: "VdumpIP",
-//            membershipPoints: 2331213213500
-//        )
-//    
-//    func login(user: UserModel) {
-//        self.currentUser = user
-//    }
-//}
+import Foundation
+import SwiftUI
+
+@Observable
+class UserSessionManager {
+    
+    var inputUserID: String = ""
+    var inputUserPassword: String = ""
+    var inputUserName: String = "Default"
+    var inputUserMembership: UserModel.MembershipLevel = UserModel.MembershipLevel.welcome
+    var inputUserPoints: Int = 0
+    
+    var currentUser: UserModel? {
+        guard isLoggedIn else {
+            return nil
+        }
+        
+        return UserModel(
+            userId: inputUserID,
+            password: inputUserPassword,
+            userName: inputUserName,
+            membership: inputUserMembership,
+            membershipPoints: inputUserPoints
+        )
+    }
+    
+    
+    var isLoggedIn:Bool = false
+    
+    func login(id: String, password:String) -> Bool {
+        inputUserID = id
+        inputUserPassword = password
+        isLoggedIn = true
+        
+        return true
+    }
+    
+    func updateUserName (editName:String) {
+        inputUserName = editName
+    }
+}
