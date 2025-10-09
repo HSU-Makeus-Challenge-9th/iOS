@@ -9,21 +9,25 @@ import SwiftUI
 
 struct UserInfo: View {
     @AppStorage("login_id") private var loginId: String = ""
-    @AppStorage("member_name") private var memberName: String = ""   // ← 추가
+    @AppStorage("member_name") private var memberName: String = ""
+    @AppStorage("is_logged_in") private var isLoggedIn: Bool = false
+    
     private let primary = Color.purple
 
     var body: some View {
-        ZStack {
-            Color.white.ignoresSafeArea()
-            VStack(spacing: 20) {
-                header
-                clubMembershipButton
-                statusInfo
-                bookingRow
-                Spacer(minLength: 0)
+        NavigationStack {
+            ZStack {
+                Color.white.ignoresSafeArea()
+                VStack(spacing: 20) {
+                    header
+                    clubMembershipButton
+                    statusInfo
+                    bookingRow
+                    Spacer(minLength: 0)
+                }
+                .padding(.horizontal, 20)
+                .padding(.top, 16)
             }
-            .padding(.horizontal, 20)
-            .padding(.top, 16)
         }
     }
 
@@ -52,7 +56,10 @@ struct UserInfo: View {
                 }
             }
             Spacer()
-            Button { } label: {
+            
+            NavigationLink {
+                UserInfoManage()
+            } label: {
                 Text("회원정보")
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundStyle(.white)
