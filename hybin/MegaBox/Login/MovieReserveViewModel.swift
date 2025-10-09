@@ -12,21 +12,21 @@ import Combine
 class MovieReserveViewModel: ObservableObject {
     
     private var homeVM : HomeViewModel
+    private var calendarVM : CalendarViewModel = .init()
     
-    var movies: [MovieModel] {
-        homeVM.movieModel
-    }
+    @Published var movies: [MovieModel]
+    
     let theaters : [String] = ["강남", "홍대", "신촌"]
     
     @Published var selectedTheater: String? = nil
     @Published var date: Date = Date()
-    @State var calendarVM = CalendarViewModel()
     @Published var selectedMovie: MovieModel?
     
     @Published var canReserve: Bool = false
     
     init(homeVM: HomeViewModel, selectedMovie: MovieModel? = nil) {
         self.homeVM = homeVM
+        self.movies = homeVM.movieModel
         self.selectedMovie = selectedMovie
     }
     

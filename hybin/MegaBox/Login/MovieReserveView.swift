@@ -13,6 +13,7 @@ struct MovieReserveView: View {
     @ObservedObject var vm: MovieReserveViewModel
     @State var calendarVM = CalendarViewModel()
     @Environment(\.dismiss) private var dismiss
+    @State private var isShowingSearchSheet = false
     
     var body : some View {
         VStack{
@@ -29,12 +30,20 @@ struct MovieReserveView: View {
             }
             Spacer()
         }
+        .sheet(isPresented: $isShowingSearchSheet, content: {
+            MovieSearchSheetView(
+                allMovies: $vm.movies, onMovieSelected: { selectedMovie in
+                    vm.selectedMovie = selectedMovie
+                }
+            )
+        })
         .navigationBarBackButtonHidden(true)
     }
     
     
     
-    //MARK: 하위뷰
+    //MARK: - 하위뷰
+    
     private var header: some View {
         ZStack {
             
@@ -89,16 +98,21 @@ struct MovieReserveView: View {
                 
                 Spacer()
                 
-                Text("전체영화")
-                    .font(.pretend(type: .semiBold, size: 14))
-                    .padding(0)
-                    .frame(width: 69, height: 30 , alignment:.center)
-                    .background(.clear)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .inset(by: 0.5)
-                            .stroke(Color.gray, lineWidth: 1)
-                    )
+                Button {
+                    isShowingSearchSheet = true // 시트 표시 상태 변경
+                } label: {
+                    Text("전체영화")
+                        .font(.pretend(type: .semiBold, size: 14))
+                        .padding(0)
+                        .frame(width: 69, height: 30 , alignment:.center)
+                        .foregroundStyle(Color.black)
+                        .background(.clear)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .inset(by: 0.5)
+                                .stroke(Color.gray, lineWidth: 1)
+                        )
+                }
             }
             
             
@@ -172,6 +186,7 @@ struct MovieReserveView: View {
             
         }
     }
+    
     //MARK: - UI디테일 수정 필요
     private var calendarSection: some View {
         VStack(spacing: 20) {
@@ -182,6 +197,15 @@ struct MovieReserveView: View {
                     let isSelected = calendarVM.calendar.isDate(day.date, inSameDayAs: calendarVM.selectedDate)
                     VStack {
                         
+                        // 날짜 표시
+                        Text("\(day.day)")
+                            .font(.pretend(type: .bold, size: 18))
+                            .foregroundStyle(isSelected ? Color.white : Color.primary)
+                            .foregroundStyle(day.isCurrentMonth ? Color.primary : Color.gray)
+                            .onTapGesture {
+                                calendarVM.changeSelectedDate(day.date)
+                            }
+                        
                         // 요일 표시
                         Text(index == 0 ? "오늘" : index == 1 ? "내일" : localizedWeekdaySymbols[index])
                             .foregroundStyle(
@@ -189,16 +213,8 @@ struct MovieReserveView: View {
                                     localizedWeekdaySymbols[index] == "일" ? Color.red :
                                     localizedWeekdaySymbols[index] == "토" ? Color.blue : Color.gray
                             )
-                            .font(.caption)
-                        
-                        
-                        // 날짜 표시
-                        Text("\(day.day)")
-                            .foregroundStyle(isSelected ? Color.white : Color.primary)
-                            .foregroundStyle(day.isCurrentMonth ? Color.primary : Color.gray)
-                            .onTapGesture {
-                                calendarVM.changeSelectedDate(day.date)
-                            }
+                            .font(.pretend(type: .semiBold, size: 14))
+                    
                     }
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 8)
@@ -228,6 +244,7 @@ struct MovieReserveView: View {
         let rotated = Array(symbols[todayWeekdayIndex...] + symbols[..<todayWeekdayIndex]) //일주일 반환
         return rotated
     }
+    
     //MARK: - UI 디테일 수정 필요
     
     private var selectDetailView: some View {
