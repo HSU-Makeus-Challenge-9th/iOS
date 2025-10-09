@@ -22,7 +22,7 @@ struct LoginView: View
     @AppStorage("id") private var userId: String = ""
     @AppStorage("pwd") private var userPwd: String = ""
     @AppStorage("isLoggedIn") private var isLoggedIn: Bool = false
-        
+    
     
     var body: some View
     {
@@ -74,15 +74,15 @@ struct LoginView: View
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .navigationDestination(for: Route.self) { route in
                         switch route {
-                            case .logined:
-                                MainTabView(path: $path)
-                            case .home:
-                                HomeView(path: $path)
-                            case .profile:
-                                ProfileSettingsView(path: $path)
-                            case .profileSettings:
-                                ProfileSettingsView(path: $path)
-                            case .movieDetail(let movie):
+                        case .logined:
+                            MainTabView(path: $path)
+                        case .home:
+                            HomeView(path: $path)
+                        case .profile:
+                            ProfileSettingsView(path: $path)
+                        case .profileSettings:
+                            ProfileSettingsView(path: $path)
+                        case .movieDetail(let movie):
                             MovieDetailView(path: $path, movie: movie)
                         }
                     }
@@ -104,13 +104,13 @@ struct LoginView: View
                     Image("umcPoster")
                         .resizable()
                         .frame(maxWidth: 408, maxHeight: 266)
-            }
+                }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .padding(10)
         }
-        }
-        
+    }
+    
 }
 #Preview {
     LoginView(path: NavigationPath())
