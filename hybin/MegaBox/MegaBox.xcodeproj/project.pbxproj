@@ -125,6 +125,8 @@
 		4CF19D352E8812790078679E /* Exceptions for "Login" folder in "MegaBox" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				CalendarModel.swift,
+				CalendarViewModel.swift,
 				HomeView.swift,
 				HomeViewModel.swift,
 				LoginView.swift,
@@ -133,6 +135,7 @@
 				MovieModel.swift,
 				MovieReserveView.swift,
 				MovieReserveViewModel.swift,
+				MovieSearchSheetView.swift,
 				ProfileDetailView.swift,
 				ProfileView.swift,
 				UserModel.swift,
@@ -143,6 +146,8 @@
 		4CF19D362E8812790078679E /* Exceptions for "Login" folder in "MegaBoxTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				CalendarModel.swift,
+				CalendarViewModel.swift,
 				HomeView.swift,
 				HomeViewModel.swift,
 				LoginView.swift,
@@ -151,6 +156,7 @@
 				MovieModel.swift,
 				MovieReserveView.swift,
 				MovieReserveViewModel.swift,
+				MovieSearchSheetView.swift,
 				ProfileDetailView.swift,
 				ProfileView.swift,
 				UserModel.swift,
@@ -161,6 +167,8 @@
 		4CF19D372E8812790078679E /* Exceptions for "Login" folder in "MegaBoxUITests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				CalendarModel.swift,
+				CalendarViewModel.swift,
 				HomeView.swift,
 				HomeViewModel.swift,
 				LoginView.swift,
@@ -169,6 +177,7 @@
 				MovieModel.swift,
 				MovieReserveView.swift,
 				MovieReserveViewModel.swift,
+				MovieSearchSheetView.swift,
 				ProfileDetailView.swift,
 				ProfileView.swift,
 				UserModel.swift,
