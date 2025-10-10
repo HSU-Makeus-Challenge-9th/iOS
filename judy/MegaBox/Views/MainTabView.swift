@@ -15,7 +15,7 @@ struct MainTabView: View {
             .tag(0)
 
             NavigationStack {
-                MemberView()  // 기존 회원 화면
+                MemberView()
             }
             .tabItem {
                 Image(systemName: selected == 1 ? "person.text.rectangle.fill" : "person.text.rectangle")

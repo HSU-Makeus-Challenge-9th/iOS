@@ -11,7 +11,7 @@ import SwiftUI
 @Observable
 class LoginViewModel {
     var id: String = ""
-        var pwd: String = ""
+    var pwd: String = ""
     
     let loginModel: [LoginModel] = [
         .init(id: "zero", pwd: "1234")

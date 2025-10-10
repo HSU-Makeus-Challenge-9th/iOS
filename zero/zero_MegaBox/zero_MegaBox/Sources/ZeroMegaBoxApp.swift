@@ -4,8 +4,7 @@ import SwiftUI
 struct ZeroMegaBoxApp: App {
     var body: some Scene {
         WindowGroup {
-            UserInfoView()
-//            ProfileSettingsView()
+            LoginView()
         }
     }
 }

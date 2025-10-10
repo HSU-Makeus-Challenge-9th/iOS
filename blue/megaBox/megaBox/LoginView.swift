@@ -16,27 +16,17 @@ final class LoginModel {
 
 @Observable
 final class LoginViewModel {
-    var model: LoginModel
-
-    @ObservationIgnored
-    @AppStorage("login_id") private var storedId: String = ""
-
-    @ObservationIgnored
-    @AppStorage("login_pwd") private var storedPwd: String = ""
-
-    init(model: LoginModel = LoginModel()) {
-        self.model = model
-    }
-
-    func login() {
-        storedId = model.id
-        storedPwd = model.pwd
-    }
+    var model: LoginModel = LoginModel()
 }
 
 struct LoginView: View {
     @State private var viewModel = LoginViewModel()
+    
+    @AppStorage("login_id")  private var storedId: String = ""
+    @AppStorage("login_pwd") private var storedPwd: String = ""
+    @AppStorage("is_logged_in") private var isLoggedIn: Bool = false
 
+    @State private var showLoginError = false
     private let primaryPurple = Color.purple
 
     var body: some View {
@@ -76,17 +66,33 @@ struct LoginView: View {
 
                 // 로그인 버튼
                 Button {
-                    vm.login()
-                } label: {
-                    Text("로그인")
-                        .font(.system(size: 18, weight: .bold))
-                        .foregroundStyle(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 16)
-                }
+                                    let id = vm.model.id.trimmingCharacters(in: .whitespacesAndNewlines)
+                                    let pw = vm.model.pwd
+
+                                    if storedId.isEmpty || storedPwd.isEmpty {
+                                     
+                                        storedId = id
+                                        storedPwd = pw
+                                        isLoggedIn = true
+                                    } else if id == storedId && pw == storedPwd {
+                                    
+                                        isLoggedIn = true
+                                    } else {
+                                        showLoginError = true
+                                    }
+                                } label: {
+                                    Text("로그인")
+                                        .font(.system(size: 18, weight: .bold))
+                                        .foregroundStyle(.white)
+                                        .frame(maxWidth: .infinity)
+                                        .padding(.vertical, 16)
+                                }
                 .background(primaryPurple)
                 .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                 .padding(.top, 4)
+                .alert("아이디 또는 비밀번호가 올바르지 않습니다.", isPresented: $showLoginError) {
+                                    Button("확인", role: .cancel) { }
+                                }
 
                 signUpText
                 socialLoginRow

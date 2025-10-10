@@ -45,11 +45,14 @@ struct MovieDetailView: View {
                     }
                     .padding(.horizontal, 16)
 
-                    // 시놉시스 (예시 텍스트)
+                    // 영화 설명 직접 작성
                     Text("""
                     최고가 되지 못한 전설 VS 최고가 되고 싶은 루키
-
-                    한순간에 추락한 드라이버 ‘숀 헤이스’는 루키 ‘루키 세르반테스’에게 팀 합류를 제안받으며 이야기가 시작된다...
+                    
+                    한때 주목받는 유망주였지만 끔찍한 사고로 F1에서 우승하지 못하고
+                    한순간에 추락한 드라이버 ‘숀 헤이스’(브레드 피트).
+                    그의 오랜 동료인 ‘루벤 세르반테스’(하비에르 바르뎀)에게 
+                    레이싱 복귀를 제안받으며 최하위 팀인 APGXP에 합류한다.
                     """)
                     .font(.callout)
                     .foregroundStyle(.secondary)
@@ -166,6 +169,7 @@ struct MovieDetailView: View {
         }
         .padding(.top, 8)
     }
+
 
     private var reviewSection: some View {
         VStack(spacing: 12) {
