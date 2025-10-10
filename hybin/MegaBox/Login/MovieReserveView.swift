@@ -16,6 +16,7 @@ struct MovieReserveView: View {
     @State private var isShowingSearchSheet = false
     
     var body : some View {
+        
         VStack{
             header
             movieList
@@ -25,6 +26,7 @@ struct MovieReserveView: View {
             movieTheaterList
                 .padding(.horizontal , 16)
             calendarSection
+                .padding(.bottom, 32)
             if vm.canReserve {
                 selectDetailView
             }
@@ -34,7 +36,7 @@ struct MovieReserveView: View {
             MovieSearchSheetView(
                 allMovies: $vm.movies, onMovieSelected: { selectedMovie in
                     vm.selectedMovie = selectedMovie
-                }
+                }, vm: vm
             )
         })
         .navigationBarBackButtonHidden(true)
@@ -187,7 +189,7 @@ struct MovieReserveView: View {
         }
     }
     
-    //MARK: - UI디테일 수정 필요
+    //MARK: - 캘린더 디테일 잚 모르겠음
     private var calendarSection: some View {
         VStack(spacing: 20) {
             HStack{
@@ -245,19 +247,19 @@ struct MovieReserveView: View {
         return rotated
     }
     
-    //MARK: - UI 디테일 수정 필요
+    //MARK: - 디테일
     
     private var selectDetailView: some View {
-        // Spacer()가 필요 없으므로 VStack(alignment: .leading) 안에 넣습니다.
+       
         VStack(alignment: .leading, spacing: 10) {
             
-            // 1. 모든 조건이 충족되지 않거나, 오늘 날짜가 아니거나, 신촌을 선택했을 때 메시지 표시
+            // 상영 시간표가 없을시 출력
             if calendarVM.calendar.isDateInToday(calendarVM.selectedDate) == false || vm.selectedMovie == nil || vm.selectedTheater == nil || vm.selectedTheater == "신촌" {
                 
-                // 신촌을 선택했거나, 날짜/영화/극장이 선택되지 않은 경우 이 메시지를 표시
+                // 신촌을 선택했거나, 날짜/영화/극장이 만족되지 않은 경우 메시지 출력
                 Text("선택한 극장에 상영시간표가 없습니다")
-                    .font(.headline)
-                    .foregroundColor(.gray)
+                    .font(.pretend(type:.semiBold, size:20))
+                    .foregroundStyle(Color.gray)
                     .frame(maxWidth: .infinity, alignment: .center)
                     .padding(.top, 50)
                 
@@ -265,21 +267,24 @@ struct MovieReserveView: View {
             } else {
                 // 2. 상영 시간표 표시
                 ForEach(vm.filteredSchedules) { schedule in
-                    // 극장 이름 표시 (예: 강남)
                     Text(schedule.theaterName)
-                        .font(.title3.weight(.bold))
+                        .font(.pretend(type: .bold, size: 18))
                         .padding(.bottom, 5)
-                    
-                    // 상영 시간표 그리드
-                    LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: 4), spacing: 10) {
-                        
-                        // 해당 극장의 모든 상영 시간표를 표시
-                        ForEach(schedule.rooms) { screening in
-                            // 상영 시간 버튼
-                            ScreeningTimeButton(screening: screening)
+
+                    let grouped = Dictionary(grouping: schedule.rooms, by: { $0.specialTheaterName ?? "일반관" })
+
+                    ForEach(grouped.keys.sorted(), id: \.self) { key in
+                        Text(key)
+                            .font(.pretend(type: .semiBold, size: 16))
+                            .padding(.top, 5)
+                            .padding(.bottom, 21)
+
+                        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 4), spacing: 12) {
+                            ForEach(grouped[key] ?? []) { screening in
+                                ScreeningTimeButton(screening: screening)
+                            }
                         }
                     }
-                    .padding(.bottom, 20)
                 }
             }
         }
@@ -294,29 +299,37 @@ struct MovieReserveView: View {
                 // 여기에 상영 시간 선택 로직 추가
                 print("선택: \(screening.time) @ \(screening.specialTheaterName ?? "")")
             }) {
-                VStack(spacing: 4) {
+                VStack(alignment: .leading) {
                     // 시간
                     Text(screening.time)
-                        .font(.title3.weight(.bold))
-                        .foregroundColor(.primary)
+                        .font(.pretend(type: .bold, size:18))
+                        .foregroundStyle(.black)
                     
                     // 종료 시간
                     Text(screening.endTime)
-                        .font(.caption)
-                        .foregroundColor(.gray)
+                        .font(.pretend(type: .medium, size: 12))
+                        .foregroundStyle(Color.textInGrayButtonColor)
                     
                     // 잔여 좌석 / 전체 좌석
-                    Text("\(screening.remainingSeats) / \(screening.totalSeats)")
-                        .font(.caption)
-                        .foregroundColor(screening.remainingSeats < 10 ? .red : .blue) // 잔여석에 따라 색상 변경
+                    HStack{
+                        Text("\(screening.remainingSeats)")
+                            .foregroundStyle(Color.loginBackgroundColor)
+                            .multilineTextAlignment(.center)
+                            .font(.pretend(type: .medium, size: 12))
+                        Text("/ \(screening.totalSeats)")
+                            .multilineTextAlignment(.center)
+                            .foregroundStyle(Color.textInGrayButtonColor)
+                            .font(.pretend(type: .medium, size: 14))
+                    }
+                    .padding(0)
                 }
-                .frame(height: 80)
-                .frame(maxWidth: .infinity)
+    
+                .frame(minWidth:75, maxWidth: .infinity, minHeight: 70, maxHeight: .infinity)
                 .padding(4)
-                .background(
+                .background{
                     RoundedRectangle(cornerRadius: 8)
                         .stroke(Color.gray.opacity(0.4), lineWidth: 1)
-                )
+                }
             }
         }
     }

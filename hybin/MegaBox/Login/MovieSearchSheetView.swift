@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
 struct MovieSearchSheetView: View {
     
@@ -14,7 +15,8 @@ struct MovieSearchSheetView: View {
     var onMovieSelected: (MovieModel) -> Void
     
     @Environment(\.dismiss) var dismiss
-    @State private var searchText = ""
+    
+    @ObservedObject var vm: MovieReserveViewModel
     
     let columns = [
         GridItem(.flexible(), spacing: 15),
@@ -23,12 +25,13 @@ struct MovieSearchSheetView: View {
     ]
     
     var filteredMovies: [MovieModel] {
-        if searchText.isEmpty {
+        if vm.debouncedText.isEmpty {
             return allMovies
         } else {
-            return allMovies.filter { $0.title.contains(searchText) }
+            return allMovies.filter { $0.title.localizedCaseInsensitiveContains(vm.debouncedText) }
         }
     }
+    
     
     var body: some View {
         VStack(spacing: 36) {
@@ -69,7 +72,7 @@ struct MovieSearchSheetView: View {
                     .foregroundStyle(.gray) 
                 
                 // 검색 입력 필드
-                TextField("영화를 입력해주세요", text: $searchText)
+                TextField("Search", text: $vm.searchText)
                     .textFieldStyle(PlainTextFieldStyle())
                     .frame(maxWidth: .infinity)
                 
@@ -79,7 +82,7 @@ struct MovieSearchSheetView: View {
                 
                 // 닫기/취소 버튼
                 Button {
-                    searchText = ""
+                    vm.searchText = ""
                     // dismiss() 로직은 필요에 따라 추가
                 } label: {
                     Image(systemName: "xmark.circle.fill")
@@ -124,17 +127,5 @@ struct MoviePosterCell: View {
     }
 }
 
-#Preview {
-    // 📌 1. 필요한 데이터를 임의로 생성
-    @Previewable @State var sampleMovies = HomeViewModel().movieModel // MovieReserveViewModel에서 가져오는 데이터
-    
-    // 2. MovieSearchSheetView를 직접 호출합니다.
-    MovieSearchSheetView(
-        allMovies: $sampleMovies, // @Binding으로 받는 데이터를 위해 $를 붙여 State를 전달
-        onMovieSelected: { movie in
-            print("선택된 영화: \(movie.title)")
-        }
-    )
-    // 3. 시트가 보통 전체 화면을 덮기 때문에, 배경색을 지정해 주면 더 보기 좋습니다.
-    .background(Color.white)
-}
+
+

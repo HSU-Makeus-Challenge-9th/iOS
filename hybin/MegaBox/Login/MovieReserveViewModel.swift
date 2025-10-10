@@ -14,6 +14,23 @@ class MovieReserveViewModel: ObservableObject {
     private var homeVM : HomeViewModel
     private var calendarVM : CalendarViewModel = .init()
     
+    //MARK: - 시트뷰
+    @Published var searchText: String = ""
+    @Published var debouncedText: String = ""
+    private var cancellables = Set<AnyCancellable>()
+    
+    private func setupDebounce() {
+        $searchText
+            .debounce(for: .milliseconds(400), scheduler: DispatchQueue.main)
+            .removeDuplicates()
+            .receive(on: DispatchQueue.main)
+            .sink{ [weak self] newText in
+                self?.debouncedText = newText
+            }
+            .store(in: &cancellables)
+    }
+    
+    //MARK: - 리저브 뷰
     @Published var movies: [MovieModel]
     
     let theaters : [String] = ["강남", "홍대", "신촌"]
@@ -28,6 +45,7 @@ class MovieReserveViewModel: ObservableObject {
         self.homeVM = homeVM
         self.movies = homeVM.movieModel
         self.selectedMovie = selectedMovie
+        setupDebounce()
     }
     
     func selectMovie(_ movie: MovieModel) {
@@ -54,15 +72,15 @@ class MovieReserveViewModel: ObservableObject {
         ]),
         // 신촌은 상영 정보가 없어야 하므로 빈 배열을 유지하거나 리스트에서 제외
     ]
-
-    /// 현재 선택된 조건(영화, 극장, 날짜)에 맞는 상영 시간표를 계산합니다.
+    
+    //선택 조건에 맞는 상영표 제공
     var filteredSchedules: [TheaterSchedule] {
-        // 1. 영화, 극장, 날짜가 모두 선택되지 않았다면 빈 배열 반환
+        
         guard selectedMovie != nil, selectedTheater != nil, calendarVM.calendar.isDateInToday(calendarVM.selectedDate) else {
-            return [] // 핵심 요구 사항: 선택이 완료되어야 정보 표시 (단, 날짜는 '오늘'인 경우에만)
+            return [] // 선택이 되어야 출력, 날짜는 오늘만
         }
-
-        // 2. 선택된 극장에 따라 필터링
+        
+        //선택된 극장에 따라 필터링
         return tempScheduleData.filter { schedule in
             schedule.theaterName == selectedTheater
         }
