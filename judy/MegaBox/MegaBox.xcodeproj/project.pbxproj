@@ -25,6 +25,12 @@
 		215D4D562E84274E00188B80 /* MegaBox-info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 215D4D552E84274E00188B80 /* MegaBox-info.plist */; };
 		215D4D622E87D5AB00188B80 /* MemverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215D4D612E87D5AA00188B80 /* MemverView.swift */; };
 		215D4D712E87D84B00188B80 /* MemberInfoManageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215D4D702E87D84700188B80 /* MemberInfoManageView.swift */; };
+		215D4DBB2E91100B00188B80 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215D4DBA2E91100300188B80 /* MainTabView.swift */; };
+		215D4DBD2E91102000188B80 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215D4DBC2E91101900188B80 /* HomeView.swift */; };
+		215D4DC22E91107D00188B80 /* MovieDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215D4DC12E91106400188B80 /* MovieDetailView.swift */; };
+		215D4DCC2E9799CC00188B80 /* MovieBookingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215D4DCB2E9799BD00188B80 /* MovieBookingView.swift */; };
+		215D4DDA2E98D55E00188B80 /* MovieSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215D4DD92E98D55400188B80 /* MovieSearchView.swift */; };
+		215D4DDF2E98E4B900188B80 /* OutlineChipStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215D4DDE2E98E4B800188B80 /* OutlineChipStyle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,13 +46,19 @@
 		215D4D3E2E83EF5D00188B80 /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
 		215D4D3F2E83EF5D00188B80 /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		215D4D402E83EF5D00188B80 /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
-		215D4D412E83EF5D00188B80 /* Pretendard-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Thin.otf"; sourceTree = "<group>"; };
+		215D4D412E83EF5D00188B80 /* Pretendard-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Pretendard-Thin.otf"; sourceTree = "<group>"; };
 		215D4D432E83EF5D00188B80 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		215D4D462E84190F00188B80 /* MegaBoxApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MegaBoxApp.swift; sourceTree = "<group>"; };
 		215D4D472E84199100188B80 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		215D4D552E84274E00188B80 /* MegaBox-info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MegaBox-info.plist"; sourceTree = "<group>"; };
 		215D4D612E87D5AA00188B80 /* MemverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemverView.swift; sourceTree = "<group>"; };
 		215D4D702E87D84700188B80 /* MemberInfoManageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberInfoManageView.swift; sourceTree = "<group>"; };
+		215D4DBA2E91100300188B80 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		215D4DBC2E91101900188B80 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		215D4DC12E91106400188B80 /* MovieDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailView.swift; sourceTree = "<group>"; };
+		215D4DCB2E9799BD00188B80 /* MovieBookingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieBookingView.swift; sourceTree = "<group>"; };
+		215D4DD92E98D55400188B80 /* MovieSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieSearchView.swift; sourceTree = "<group>"; };
+		215D4DDE2E98E4B800188B80 /* OutlineChipStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlineChipStyle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -95,6 +107,12 @@
 		215D4C4D2E7BF60D00188B80 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				215D4DDD2E98E49800188B80 /* Components */,
+				215D4DD92E98D55400188B80 /* MovieSearchView.swift */,
+				215D4DCB2E9799BD00188B80 /* MovieBookingView.swift */,
+				215D4DC12E91106400188B80 /* MovieDetailView.swift */,
+				215D4DBC2E91101900188B80 /* HomeView.swift */,
+				215D4DBA2E91100300188B80 /* MainTabView.swift */,
 				215D4D702E87D84700188B80 /* MemberInfoManageView.swift */,
 				215D4D632E87D62F00188B80 /* SubViews */,
 				215D4D612E87D5AA00188B80 /* MemverView.swift */,
@@ -128,6 +146,14 @@
 				215D4D432E83EF5D00188B80 /* Assets.xcassets */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		215D4DDD2E98E49800188B80 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				215D4DDE2E98E4B800188B80 /* OutlineChipStyle.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -219,11 +245,17 @@
 			files = (
 				215D4C512E7DBB0500188B80 /* SplashView.swift in Sources */,
 				215D4D622E87D5AB00188B80 /* MemverView.swift in Sources */,
+				215D4DDF2E98E4B900188B80 /* OutlineChipStyle.swift in Sources */,
 				215D4D492E841CC800188B80 /* MegaBoxApp.swift in Sources */,
 				215D4D452E8417B400188B80 /* Fonts.swift in Sources */,
 				215D4D482E841CC200188B80 /* ContentView.swift in Sources */,
+				215D4DCC2E9799CC00188B80 /* MovieBookingView.swift in Sources */,
+				215D4DDA2E98D55E00188B80 /* MovieSearchView.swift in Sources */,
+				215D4DBD2E91102000188B80 /* HomeView.swift in Sources */,
 				215D4D712E87D84B00188B80 /* MemberInfoManageView.swift in Sources */,
 				215D4C532E7DBB6600188B80 /* LoginView.swift in Sources */,
+				215D4DC22E91107D00188B80 /* MovieDetailView.swift in Sources */,
+				215D4DBB2E91100B00188B80 /* MainTabView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
