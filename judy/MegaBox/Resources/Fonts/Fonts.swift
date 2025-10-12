@@ -3,7 +3,6 @@ import SwiftUI
 
 extension Font {
 
-    // Pretendard의 모든 웨이트를 한 곳에서 선언
     enum Pretend {
         case black
         case extraBold
