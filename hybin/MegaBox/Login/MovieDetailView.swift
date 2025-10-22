@@ -63,7 +63,9 @@ struct MovieDetailView : View {
             }.padding(.top ,20)
             
             Spacer()
+            
         }
+        .navigationBarBackButtonHidden(true)
         
     }
     
