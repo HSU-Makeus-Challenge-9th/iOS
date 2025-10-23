@@ -338,5 +338,5 @@ struct MovieReserveView: View {
 }
 
 #Preview {
-    MovieReserveView(vm: MovieReserveViewModel(homeVM:HomeViewModel()))
+    MovieReserveView(vm: MovieReserveViewModel(selectedMoive: MovieService().getMovies().first!))
 }

@@ -1,5 +1,5 @@
 //
-//  MovieModel.swift
+//  Movie.swift
 //  MegaBox
 //
 //  Created by 전효빈 on 10/2/25.

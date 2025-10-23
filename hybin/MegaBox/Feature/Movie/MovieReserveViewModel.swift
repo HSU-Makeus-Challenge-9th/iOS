@@ -11,7 +11,9 @@ import Combine
 
 class MovieReserveViewModel: ObservableObject {
     
-    private var homeVM : HomeViewModel
+    @ObservationIgnored
+    private let movieService = MovieService()
+    
     private var calendarVM : CalendarViewModel = .init()
     
     //MARK: - 시트뷰
@@ -30,6 +32,14 @@ class MovieReserveViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
+    init(selectedMoive: MovieModel) {
+        self.selectedMovie = selectedMoive
+        
+        self.movies = movieService.getMovies()
+        
+        setupDebounce()
+    }
+    
     //MARK: - 리저브 뷰
     @Published var movies: [MovieModel]
     
@@ -41,12 +51,7 @@ class MovieReserveViewModel: ObservableObject {
     
     @Published var canReserve: Bool = false
     
-    init(homeVM: HomeViewModel, selectedMovie: MovieModel? = nil) {
-        self.homeVM = homeVM
-        self.movies = homeVM.movieModel
-        self.selectedMovie = selectedMovie
-        setupDebounce()
-    }
+    
     
     func selectMovie(_ movie: MovieModel) {
         self.selectedMovie = movie

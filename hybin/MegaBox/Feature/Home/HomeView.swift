@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 struct HomeView: View{
-    @State private var viewModel : HomeViewModel = .init()
+    @State private var viewModel = HomeViewModel()
     
     var body: some View {
         NavigationStack{
@@ -30,6 +30,9 @@ struct HomeView: View{
                 movieFeedView
                     .padding(.top, 30)
                 movieArticleView
+            }
+            .task {
+                await viewModel.loadMoives()
             }
         }
     }
@@ -122,8 +125,9 @@ struct HomeView: View{
                 movie.posterImage
                     .resizable()
             }
-
-            NavigationLink(destination: MovieReserveView(vm:MovieReserveViewModel(homeVM:viewModel,selectedMovie: movie))){
+// ---MARK: 여기 고치기
+            
+            NavigationLink(destination: MovieReserveView(vm:MovieReserveViewModel(selectedMoive: movie))){
                 Text("바로 예매")
                     .font(.pretend(type: .medium, size: 16))
                     .foregroundStyle(Color.loginBackgroundColor)
