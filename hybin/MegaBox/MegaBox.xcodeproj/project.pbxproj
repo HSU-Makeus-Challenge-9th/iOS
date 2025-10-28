@@ -135,6 +135,33 @@
 			);
 			target = 4CF19B0A2E8806F00078679E /* MegaBoxUITests */;
 		};
+		4CA2D6802EAF17C3009D27BE /* Exceptions for "Data" folder in "MegaBox" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				DTOs/MovieScheduleDTOs.swift,
+				Mappers/MovieMapper.swift,
+				Mappers/ScheduleMapper.swift,
+			);
+			target = 4CF19AF32E8806EE0078679E /* MegaBox */;
+		};
+		4CA2D6812EAF17C3009D27BE /* Exceptions for "Data" folder in "MegaBoxTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				DTOs/MovieScheduleDTOs.swift,
+				Mappers/MovieMapper.swift,
+				Mappers/ScheduleMapper.swift,
+			);
+			target = 4CF19B002E8806F00078679E /* MegaBoxTests */;
+		};
+		4CA2D6822EAF17C3009D27BE /* Exceptions for "Data" folder in "MegaBoxUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				DTOs/MovieScheduleDTOs.swift,
+				Mappers/MovieMapper.swift,
+				Mappers/ScheduleMapper.swift,
+			);
+			target = 4CF19B0A2E8806F00078679E /* MegaBoxUITests */;
+		};
 		4CF19B772E88075A0078679E /* Exceptions for "MegaBox" folder in "MegaBox" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -238,6 +265,11 @@
 		};
 		4CA2D66D2EA91E04009D27BE /* Data */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4CA2D6802EAF17C3009D27BE /* Exceptions for "Data" folder in "MegaBox" target */,
+				4CA2D6812EAF17C3009D27BE /* Exceptions for "Data" folder in "MegaBoxTests" target */,
+				4CA2D6822EAF17C3009D27BE /* Exceptions for "Data" folder in "MegaBoxUITests" target */,
+			);
 			path = Data;
 			sourceTree = "<group>";
 		};

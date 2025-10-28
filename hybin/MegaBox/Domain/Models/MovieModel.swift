@@ -10,7 +10,7 @@ import SwiftUI
 
 
 struct MovieModel: Identifiable {
-    let id = UUID()
+    let id : String
     
     let title : String
     
@@ -18,7 +18,7 @@ struct MovieModel: Identifiable {
     
     let audience : Int
     
-    let bookranking : Int
+    let bookRanking : Int
     
 }
 
