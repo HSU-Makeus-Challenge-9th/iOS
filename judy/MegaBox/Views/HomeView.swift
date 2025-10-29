@@ -47,7 +47,7 @@ struct HomeView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
 
-    // Components
+    // MARK: - Components
     private var topTabBar: some View {
         VStack(spacing: 8) {
             HStack(spacing: 20) {
@@ -82,7 +82,6 @@ struct HomeView: View {
                 Spacer(minLength: 0)
             }
 
-            // 구분선
             Rectangle()
                 .fill(Color.secondary.opacity(0.15))
                 .frame(height: 1)
