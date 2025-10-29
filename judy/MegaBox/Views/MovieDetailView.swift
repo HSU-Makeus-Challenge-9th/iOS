@@ -12,14 +12,12 @@ struct MovieDetailView: View {
         VStack(spacing: 0) {
             // 커스텀 네비 바
             HStack(spacing: 12) {
-                Button {
-                    dismiss()
-                } label: {
+                Button { dismiss() } label: {
                     Image(systemName: "chevron.left")
                         .font(.title3.weight(.semibold))
                 }
                 Text(movie.titleKo)
-                    .font(.headline)
+                    .font(.pretendHeadline)
                 Spacer()
             }
             .padding(.horizontal, 16)
@@ -27,7 +25,7 @@ struct MovieDetailView: View {
 
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 16) {
-                    // 포스터 (오타 수정: .scaledToFill())
+                    // 포스터
                     Image(movie.posterDetail)
                         .resizable()
                         .scaledToFill()
@@ -38,30 +36,27 @@ struct MovieDetailView: View {
                     // 타이틀
                     VStack(alignment: .leading, spacing: 6) {
                         Text(movie.titleKo)
-                            .font(.title2.bold())
+                            .font(.pretendTitle)
                         Text(movie.titleEn)
-                            .font(.subheadline)
+                            .font(.pretendCaption)
                             .foregroundStyle(.secondary)
                     }
                     .padding(.horizontal, 16)
 
-                    // 영화 설명 직접 작성
+                    // 영화 설명
                     Text("""
                     최고가 되지 못한 전설 VS 최고가 되고 싶은 루키
-                    
+
                     한때 주목받는 유망주였지만 끔찍한 사고로 F1에서 우승하지 못하고
                     한순간에 추락한 드라이버 ‘숀 헤이스’(브레드 피트).
-                    그의 오랜 동료인 ‘루벤 세르반테스’(하비에르 바르뎀)에게 
+                    그의 오랜 동료인 ‘루벤 세르반테스’(하비에르 바르뎀)에게
                     레이싱 복귀를 제안받으며 최하위 팀인 APGXP에 합류한다.
                     """)
-                    .font(.callout)
+                    .font(.pretendBody)
                     .foregroundStyle(.secondary)
                     .padding(.horizontal, 16)
 
-                    // 세그먼트
                     segmentBar
-
-                    // 컨텐츠
                     Group {
                         if seg == .detail {
                             detailSection
@@ -75,37 +70,40 @@ struct MovieDetailView: View {
                 }
             }
         }
-        .navigationBarHidden(true)
+        .toolbar(.hidden, for: .navigationBar)
         .background(Color(.systemBackground))
     }
 
     private var segmentBar: some View {
-        VStack(spacing: 8) {
-            HStack(spacing: 20) {
-                segButton(.detail)
-                segButton(.review)
-                Spacer()
-            }
-            .padding(.horizontal, 16)
+        GeometryReader { proxy in
+            let totalWidth: CGFloat = proxy.size.width
+            let hPad: CGFloat = 16
+            let segmentWidth: CGFloat = (totalWidth - hPad * 2) / 2
 
-            // 하단 라인 + 인디케이터
-            ZStack(alignment: .leading) {
-                Rectangle()
-                    .fill(Color.secondary.opacity(0.15))
-                    .frame(height: 1)
-                    .padding(.horizontal, 16)
-
+            VStack(spacing: 8) {
                 HStack(spacing: 0) {
-                    Spacer().frame(width: 16)
+                    segButton(.detail)
+                        .frame(width: segmentWidth)
+                    segButton(.review)
+                        .frame(width: segmentWidth)
+                }
+                .padding(.horizontal, hPad)
+
+                ZStack(alignment: .leading) {
+                    Rectangle()
+                        .fill(Color.secondary.opacity(0.15))
+                        .frame(height: 1)
+                        .padding(.horizontal, hPad)
+
                     Capsule()
                         .fill(Color.primary)
-                        .frame(width: 60, height: 3) // 버튼 폭과 무관하게 깔끔
-                        .offset(x: seg == .detail ? 0 : 80)
+                        .frame(width: segmentWidth, height: 3)
+                        .offset(x: hPad + (seg == .detail ? 0 : segmentWidth))
                         .animation(.spring(response: 0.35, dampingFraction: 0.9), value: seg)
-                    Spacer()
                 }
             }
         }
+        .frame(height: 44)
         .padding(.top, 8)
     }
 
@@ -117,9 +115,10 @@ struct MovieDetailView: View {
             }
         } label: {
             Text(target.rawValue)
-                .font(.headline)
+                .font(.pretendHeadline)
                 .foregroundStyle(seg == target ? .primary : .secondary)
                 .padding(.vertical, 6)
+                .frame(maxWidth: .infinity)
                 .background(
                     Group {
                         if seg == target {
@@ -130,10 +129,9 @@ struct MovieDetailView: View {
         }
         .buttonStyle(.plain)
     }
-
+    // Section
     private var detailSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-
             // 썸네일 + 정보 카드
             HStack(alignment: .top, spacing: 12) {
                 Image(movie.posterHome)
@@ -148,11 +146,11 @@ struct MovieDetailView: View {
 
                 VStack(alignment: .leading, spacing: 8) {
                     Text("12세 이상 관람가")
-                        .font(.subheadline)
+                        .font(.pretendBody)
                         .foregroundStyle(.primary)
 
                     Text("2025.06.25 개봉")
-                        .font(.subheadline)
+                        .font(.pretendBody)
                         .foregroundStyle(.primary)
                 }
                 Spacer()
@@ -170,7 +168,6 @@ struct MovieDetailView: View {
         .padding(.top, 8)
     }
 
-
     private var reviewSection: some View {
         VStack(spacing: 12) {
             RoundedRectangle(cornerRadius: 12)
@@ -178,7 +175,7 @@ struct MovieDetailView: View {
                 .frame(maxWidth: .infinity, minHeight: 120)
                 .overlay(
                     Text("등록된 관람평이 없어요 🥲")
-                        .font(.subheadline)
+                        .font(.pretendCaption)
                         .foregroundStyle(.secondary)
                 )
         }
