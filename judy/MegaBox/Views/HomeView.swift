@@ -50,7 +50,7 @@ struct HomeView: View {
     // Components
     private var topTabBar: some View {
         VStack(spacing: 8) {
-            HStack(spacing: 20) { // 간격 줄임
+            HStack(spacing: 20) {
                 ForEach(HomeViewModel.TopTab.allCases, id: \.self) { tab in
                     Button {
                         withAnimation(.spring(response: 0.35, dampingFraction: 0.9)) {
@@ -61,8 +61,8 @@ struct HomeView: View {
                             Text(tab.rawValue)
                                 .font(.pretendHeadline)
                                 .foregroundStyle(vm.selectedTopTab == tab ? .primary : .secondary)
-                                .lineLimit(1)                 // 줄바꿈 방지
-                                .minimumScaleFactor(0.9)      // 아주 좁을 때 살짝 축소
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.9)
                                 .fixedSize(horizontal: true, vertical: false)
 
                             ZStack {
