@@ -1,10 +1,12 @@
 import SwiftUI
 import Combine
+import Foundation
 
 enum Theater: String, CaseIterable, Identifiable, Hashable {
     case gangnam = "강남"
     case hongdae = "홍대"
     case sinchon = "신촌"
+
     var id: String { rawValue }
 }
 
@@ -12,7 +14,7 @@ struct Showtime: Identifiable, Hashable {
     let id = UUID()
     let theater: Theater
     let screen: String
-    let time: String
+    let time: String   // "HH:mm"
     let left: Int
     let total: Int
 }
@@ -20,26 +22,29 @@ struct Showtime: Identifiable, Hashable {
 struct DayItem: Identifiable, Hashable, Equatable {
     let id = UUID()
     let date: Date
-    var day: String { DateFormatter.cached("d").string(from: date) }
-    var weekday: String { DateFormatter.cached("E").string(from: date) }
-    var month: String { DateFormatter.cached("M").string(from: date) }
-    var isToday: Bool { Calendar.current.isDateInToday(date) }
-}
 
-private extension DateFormatter {
-    static func cached(_ format: String) -> DateFormatter {
+    var dayNumber: Int {
+        Calendar.current.component(.day, from: date)
+    }
+    var monthNumber: Int {
+        Calendar.current.component(.month, from: date)
+    }
+    var weekdayLabel: String {
         let f = DateFormatter()
-        f.locale = .init(identifier: "ko_KR")
-        f.dateFormat = format
-        return f
+        f.locale = Locale(identifier: "ko_KR")
+        f.dateFormat = "E"
+        return f.string(from: date)
+    }
+    var isToday: Bool {
+        Calendar.current.isDateInToday(date)
     }
 }
 
 @MainActor
 final class BookingViewModel: ObservableObject {
+
     @Published var movies: [Movie] = []
     @Published var days: [DayItem] = BookingViewModel.makeWeek()
-    @Published var showtimes: [Theater: [Showtime]] = [:]
 
     @Published var selectedMovie: Movie? = nil
     @Published var selectedTheaters: Set<Theater> = []
@@ -49,85 +54,281 @@ final class BookingViewModel: ObservableObject {
     @Published var canSelectDate: Bool = false
     @Published var canShowRooms: Bool = false
 
+    private var domainMovies: [MovieDomain] = []
     private var bag = Set<AnyCancellable>()
 
     init(initialMovie: Movie? = nil) {
-        seedMovies()
-        seedShowtimes()
-        selectedMovie = initialMovie
+        Task { await loadMoviesFromBundle() }
+        self.selectedMovie = initialMovie
         bind()
     }
 
-    private func bind() {
-        $selectedMovie
-            .map { $0 != nil }
-            .receive(on: DispatchQueue.main)
-            .assign(to: \.canSelectTheater, on: self)
-            .store(in: &bag)
+    // JSON -> Domain -> UI 변환
+    private func loadMoviesFromBundle() async {
+        do {
+            guard let url = Bundle.main.url(forResource: "MovieSchedule", withExtension: "json") else {
+                print("❌ MovieSchedule.json not found")
+                return
+            }
 
-        Publishers.CombineLatest($selectedMovie.map { $0 != nil },
-                                 $selectedTheaters.map { !$0.isEmpty })
-        .map { $0 && $1 }
-        .receive(on: DispatchQueue.main)
-        .assign(to: \.canSelectDate, on: self)
-        .store(in: &bag)
+            let data: Data = try await Task.detached {
+                try Data(contentsOf: url)
+            }.value
 
-        Publishers.CombineLatest3($selectedMovie.map { $0 != nil },
-                                  $selectedTheaters.map { !$0.isEmpty },
-                                  $selectedDay.map { $0 != nil })
-        .map { $0 && $1 && $2 }
-        .receive(on: DispatchQueue.main)
-        .assign(to: \.canShowRooms, on: self)
-        .store(in: &bag)
-    }
+            let decoder = JSONDecoder()
+            let dto = try decoder.decode(APIResponse.self, from: data)
+            let dm = try dto.toDomainMovies()
 
-    private func seedMovies() {
-        movies = [
-            Movie(title: "F1 더 무비",         audience: "", posterName: "p1", badge: "15"),
-            Movie(title: "극장판 귀멸의 칼날",   audience: "", posterName: "p2", badge: "15"),
-            Movie(title: "어쩔수가없다",        audience: "", posterName: "p3", badge: "15"),
-            Movie(title: "얼굴",              audience: "", posterName: "p4", badge: "15"),
-            Movie(title: "모노노케 히메",       audience: "", posterName: "p5", badge: "12"),
-            Movie(title: "보스",              audience: "", posterName: "p6", badge: "15"),
-            Movie(title: "야당",              audience: "", posterName: "p7", badge: "12"),
-            Movie(title: "THE ROSES",        audience: "", posterName: "p8", badge: "15")
-        ]
-    }
+            self.domainMovies = dm
+            applyInitialUI(from: dm)
 
-    private static let gangnamTimes: [Showtime] = [
-        .init(theater: .gangnam, screen: "크리클라이너 1관", time: "11:30", left: 109, total: 116),
-        .init(theater: .gangnam, screen: "크리클라이너 1관", time: "14:20", left: 19,  total: 116),
-        .init(theater: .gangnam, screen: "크리클라이너 1관", time: "17:05", left: 1,   total: 116),
-        .init(theater: .gangnam, screen: "크리클라이너 1관", time: "19:45", left: 100, total: 116),
-        .init(theater: .gangnam, screen: "크리클라이너 1관", time: "22:20", left: 116, total: 116)
-    ]
-
-    private static let hongdaeTimes: [Showtime] = [
-        .init(theater: .hongdae, screen: "BTS관 (7층 1관 [Laser])", time: "09:30", left: 75,  total: 116),
-        .init(theater: .hongdae, screen: "BTS관 (7층 1관 [Laser])", time: "12:00", left: 102, total: 116),
-        .init(theater: .hongdae, screen: "BTS관 (7층 1관 [Laser])", time: "14:45", left: 88,  total: 116),
-        .init(theater: .hongdae, screen: "BTS관 (9층 2관 [Laser])", time: "11:30", left: 34,  total: 116),
-        .init(theater: .hongdae, screen: "BTS관 (9층 2관 [Laser])", time: "14:10", left: 100, total: 116),
-        .init(theater: .hongdae, screen: "BTS관 (9층 2관 [Laser])", time: "16:50", left: 13,  total: 116),
-        .init(theater: .hongdae, screen: "BTS관 (9층 2관 [Laser])", time: "19:20", left: 92,  total: 116)
-    ]
-
-    private func seedShowtimes() {
-        showtimes[.gangnam] = Self.gangnamTimes
-        showtimes[.hongdae] = Self.hongdaeTimes
-        showtimes[.sinchon] = []
-    }
-
-    static func makeWeek(from base: Date = Date()) -> [DayItem] {
-        (0..<7).compactMap { i in
-            DayItem(date: Calendar.current.date(byAdding: .day, value: i, to: base)!)
+        } catch {
+            print("JSON decode/map error:", error)
         }
     }
 
-    var isTodaySelected: Bool { selectedDay?.isToday == true }
+    // domainMovies -> 화면에서 쓸 Movie 배열 생성
+    // 여기서 posterName을 ["amovie","bmovie","c2movie"] 순서대로 매핑
+    private func applyInitialUI(from dms: [MovieDomain]) {
+
+        let posterNames = ["amovie", "c2movie", "bmovie"]
+
+        self.movies = dms.enumerated().map { (idx, dom) in
+            let poster = idx < posterNames.count ? posterNames[idx] : nil
+            return Movie(
+                title: dom.title,
+                audience: "",
+                posterName: poster,
+                badge: dom.ageRating
+            )
+        }
+
+        if selectedMovie == nil {
+            selectedMovie = self.movies.first
+        }
+
+        refreshAfterMovieChange()
+        refreshAfterTheaterChange()
+        refreshAfterDateChange()
+    }
+
+    // 현재 선택된 Movie를 MovieDomain으로 찾아오는 헬퍼
+    private func currentDomainMovie() -> MovieDomain? {
+        guard let sel = selectedMovie else { return nil }
+
+        if let exact = domainMovies.first(where: { $0.title == sel.title }) {
+            return exact
+        }
+        if let loose = domainMovies.first(where: { dm in
+            dm.title.contains(sel.title) || sel.title.contains(dm.title)
+        }) {
+            return loose
+        }
+        return nil
+    }
+
+    // 선택된 영화에서 가능한 극장들
+    var availableTheatersForSelectedMovie: [Theater] {
+        guard let movie = currentDomainMovie() else { return [] }
+
+        let areaNames = movie.schedules.flatMap { sched in
+            sched.areas.map { $0.name }
+        }
+
+        var found = Set<Theater>()
+        for t in Theater.allCases {
+            for raw in areaNames {
+                if raw.contains(t.rawValue) || t.rawValue.contains(raw) {
+                    found.insert(t)
+                }
+            }
+        }
+        return Array(found)
+    }
+
+    // 선택된 영화 + 선택된 극장 조합에서 가능한 날짜들
+    var availableDaysForSelectedMovieAndTheater: [Date] {
+        guard let movie = currentDomainMovie() else { return [] }
+
+        if selectedTheaters.isEmpty {
+            return movie.schedules.map { $0.date }
+        }
+
+        let selNames = selectedTheaters.map { $0.rawValue }
+        var validDates = Set<Date>()
+
+        for sched in movie.schedules {
+            let areaNames = sched.areas.map { $0.name }
+            let match = areaNames.contains { area in
+                selNames.contains { sel in
+                    area.contains(sel) || sel.contains(area)
+                }
+            }
+            if match {
+                validDates.insert(sched.date)
+            }
+        }
+        return Array(validDates)
+    }
+
+    // 실제 상영표 (극장별 -> Showtime 배열)
+    var filteredShowtimesByTheater: [Theater: [Showtime]] {
+        guard
+            let movie = currentDomainMovie(),
+            let day = selectedDay?.date
+        else { return [:] }
+
+        let schedulesForThatDay = movie.schedules.filter {
+            Calendar.current.isDate($0.date, inSameDayAs: day)
+        }
+
+        let hm: DateFormatter = {
+            let f = DateFormatter()
+            f.locale = Locale(identifier: "ko_KR")
+            f.dateFormat = "HH:mm"
+            return f
+        }()
+
+        var result: [Theater: [Showtime]] = [:]
+
+        for sched in schedulesForThatDay {
+            for area in sched.areas {
+                guard let th = theaterEnum(forAreaName: area.name) else { continue }
+
+                if !selectedTheaters.isEmpty && !selectedTheaters.contains(th) {
+                    continue
+                }
+
+                for item in area.items {
+                    let shows = item.showtimes.map { st in
+                        Showtime(
+                            theater: th,
+                            screen: item.auditorium,
+                            time: hm.string(from: st.start),
+                            left: st.available,
+                            total: st.total
+                        )
+                    }
+                    result[th, default: []].append(contentsOf: shows)
+                }
+            }
+        }
+
+        for (th, arr) in result {
+            result[th] = arr.sorted {
+                if $0.time == $1.time {
+                    return $0.screen < $1.screen
+                } else {
+                    return $0.time < $1.time
+                }
+            }
+        }
+
+        return result
+    }
+
+    private func theaterEnum(forAreaName name: String) -> Theater? {
+        for t in Theater.allCases {
+            if name.contains(t.rawValue) || t.rawValue.contains(name) {
+                return t
+            }
+        }
+        return nil
+    }
+
+    // 바인딩: 선택 변화에 따라 상태 갱신
+    private func bind() {
+        $selectedMovie
+            .sink { [weak self] _ in
+                guard let self else { return }
+                self.refreshAfterMovieChange()
+                self.refreshAfterTheaterChange()
+                self.refreshAfterDateChange()
+            }
+            .store(in: &bag)
+
+        $selectedTheaters
+            .sink { [weak self] _ in
+                guard let self else { return }
+                self.refreshAfterTheaterChange()
+                self.refreshAfterDateChange()
+            }
+            .store(in: &bag)
+
+        $selectedDay
+            .sink { [weak self] _ in
+                guard let self else { return }
+                self.refreshAfterDateChange()
+            }
+            .store(in: &bag)
+    }
+
+    // 영화 바뀌면: 가능한 극장 계산해서 selectedTheaters 맞춰주고 canSelectTheater 갱신
+    private func refreshAfterMovieChange() {
+        let allowed = availableTheatersForSelectedMovie
+
+        canSelectTheater = (selectedMovie != nil && !allowed.isEmpty)
+
+        selectedTheaters = selectedTheaters.filter { allowed.contains($0) }
+
+        if selectedTheaters.isEmpty, let first = allowed.first {
+            selectedTheaters.insert(first)
+        }
+    }
+
+    // 극장 바뀌면: 가능한 날짜 제한하고 canSelectDate, selectedDay 갱신
+    private func refreshAfterTheaterChange() {
+        let allowedDates = availableDaysForSelectedMovieAndTheater
+
+        canSelectDate = (
+            selectedMovie != nil &&
+            !selectedTheaters.isEmpty &&
+            !allowedDates.isEmpty
+        )
+
+        if let selDay = selectedDay {
+            let stillValid = allowedDates.contains {
+                Calendar.current.isDate($0, inSameDayAs: selDay.date)
+            }
+            if !stillValid {
+                selectedDay = nil
+            }
+        }
+
+        if selectedDay == nil,
+           let firstDate = allowedDates.sorted(by: { $0 < $1 }).first,
+           let dayItem = days.first(where: {
+               Calendar.current.isDate($0.date, inSameDayAs: firstDate)
+           }) {
+            selectedDay = dayItem
+        }
+    }
+
+    // 날짜 바뀌면: 이제 상영관/시간표 보여줄 수 있는지 결정
+    private func refreshAfterDateChange() {
+        canShowRooms = (
+            selectedMovie != nil &&
+            !selectedTheaters.isEmpty &&
+            selectedDay != nil
+        )
+    }
+
+    // 앞으로 7일 DayItem 생성
+    static func makeWeek(from base: Date = Date()) -> [DayItem] {
+        (0..<7).compactMap { i in
+            let d = Calendar.current.date(byAdding: .day, value: i, to: base)!
+            return DayItem(date: d)
+        }
+    }
+
+    var isTodaySelected: Bool {
+        selectedDay?.isToday == true
+    }
 }
 
-// MARK: - BookingView
+
+// MARK: - View
+
 struct BookingView: View {
     @StateObject private var vm: BookingViewModel
     @State private var showSearch = false
@@ -139,6 +340,7 @@ struct BookingView: View {
     var body: some View {
         VStack(spacing: 0) {
             header
+
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 18) {
                     movieSectionHeader
@@ -153,11 +355,12 @@ struct BookingView: View {
         }
         .background(Color("purple03").ignoresSafeArea(edges: .top))
         .sheet(isPresented: $showSearch) {
-            MovieSearchSheet(allMovies: vm.movies) { picked in
-                vm.selectedMovie = picked
-            }
-            .presentationDetents([.large])
-            .presentationDragIndicator(.hidden) // 커스텀 핸들 사용
+            MovieSearchSheet(
+                allMovies: vm.movies,
+                onPick: { picked in
+                    vm.selectedMovie = picked
+                }
+            )
         }
     }
 
@@ -174,17 +377,22 @@ struct BookingView: View {
 
     private var movieSectionHeader: some View {
         HStack(spacing: 8) {
-            if let badge = vm.selectedMovie?.badge, !badge.isEmpty {
+            if
+                let badge = vm.selectedMovie?.badge,
+                !badge.isEmpty
+            {
                 Text(badge)
                     .font(.system(size: 14, weight: .heavy))
-                    .padding(.horizontal, 8).padding(.vertical, 4)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
                     .background(
                         RoundedRectangle(cornerRadius: 6)
                             .fill(badgeColor(badge))
                     )
                     .foregroundColor(.white)
             }
-            Text(vm.selectedMovie?.title ?? "어쩔수가없다")
+
+            Text(vm.selectedMovie?.title ?? "")
                 .font(.system(size: 18, weight: .heavy))
                 .foregroundColor(.black)
 
@@ -195,7 +403,8 @@ struct BookingView: View {
             } label: {
                 Text("전체영화")
                     .font(.system(size: 14, weight: .semibold))
-                    .padding(.horizontal, 12).padding(.vertical, 8)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 8)
                     .background(
                         RoundedRectangle(cornerRadius: 12)
                             .stroke(Color("gray02"), lineWidth: 1)
@@ -219,7 +428,9 @@ struct BookingView: View {
             HStack(spacing: 8) {
                 ForEach(vm.movies) { m in
                     MovieCard(movie: m, selected: vm.selectedMovie == m)
-                        .onTapGesture { vm.selectedMovie = m }
+                        .onTapGesture {
+                            vm.selectedMovie = m
+                        }
                 }
             }
             .padding(.horizontal, 16)
@@ -229,13 +440,18 @@ struct BookingView: View {
     private var theaterChips: some View {
         HStack(spacing: 8) {
             ForEach(Theater.allCases) { th in
-                TheaterChipNew(title: th.rawValue, selected: vm.selectedTheaters.contains(th))
+                let isEnabled = vm.availableTheatersForSelectedMovie.contains(th)
+                TheaterChipNew(title: th.rawValue,
+                               selected: vm.selectedTheaters.contains(th))
                     .onTapGesture {
-                        guard vm.canSelectTheater else { return }
-                        if vm.selectedTheaters.contains(th) { vm.selectedTheaters.remove(th) }
-                        else { vm.selectedTheaters.insert(th) }
+                        guard vm.canSelectTheater, isEnabled else { return }
+                        if vm.selectedTheaters.contains(th) {
+                            vm.selectedTheaters.remove(th)
+                        } else {
+                            vm.selectedTheaters.insert(th)
+                        }
                     }
-                    .opacity(vm.canSelectTheater ? 1 : 0.35)
+                    .opacity(vm.canSelectTheater && isEnabled ? 1 : 0.3)
             }
             Spacer()
         }
@@ -243,17 +459,25 @@ struct BookingView: View {
     }
 
     private var dayRow: some View {
-        LazyVGrid(
+        let allowedDates = vm.availableDaysForSelectedMovieAndTheater
+
+        return LazyVGrid(
             columns: Array(repeating: GridItem(.flexible(), spacing: 0, alignment: .center), count: 7),
             spacing: 0
         ) {
             ForEach(vm.days) { d in
-                DayPill(day: d, selected: vm.selectedDay == d)
+                let isAllowed = allowedDates.contains {
+                    Calendar.current.isDate($0, inSameDayAs: d.date)
+                }
+
+                DayPill(day: d,
+                        selected: vm.selectedDay == d)
                     .contentShape(Rectangle())
                     .onTapGesture {
-                        guard vm.canSelectDate else { return }
+                        guard vm.canSelectDate, isAllowed else { return }
                         vm.selectedDay = d
                     }
+                    .opacity(vm.canSelectDate && isAllowed ? 1 : 0.3)
             }
         }
         .padding(.horizontal, 16)
@@ -263,25 +487,24 @@ struct BookingView: View {
     private var showtimesList: some View {
         VStack(alignment: .leading, spacing: 36) {
             if vm.canShowRooms {
-                let d = vm.selectedDay
-                ForEach(Array(vm.selectedTheaters).sorted { $0.rawValue < $1.rawValue }, id: \.self) { th in
+                let chosenTheaters = Array(vm.selectedTheaters).sorted { $0.rawValue < $1.rawValue }
+
+                ForEach(chosenTheaters, id: \.self) { th in
                     VStack(alignment: .leading, spacing: 12) {
                         Text(th.rawValue)
                             .font(.system(size: 16, weight: .bold))
                             .foregroundColor(.black)
 
-                        if d?.isToday == true {
-                            if let items = vm.showtimes[th], !items.isEmpty {
-                                let grouped = Dictionary(grouping: items, by: { $0.screen })
-                                let orderedScreens = grouped.keys.sorted()
-                                ForEach(orderedScreens, id: \.self) { screen in
-                                    if let list = grouped[screen] {
-                                        TheaterSection(title: screen, items: list)
-                                            .padding(.top, 8)
-                                    }
+                        if let items = vm.filteredShowtimesByTheater[th],
+                           !items.isEmpty {
+                            let grouped = Dictionary(grouping: items, by: { $0.screen })
+                            let orderedScreens = grouped.keys.sorted()
+
+                            ForEach(orderedScreens, id: \.self) { screen in
+                                if let list = grouped[screen] {
+                                    TheaterSection(title: screen, items: list)
+                                        .padding(.top, 8)
                                 }
-                            } else {
-                                EmptyMessage()
                             }
                         } else {
                             EmptyMessage()
@@ -295,6 +518,9 @@ struct BookingView: View {
     }
 }
 
+
+// MARK: - Subviews
+
 struct DayPill: View {
     let day: DayItem
     let selected: Bool
@@ -306,45 +532,51 @@ struct DayPill: View {
 
         let tomorrow = cal.date(byAdding: .day, value: 1, to: Date())!
         let isTomorrow = cal.isDate(day.date, inSameDayAs: tomorrow)
-        let subtitle = day.isToday ? "오늘" : (isTomorrow ? "내일" : day.weekday)
+        let subtitle = day.isToday ? "오늘" : (isTomorrow ? "내일" : weekdayKorean(day.weekdayLabel))
 
         Group {
             if selected {
                 VStack(spacing: 4) {
-                    Text("\(day.month).\(day.day)")
+                    Text("\(day.monthNumber).\(day.dayNumber)")
                         .font(.system(size: 13, weight: .bold))
-                        .lineLimit(1).minimumScaleFactor(0.7).allowsTightening(true)
                     Text(subtitle)
                         .font(.system(size: 11, weight: .bold))
-                        .lineLimit(1).minimumScaleFactor(0.7).allowsTightening(true)
                 }
                 .foregroundColor(.white)
                 .padding(.vertical, 8)
                 .frame(height: 56)
                 .frame(maxWidth: .infinity)
-                .background(RoundedRectangle(cornerRadius: 12).fill(Color("purple03")))
+                .background(
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color("purple03"))
+                )
             } else {
                 VStack(spacing: 4) {
-                    Text("\(day.day)")
+                    Text("\(day.dayNumber)")
                         .font(.system(size: 13, weight: .bold))
                         .foregroundColor(weekendColor)
-                        .lineLimit(1).minimumScaleFactor(0.7).allowsTightening(true)
                     Text(subtitle)
                         .font(.system(size: 11))
                         .foregroundColor(Color("gray03"))
-                        .lineLimit(1).minimumScaleFactor(0.7).allowsTightening(true)
                 }
                 .frame(height: 56)
                 .frame(maxWidth: .infinity)
             }
         }
     }
+
+    private func weekdayKorean(_ w: String) -> String {
+        // "월", "화", ... 같은 포맷이 이미 들어오면 그대로 써도 됨
+        return w
+    }
 }
 
 struct TheaterSection: View {
     let title: String
     let items: [Showtime]
-    private let columns: [GridItem] = Array(repeating: GridItem(.flexible(), spacing: 12), count: 4)
+
+    private let columns: [GridItem] =
+        Array(repeating: GridItem(.flexible(), spacing: 12), count: 4)
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -359,8 +591,8 @@ struct TheaterSection: View {
             }
 
             LazyVGrid(columns: columns, spacing: 12) {
-                ForEach(items) { it in
-                    ShowtimeCard(show: it)
+                ForEach(items) { show in
+                    ShowtimeCard(show: show)
                 }
             }
         }
@@ -374,11 +606,12 @@ struct ShowtimeCard: View {
         "11:30": "~13:58", "14:20": "~16:48", "17:05": "~19:28",
         "19:45": "~22:02", "22:20": "~00:04",
         "09:30": "~11:50", "12:00": "~14:26", "14:45": "~17:04",
-        "14:10": "~16:32", "16:50": "~19:00", "19:20": "~21:40",
+        "14:10": "~16:32", "16:50": "~19:00", "19:20": "~21:40"
     ]
-    var endText: String { endMap[show.time] ?? " " }
 
     var body: some View {
+        let endText = endMap[show.time] ?? " "
+
         VStack(alignment: .leading, spacing: 8) {
             Text(show.time)
                 .font(.system(size: 16, weight: .semibold))
@@ -401,14 +634,20 @@ struct ShowtimeCard: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.horizontal, 12)
         .frame(height: 90)
-        .background(RoundedRectangle(cornerRadius: 12).fill(Color.white))
-        .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color("gray02"), lineWidth: 1))
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color.white)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(Color("gray02"), lineWidth: 1)
+        )
     }
 }
 
 struct EmptyMessage: View {
     var body: some View {
-        Text("선택한 극장에 상영시간표가 없습니다")
+        Text("선택한 조건에 맞는 상영시간표가 없습니다")
             .font(.system(size: 12))
             .foregroundColor(.secondary)
             .padding(12)
@@ -422,19 +661,26 @@ struct MovieCard: View {
 
     var body: some View {
         ZStack(alignment: .topLeading) {
-            if let name = movie.posterName, UIImage(named: name) != nil {
-                Image(name).resizable().scaledToFill()
+            if let asset = movie.posterName,
+               UIImage(named: asset) != nil {
+                Image(asset)
+                    .resizable()
+                    .scaledToFill()
             } else {
                 RoundedRectangle(cornerRadius: 10)
                     .fill(Color.gray.opacity(0.2))
-                    .overlay(Image(systemName: "photo"))
+                    .overlay(
+                        Image(systemName: "photo")
+                            .foregroundColor(.black)
+                    )
             }
         }
         .frame(width: 62, height: 89)
         .clipped()
         .overlay(
             RoundedRectangle(cornerRadius: 10)
-                .stroke(selected ? Color("purple03") : .clear, lineWidth: 5)
+                .stroke(selected ? Color("purple03") : .clear,
+                        lineWidth: 5)
         )
         .cornerRadius(10)
     }
@@ -447,7 +693,8 @@ struct TheaterChipNew: View {
     var body: some View {
         Text(title)
             .font(.system(size: 13, weight: .semibold))
-            .padding(.horizontal, 12).padding(.vertical, 6)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 6)
             .background(
                 RoundedRectangle(cornerRadius: 18, style: .continuous)
                     .fill(selected ? Color("purple03") : Color("gray01"))
@@ -456,7 +703,9 @@ struct TheaterChipNew: View {
     }
 }
 
-// MARK: - 검색 시트
+
+// MARK: - 영화 검색 시트
+
 final class MovieSearchViewModel: ObservableObject {
     @Published var query: String = ""
     @Published private(set) var results: [Movie] = []
@@ -474,7 +723,9 @@ final class MovieSearchViewModel: ObservableObject {
             .map { [all] q in
                 let trimmed = q.trimmingCharacters(in: .whitespacesAndNewlines)
                 guard !trimmed.isEmpty else { return all }
-                return all.filter { $0.title.localizedCaseInsensitiveContains(trimmed) }
+                return all.filter {
+                    $0.title.localizedCaseInsensitiveContains(trimmed)
+                }
             }
             .receive(on: DispatchQueue.main)
             .assign(to: \.results, on: self)
@@ -488,7 +739,9 @@ struct MovieSearchSheet: View {
     let onPick: (Movie) -> Void
 
     init(allMovies: [Movie], onPick: @escaping (Movie) -> Void) {
-        _vm = StateObject(wrappedValue: MovieSearchViewModel(allMovies: allMovies))
+        _vm = StateObject(
+            wrappedValue: MovieSearchViewModel(allMovies: allMovies)
+        )
         self.onPick = onPick
     }
 
@@ -508,38 +761,48 @@ struct MovieSearchSheet: View {
                 HStack(spacing: 8) {
                     Image(systemName: "magnifyingglass")
                         .foregroundColor(Color("gray05"))
-
                     TextField("Search", text: $vm.query)
                         .textInputAutocapitalization(.never)
                         .disableAutocorrection(true)
-
                     Spacer(minLength: 0)
-
                     Image(systemName: "mic.fill")
                         .foregroundColor(Color("gray05"))
                 }
                 .padding(10)
-                .background(RoundedRectangle(cornerRadius: 10).fill(Color(.systemGray6)))
+                .background(
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(Color(.systemGray6))
+                )
                 .padding(.horizontal, 16)
                 .padding(.top, 12)
 
-                // 결과 그리드
                 ScrollView {
-                    LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 3), spacing: 36) {
+                    LazyVGrid(
+                        columns: Array(
+                            repeating: GridItem(.flexible(), spacing: 12),
+                            count: 3
+                        ),
+                        spacing: 36
+                    ) {
                         ForEach(vm.results) { m in
                             VStack(spacing: 8) {
-                                if let name = m.posterName, UIImage(named: name) != nil {
-                                    Image(name)
+                                if let asset = m.posterName,
+                                   UIImage(named: asset) != nil {
+                                    Image(asset)
                                         .resizable()
                                         .scaledToFill()
                                         .frame(width: 95, height: 135)
-                                        .clipped() // 라운드 0
+                                        .clipped()
                                 } else {
                                     Rectangle()
                                         .fill(Color.gray.opacity(0.2))
                                         .frame(width: 95, height: 135)
-                                        .overlay(Image(systemName: "photo"))
+                                        .overlay(
+                                            Image(systemName: "photo")
+                                                .foregroundColor(.black)
+                                        )
                                 }
+
                                 Text(m.title)
                                     .font(.system(size: 12))
                                     .lineLimit(1)
@@ -555,18 +818,17 @@ struct MovieSearchSheet: View {
                     .padding(.vertical, 28)
                 }
             }
-            
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .background(Color.white)
-            .clipShape(RoundedCorner(radius: 16, corners: [.topLeft, .topRight]))
+            .clipShape(
+                RoundedCorner(radius: 16, corners: [.topLeft, .topRight])
+            )
         }
         .presentationDetents([.large])
         .presentationDragIndicator(.hidden)
     }
 }
 
-
-// 선택 코너만 둥글게
 struct RoundedCorner: Shape {
     var radius: CGFloat = .infinity
     var corners: UIRectCorner = [.allCorners]

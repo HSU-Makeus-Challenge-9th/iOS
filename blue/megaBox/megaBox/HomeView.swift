@@ -1,10 +1,3 @@
-//
-//  HomeView.swift
-//  megaBox
-//
-//  Created by 은재 on 10/1/25.
-//
-
 import SwiftUI
 
 private enum ChartTab: String {
@@ -16,6 +9,7 @@ struct HomeView: View {
     @StateObject private var viewModel = HomeViewModel()
     @State private var selectedDetail: MovieDetail?
     @State private var selectedTab: ChartTab = .movieChart
+    @State private var navigateToBooking = false
 
     var body: some View {
         NavigationStack {
@@ -31,6 +25,9 @@ struct HomeView: View {
                 .padding(.top, 12)
             }
             .background(Color.white.ignoresSafeArea())
+            .navigationDestination(isPresented: $navigateToBooking) {
+                BookingView()
+            }
             .navigationDestination(item: $selectedDetail) { detail in
                 MovieDetailView(movie: detail)
             }
@@ -46,7 +43,6 @@ struct HomeView: View {
                     .frame(height: 30)
                 Spacer()
             }
-
             HStack(spacing: 27) {
                 Text("홈")
                     .font(.system(size: 24, weight: .semibold))
@@ -66,7 +62,6 @@ struct HomeView: View {
 
     private var movieCardSection: some View {
         VStack(alignment: .leading, spacing: 17) {
-
             HStack(spacing: 23) {
                 chip(title: ChartTab.movieChart.rawValue, isSelected: selectedTab == .movieChart) {
                     selectedTab = .movieChart
@@ -77,13 +72,10 @@ struct HomeView: View {
             }
             .padding(.top, 0)
 
-            // 가로 스크롤 카드
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: 24) {
-                  
                     ForEach(viewModel.movies, id: \.id) { movie in
                         VStack(alignment: .leading, spacing: 8) {
-
                             ZStack(alignment: .topLeading) {
                                 if let name = movie.posterName {
                                     Image(name)
@@ -94,7 +86,6 @@ struct HomeView: View {
                                         .fill(Color.gray.opacity(0.2))
                                         .overlay(Image(systemName: "photo"))
                                 }
-
                                 if let badge = movie.badge, !badge.isEmpty {
                                     Text(badge)
                                         .font(.system(size: 12, weight: .heavy))
@@ -109,7 +100,6 @@ struct HomeView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 0))
                             .contentShape(Rectangle())
                             .onTapGesture {
-
                                 if movie.title == "F1 더 무비" {
                                     selectedDetail = MovieDetail(
                                         title: movie.title,
@@ -126,9 +116,9 @@ struct HomeView: View {
                                 }
                             }
 
-                            Button {
-                        
-                            } label: {
+                            NavigationLink(
+                                destination: BookingView(initialMovie: movie)
+                            ) {
                                 Text("바로 예매")
                                     .font(.system(size: 14, weight: .bold))
                                     .foregroundStyle(Color("purple03"))
@@ -141,13 +131,11 @@ struct HomeView: View {
                             }
                             .buttonStyle(.plain)
 
-                            // 제목
                             Text(movie.title)
                                 .font(.system(size: 19, weight: .bold))
                                 .foregroundColor(.black)
                                 .lineLimit(1)
 
-                            // 부제/관객수
                             Text(movie.audience)
                                 .font(.system(size: 14, weight: .medium))
                                 .foregroundColor(.black)
@@ -255,8 +243,4 @@ private struct ArticleRow: View {
             Spacer()
         }
     }
-}
-
-#Preview {
-    HomeView()
 }
