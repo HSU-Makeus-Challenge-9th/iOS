@@ -9,7 +9,6 @@ struct HomeView: View {
     @StateObject private var viewModel = HomeViewModel()
     @State private var selectedDetail: MovieDetail?
     @State private var selectedTab: ChartTab = .movieChart
-    @State private var navigateToBooking = false
 
     var body: some View {
         NavigationStack {
@@ -17,23 +16,26 @@ struct HomeView: View {
                 VStack(spacing: 8) {
                     headerSection
                         .padding(.bottom, 6)
+
                     movieCardSection
+
                     movieFeedSection
+
                     Spacer(minLength: 0)
                 }
                 .padding(.horizontal, 16)
                 .padding(.top, 12)
             }
             .background(Color.white.ignoresSafeArea())
-            .navigationDestination(isPresented: $navigateToBooking) {
-                BookingView()
-            }
+
+            // 포스터 탭했을 때 상세 이동
             .navigationDestination(item: $selectedDetail) { detail in
                 MovieDetailView(movie: detail)
             }
         }
     }
 
+    // MARK: - Header (상단 로고 + 상단 탭)
     private var headerSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
@@ -43,16 +45,20 @@ struct HomeView: View {
                     .frame(height: 30)
                 Spacer()
             }
+
             HStack(spacing: 27) {
                 Text("홈")
                     .font(.system(size: 24, weight: .semibold))
                     .foregroundColor(.black)
+
                 Text("이벤트")
                     .font(.system(size: 24, weight: .semibold))
                     .foregroundColor(Color("gray04"))
+
                 Text("스토어")
                     .font(.system(size: 24, weight: .semibold))
                     .foregroundColor(Color("gray04"))
+
                 Text("선호극장")
                     .font(.system(size: 24, weight: .semibold))
                     .foregroundColor(Color("gray04"))
@@ -60,33 +66,51 @@ struct HomeView: View {
         }
     }
 
+    // MARK: - 무비차트 / 상영예정 + 영화 카드 스크롤
     private var movieCardSection: some View {
         VStack(alignment: .leading, spacing: 17) {
+            // 상단 chip 영역
             HStack(spacing: 23) {
-                chip(title: ChartTab.movieChart.rawValue, isSelected: selectedTab == .movieChart) {
+                chip(
+                    title: ChartTab.movieChart.rawValue,
+                    isSelected: selectedTab == .movieChart
+                ) {
                     selectedTab = .movieChart
                 }
-                chip(title: ChartTab.comingSoon.rawValue, isSelected: selectedTab == .comingSoon) {
+
+                chip(
+                    title: ChartTab.comingSoon.rawValue,
+                    isSelected: selectedTab == .comingSoon
+                ) {
                     selectedTab = .comingSoon
                 }
             }
             .padding(.top, 0)
 
+            // 영화 카드 가로 스크롤
             ScrollView(.horizontal, showsIndicators: false) {
-                LazyHStack(spacing: 24) {
-                    ForEach(viewModel.movies, id: \.id) { movie in
-                        VStack(alignment: .leading, spacing: 8) {
+                HStack(alignment: .top, spacing: 16) {
+                    ForEach(viewModel.movies) { movie in
+                        VStack(alignment: .leading, spacing: 10) {
+
+                            // 포스터 + 관람등급 뱃지
                             ZStack(alignment: .topLeading) {
-                                if let name = movie.posterName {
+                                if let name = movie.posterName,
+                                   UIImage(named: name) != nil {
                                     Image(name)
                                         .resizable()
                                         .scaledToFill()
                                 } else {
                                     RoundedRectangle(cornerRadius: 8)
                                         .fill(Color.gray.opacity(0.2))
-                                        .overlay(Image(systemName: "photo"))
+                                        .overlay(
+                                            Image(systemName: "photo")
+                                                .foregroundColor(.black)
+                                        )
                                 }
-                                if let badge = movie.badge, !badge.isEmpty {
+
+                                if let badge = movie.badge,
+                                   !badge.isEmpty {
                                     Text(badge)
                                         .font(.system(size: 12, weight: .heavy))
                                         .padding(.horizontal, 8)
@@ -100,6 +124,8 @@ struct HomeView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 0))
                             .contentShape(Rectangle())
                             .onTapGesture {
+                                // 포스터 눌렀을 때 상세 화면으로 이동하도록 selectedDetail 세팅
+                                // 여기선 예시로 "F1 더 무비"에만 상세 설명 커스텀
                                 if movie.title == "F1 더 무비" {
                                     selectedDetail = MovieDetail(
                                         title: movie.title,
@@ -113,12 +139,21 @@ struct HomeView: View {
 레이싱의 찰나와 승부의 운명을 담아낸 스포트 다큐드라마.
 """
                                     )
+                                } else {
+                                    // 다른 영화들도 최소한 제목/포스터만 넘겨서 MovieDetailView로 들어갈 수 있게
+                                    selectedDetail = MovieDetail(
+                                        title: movie.title,
+                                        englishTitle: movie.title,
+                                        posterName: movie.posterName ?? "",
+                                        description: ""
+                                    )
                                 }
                             }
 
-                            NavigationLink(
-                                destination: BookingView(initialMovie: movie)
-                            ) {
+                            // "바로 예매" 버튼 → BookingView(initialMovie: movie)
+                            NavigationLink {
+                                BookingView(initialMovie: movie)
+                            } label: {
                                 Text("바로 예매")
                                     .font(.system(size: 14, weight: .bold))
                                     .foregroundStyle(Color("purple03"))
@@ -131,11 +166,13 @@ struct HomeView: View {
                             }
                             .buttonStyle(.plain)
 
+                            // 영화 제목
                             Text(movie.title)
                                 .font(.system(size: 19, weight: .bold))
                                 .foregroundColor(.black)
                                 .lineLimit(1)
 
+                            // 관객수/랭킹 등 (audience)
                             Text(movie.audience)
                                 .font(.system(size: 14, weight: .medium))
                                 .foregroundColor(.black)
@@ -148,7 +185,12 @@ struct HomeView: View {
         }
     }
 
-    private func chip(title: String, isSelected: Bool, action: @escaping () -> Void) -> some View {
+    // MARK: - chip (무비차트 / 상영예정)
+    private func chip(
+        title: String,
+        isSelected: Bool,
+        action: @escaping () -> Void
+    ) -> some View {
         Button(action: action) {
             Text(title)
                 .font(.system(size: 15, weight: .bold))
@@ -163,6 +205,7 @@ struct HomeView: View {
         .buttonStyle(.plain)
     }
 
+    // MARK: - 무비피드 영역
     private var movieFeedSection: some View {
         VStack(alignment: .leading, spacing: -10) {
             HStack {
@@ -171,10 +214,10 @@ struct HomeView: View {
                     .foregroundStyle(.primary)
                 Spacer()
                 Image("liquidButton")
-                        .renderingMode(.original)
-                        .resizable()
-                        .frame(width: 80, height: 80)
-                        .contentShape(Rectangle())
+                    .renderingMode(.original)
+                    .resizable()
+                    .frame(width: 80, height: 80)
+                    .contentShape(Rectangle())
             }
             .padding(.top, -15)
 
@@ -192,27 +235,38 @@ struct HomeView: View {
     }
 }
 
+// MARK: - FeedHero
 private struct FeedHero: View {
     let imageName: String?
+
     var body: some View {
         ZStack {
-            if let n = imageName, UIImage(named: n) != nil {
-                Image(n).resizable().scaledToFill()
+            if let n = imageName,
+               UIImage(named: n) != nil {
+                Image(n)
+                    .resizable()
+                    .scaledToFill()
             } else {
-                RoundedRectangle(cornerRadius: 12).fill(Color.gray.opacity(0.15))
-                    .overlay(Image(systemName: "photo"))
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color.gray.opacity(0.15))
+                    .overlay(
+                        Image(systemName: "photo")
+                            .foregroundColor(.black)
+                    )
             }
         }
     }
 }
 
+// MARK: - ArticleRow
 private struct ArticleRow: View {
     let article: Article
 
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
             ZStack {
-                if let name = article.thumbnailName, UIImage(named: name) != nil {
+                if let name = article.thumbnailName,
+                   UIImage(named: name) != nil {
                     Image(name)
                         .resizable()
                         .scaledToFill()
@@ -243,4 +297,8 @@ private struct ArticleRow: View {
             Spacer()
         }
     }
+}
+
+#Preview {
+    HomeView()
 }

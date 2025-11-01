@@ -326,9 +326,6 @@ final class BookingViewModel: ObservableObject {
     }
 }
 
-
-// MARK: - View
-
 struct BookingView: View {
     @StateObject private var vm: BookingViewModel
     @State private var showSearch = false
@@ -518,9 +515,6 @@ struct BookingView: View {
     }
 }
 
-
-// MARK: - Subviews
-
 struct DayPill: View {
     let day: DayItem
     let selected: Bool
@@ -703,9 +697,6 @@ struct TheaterChipNew: View {
     }
 }
 
-
-// MARK: - 영화 검색 시트
-
 final class MovieSearchViewModel: ObservableObject {
     @Published var query: String = ""
     @Published private(set) var results: [Movie] = []
@@ -832,7 +823,7 @@ struct MovieSearchSheet: View {
 struct RoundedCorner: Shape {
     var radius: CGFloat = .infinity
     var corners: UIRectCorner = [.allCorners]
-
+    
     func path(in rect: CGRect) -> Path {
         let path = UIBezierPath(
             roundedRect: rect,
@@ -846,4 +837,3 @@ struct RoundedCorner: Shape {
 #Preview {
     BookingView()
 }
-

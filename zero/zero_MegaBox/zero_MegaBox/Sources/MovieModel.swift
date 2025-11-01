@@ -24,10 +24,11 @@ struct Movie: Identifiable, Hashable, Equatable{
 
 enum MovieModel: CaseIterable {
     case f1
+    case infinite
     case yadang
     case boss
     case mono
-    case infinite
+    case face
     
     func returnMovie() -> Movie {
         switch self {
@@ -41,6 +42,8 @@ enum MovieModel: CaseIterable {
             return Movie(id: .init(), title: "보스", image: "보스", count: "누적관객수 10만")
         case .mono:
             return Movie(id: .init(), title: "모노노케 히메", image: "모노노케히메", count: "누적관객수 12")
+        case .face:
+            return Movie(id: .init(), title: "얼굴", image: "movieface", count: "누적관객수 50")
         }
     }
     

@@ -10,18 +10,23 @@ struct MemberView: View {
     }
 
     var body: some View {
-        VStack(spacing: 16) {
-            ProfileHeaderView(displayName: displayName)
-            ClubMembershipButton()
-            StatusInfoView()
-            ReservationMenuView()
-            Spacer()
+        NavigationStack {
+            VStack(spacing: 16) {
+                ProfileHeaderView(displayName: displayName)
+                ClubMembershipButton()
+                StatusInfoView()
+                ReservationMenuView()
+
+                Spacer()
+            }
+            .padding()
+            .background(Color.white)
+            .navigationTitle("회원 화면")
+            .navigationBarTitleDisplayMode(.inline)
         }
-        .padding()
-        .background(Color.white)
-        .navigationTitle("회원 화면")
-        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
-#Preview { NavigationStack { MemberView() } }
+#Preview {
+    MemberView()
+}
