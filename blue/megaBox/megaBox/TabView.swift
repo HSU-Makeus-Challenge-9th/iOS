@@ -32,7 +32,11 @@ struct TabView: View {
                 }
                 .tag(Tab.search)
 
+<<<<<<< HEAD
+            BookingView()
+=======
             TicketView()
+>>>>>>> origin/study
                 .tabItem {
                     Label("예매", systemImage: "ticket")
                 }
@@ -46,4 +50,8 @@ struct TabView: View {
         }
         .tint(.blue) 
     }
+}
+
+#Preview {
+    TabView()
 }
