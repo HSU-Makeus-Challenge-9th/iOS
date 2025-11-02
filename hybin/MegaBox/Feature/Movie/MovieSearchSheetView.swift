@@ -1,22 +1,12 @@
-//
-//  MovieSearchSheetView.swift
-//  MegaBox
-//
-//  Created by 전효빈 on 10/9/25.
-//
-
 import Foundation
 import SwiftUI
-import Combine
 
 struct MovieSearchSheetView: View {
     
-    @Binding var allMovies: [MovieModel]
+    @Bindable var vm: MovieReserveViewModel
     var onMovieSelected: (MovieModel) -> Void
     
     @Environment(\.dismiss) var dismiss
-    
-    @ObservedObject var vm: MovieReserveViewModel
     
     let columns = [
         GridItem(.flexible(), spacing: 15),
@@ -26,35 +16,40 @@ struct MovieSearchSheetView: View {
     
     var filteredMovies: [MovieModel] {
         if vm.debouncedText.isEmpty {
-            return allMovies
+            return vm.movies // 'allMovies'가 아닌 vm.movies
         } else {
-            return allMovies.filter { $0.title.localizedCaseInsensitiveContains(vm.debouncedText) }
+            return vm.movies.filter { $0.title.localizedCaseInsensitiveContains(vm.debouncedText) }
         }
     }
     
     
     var body: some View {
-        VStack(spacing: 36) {
-            // 상단 제목
-            Text("영화 선택")
-                .font(.title2.weight(.bold))
-                .padding(.vertical, 15)
-            
-            
-            
-                LazyVGrid(columns: columns, spacing: 36) {
-                    ForEach(filteredMovies) { movie in
-                        MoviePosterCell(movie: movie) { selected in
-                            onMovieSelected(selected)
-                            dismiss()
+        NavigationStack {
+            ScrollView {
+                VStack(spacing: 36) {
+                    LazyVGrid(columns: columns, spacing: 36) {
+                        ForEach(filteredMovies) { movie in
+                            MoviePosterCell(movie: movie) { selected in
+                                onMovieSelected(selected)
+                                dismiss()
+                            }
                         }
                     }
+                    .padding()
+                    
+                    Spacer()
                 }
-            Spacer()
-            
-        }
-        .safeAreaInset(edge: .bottom) {
-            searchBar
+            }
+            .navigationTitle("영화 선택") // 5. ⭐️ 상단 제목
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar { // 닫기 버튼
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("닫기") { dismiss() }
+                }
+            }
+            .safeAreaInset(edge: .bottom) { // 6. ⭐️ 하단 검색창
+                searchBar
+            }
         }
     }
     
@@ -69,21 +64,20 @@ struct MovieSearchSheetView: View {
                 
                 // 검색 아이콘
                 Image(systemName: "magnifyingglass")
-                    .foregroundStyle(.gray) 
+                    .foregroundStyle(.gray)
                 
-                // 검색 입력 필드
+                // 7. ⭐️ VM의 searchText와 정상적으로 바인딩
                 TextField("Search", text: $vm.searchText)
                     .textFieldStyle(PlainTextFieldStyle())
                     .frame(maxWidth: .infinity)
                 
-                // 마이크 아이콘
+                // 마이크 아이콘 (동작 X)
                 Image(systemName: "mic.fill")
                     .foregroundStyle(.gray)
                 
-                // 닫기/취소 버튼
+                // 텍스트 클리어 버튼
                 Button {
                     vm.searchText = ""
-                    // dismiss() 로직은 필요에 따라 추가
                 } label: {
                     Image(systemName: "xmark.circle.fill")
                         .foregroundStyle(.gray)
@@ -91,13 +85,13 @@ struct MovieSearchSheetView: View {
             }
             .padding(.horizontal, 20)
             .padding(.vertical, 12)
-            .background(Color.white)
+            .background(.bar) // 시스템 기본 배경색
         }
     }
 }
 
 // MARK: - 영화 포스터 셀 컴포넌트 (개별 셀)
-struct MoviePosterCell: View {
+private struct MoviePosterCell: View {
     let movie: MovieModel
     var action: (MovieModel) -> Void
     
@@ -107,25 +101,30 @@ struct MoviePosterCell: View {
         } label: {
             VStack(spacing: 8) {
                 // 포스터 이미지
-                Rectangle()
-                    .overlay {
-                        movie.posterImage
-                            .resizable()
-                            .scaledToFill()
-                            .clipped()
-                    }
+                movie.posterImage
+                    .resizable()
+                    .scaledToFill()
                     .frame(width: 95, height: 135)
-                    
-
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                    }
+                
                 // 영화 제목
                 Text(movie.title)
-                    .font(.pretend(type: .semiBold, size: 14))
+                    .font(.pretend(type: .semiBold, size: 14)) // 폰트가 있다면
+                    // .font(.system(size: 14, weight: .semibold)) // 폰트가 없다면
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.black)
+                    .lineLimit(2) // 제목이 길 경우 두 줄로 제한
+                    .frame(height: 35, alignment: .top) // 제목 높이 고정
             }
         }
     }
 }
 
 
+#Preview {
+}
 

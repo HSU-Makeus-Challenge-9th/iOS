@@ -101,17 +101,4 @@ struct MovieDetailView : View {
 
 //#Preview {
 //    MovieDetailView()
-//}
-struct MovieDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        let sampleMovie = MovieModel(
-            title: "F1: Movie Title",
-            posterImage: .init(.모노노케히메),
-            audience : 10, // Assets에 넣은 이미지 이름
-            bookranking: 10
 
-        )
-        
-        MovieDetailView(movie: sampleMovie)
-    }
-}

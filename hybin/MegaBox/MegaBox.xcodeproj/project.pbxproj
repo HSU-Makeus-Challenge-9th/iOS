@@ -185,6 +185,7 @@
 				"Font/Pretendard-Thin.otf",
 				Fonts.swift,
 				MegaBoxColors.swift,
+				MovieSchedule.json,
 				"Preview Content/Preview Assets.xcassets",
 			);
 			target = 4CF19B002E8806F00078679E /* MegaBoxTests */;
@@ -205,6 +206,7 @@
 				"Font/Pretendard-Thin.otf",
 				Fonts.swift,
 				MegaBoxColors.swift,
+				MovieSchedule.json,
 				"Preview Content/Preview Assets.xcassets",
 			);
 			target = 4CF19B0A2E8806F00078679E /* MegaBoxUITests */;

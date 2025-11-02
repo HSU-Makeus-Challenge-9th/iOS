@@ -23,7 +23,7 @@ struct MovieScheduleDTO: Codable {
     let ageRating : String
     let schedules : [ScheduleDTO]
     
-    enum codingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case id, title, schedules
         case ageRating = "age_rating"
     }

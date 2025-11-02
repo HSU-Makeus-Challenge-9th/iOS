@@ -8,37 +8,33 @@
 import Foundation
 import SwiftUI
 
-enum ApiError: Error {
-    case fileNotFound
-    case decodingError(Error)
+
+enum ApiError: Error, LocalizedError {
+    case jsonFileNotFound
+    case decodingError(DecodingError)
     case serverError(String)
+    case unknown(Error)
+    
+    var errorDescription: String? {
+        switch self {
+        case .jsonFileNotFound:
+            return "JSON 파일을 찾을 수 없습니다."
+        case .decodingError(let error):
+            return "JSON 파싱 실패: \(error.localizedDescription)"
+        case .serverError(let message):
+            return "서버 에러: \(message)"
+        case .unknown(let error):
+            return "알 수 없는 에러: \(error.localizedDescription)"
+        }
+    }
 }
+
 
 @Observable
 class MovieService {
-    
-//    func getMovies() -> [MovieModel] {
-//        
-//        let movieModel: [MovieModel] = [
-//            .init(title: "모노노케 히메", posterImage: .init(.모노노케히메), audience: 30, bookRanking: 5),
-//            .init(title: "어쩔수가 없다", posterImage: .init(.어쩔수가없다), audience: 25, bookRanking: 5),
-//            .init(title: "귀멸의 칼날", posterImage: .init(.무한성), audience: 15, bookRanking: 5),
-//            .init(title: "F1", posterImage: .init(.f1), audience: 155, bookRanking: 5),
-//            .init(title: "보스", posterImage: .init(.보스)  , audience: 12, bookRanking: 5),
-//        ]
-//        
-//        return movieModel
-//    }
-    
-    // API 통신을 위한 함수
-    
-//    func fetchMoviesFromServer() async -> [MovieModel] {
-//        
-//        try? await Task.sleep(for: .seconds(1))
-//        
-//        return getMovies()
-//    }
-    
+
+    //---MARK: HomeView용
+    @MainActor
     func fetchMovies() async throws -> [MovieModel] {
         
         let responseDTO = try await decodeLocalJSON() //JSON 파일 읽기
@@ -54,6 +50,7 @@ class MovieService {
         return models
     }
     
+    //---MARK: MovieReserveView용
     func fetchSchedules(for movieID: String, on date: Date) async throws
     -> [TheaterSchedule] {
         
@@ -75,29 +72,26 @@ class MovieService {
     
     private func decodeLocalJSON() async throws -> ScheduleResponseDTO {
         
-        //url이 안맞으면 에러
+        //url찾기
         guard let url = Bundle.main.url(forResource: "MovieSchedule", withExtension: "json") else {
             print("MovieSchedule.json 파일을 찾을 수 없습니다")
-            throw ApiError.fileNotFound
+            throw ApiError.jsonFileNotFound
         }
-        
-        //데이터가 없으면 에러
-        let data: Data
         do {
-            data = try Data(contentsOf: url)
-        } catch{
-            print("JSON 파일 로드 실패: \(error.localizedDescription)")
-            throw ApiError.decodingError(error)
-        }
-        
-        //구조체와 매핑이 안되면 에러
-        let decoder = JSONDecoder()
-        do {
+            let data = try Data(contentsOf: url)
+            
+            let decoder = JSONDecoder()
             let responseDTO = try decoder.decode(ScheduleResponseDTO.self, from: data)
+            
             return responseDTO
+        } catch let decodingError as DecodingError {
+            print("JSON 디코딩 에러")
+            throw ApiError.decodingError(decodingError)
         } catch {
-            print("JSON 디코딩 실패: \(error.localizedDescription)")
-            throw ApiError.decodingError(error)
+            print("알 수 없는 에러")
+            throw ApiError.unknown(error)
         }
     }
+    
+ 
 }

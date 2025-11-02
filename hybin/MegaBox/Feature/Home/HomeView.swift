@@ -12,7 +12,18 @@ struct HomeView: View{
     @State private var viewModel = HomeViewModel()
     
     var body: some View {
-        NavigationStack{
+        
+        if let errorMessage = viewModel.errorMessage {
+                        VStack {
+                            Text("데이터 로딩 실패")
+                                .font(.headline)
+                            Text(errorMessage) // 👈 여기에 에러 내용이 뜹니다.
+                                .font(.caption)
+                                .foregroundStyle(.red)
+                        }
+                        .padding()
+                    }
+        else{NavigationStack{
             ScrollView(.vertical) {
                 megaboxLogoView
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
@@ -32,9 +43,9 @@ struct HomeView: View{
                 movieArticleView
             }
             .task {
-                await viewModel.loadMoives()
+                await viewModel.loadMovies()
             }
-        }
+        }}
     }
     
     private var megaboxLogoView : some View {
@@ -127,7 +138,7 @@ struct HomeView: View{
             }
 // ---MARK: 여기 고치기
             
-            NavigationLink(destination: MovieReserveView(vm:MovieReserveViewModel(selectedMoive: movie))){
+            NavigationLink(destination: MovieReserveView(selectedMovie: movie)) {
                 Text("바로 예매")
                     .font(.pretend(type: .medium, size: 16))
                     .foregroundStyle(Color.loginBackgroundColor)
