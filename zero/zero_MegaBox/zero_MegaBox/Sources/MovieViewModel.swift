@@ -17,7 +17,16 @@ class MovieViewModel: ObservableObject {
     @Published var isTheaterSelectable: Bool = false
     @Published var isDaySelectable: Bool = false
 
-    @Published var showScreeningInfo: Bool = false
+    var showScreeningInfo: Bool {
+        selectedMovieModel != nil &&
+        !selectedTheaterName.isEmpty &&
+        selectedDate != nil &&
+        !filteredShowtimes.isEmpty
+    }
+    
+    
+    
+    
     @Published var screeningMessage: String = "선택한 극장에 상영시간표가 없습니다"
     @Published var selectedCinemaType: String = ""
         
@@ -28,10 +37,19 @@ class MovieViewModel: ObservableObject {
     @Published var errorMessage: String? = nil
     
     private var model: [MovieModel] = MovieModel.allCases
-    
     private var bag = Set<AnyCancellable>()
     
-    init() {
+    @Published var movieSchedule: MovieSchedule? = nil
+    @Published var filteredShowtimes: [ShowTime] = []
+    
+    @Published var allSchedules: [MovieSchedule] = []
+    
+    
+    init(){
+        setupBindings()
+    }
+    
+    private func setupBindings() {
         $selectedMovieModel
             .map{$0 != nil}
             .removeDuplicates()
@@ -39,19 +57,10 @@ class MovieViewModel: ObservableObject {
             .assign(to: &$isTheaterSelectable)
         
         Publishers.CombineLatest3($selectedMovieModel, $selectedTheaterName, $selectedDate)
-                    .map { movie, theater, date in
-                        if let movie, !theater.isEmpty, let date {
-                            let calendar = Calendar.current
-                            let today = Date()
-                            if !calendar.isDate(date, inSameDayAs: today) { return false }
-                            return theater != "신촌"
-                        }
-                        return false
-                    }
-                    .sink { [weak self] show in
-                        self?.showScreeningInfo = show
-                    }
-                    .store(in: &bag)
+                   .sink { [weak self] movie, theater, date in
+                       self?.filterShowtimes(movie: movie, theater: theater, date: date)
+                   }
+                   .store(in: &bag)
         $query
             .debounce(for: .milliseconds(350), scheduler: DispatchQueue.main)
             .removeDuplicates()
@@ -96,4 +105,70 @@ class MovieViewModel: ObservableObject {
             .eraseToAnyPublisher()
         }
     
+    func loadMovieSchedule() async {
+        print("loadMovieSchedule() 호출됨")
+            isLoading = true
+            errorMessage = nil
+            
+            guard let dto = await MovieScheduleLoader.load(from: "MovieSchedule") else {
+                DispatchQueue.main.async {
+                    self.errorMessage = "MovieSchedule.json 파일을 불러올 수 없습니다."
+                    self.isLoading = false
+                }
+                return
+            }
+            
+            let domainData = dto.toDomain()
+            
+            DispatchQueue.main.async {
+                self.movieSchedule = domainData
+                self.isLoading = false
+                print("ViewModel에 영화 데이터 저장 완료: \(domainData.movies.count)개 영화")
+            }
+        }
+    
+    private func filterShowtimes(movie: MovieModel?, theater: String, date: Date?) {
+            guard let schedule = movieSchedule else {
+                filteredShowtimes = []
+                return
+            }
+            guard let movieName = movie?.returnMovieName() else {
+                filteredShowtimes = []
+                return
+            }
+            
+            // 날짜 변환
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            let selectedDateString = date.flatMap { dateFormatter.string(from: $0) }
+            
+            var showtimes: [ShowTime] = []
+            
+        
+        for schedule in schedule.movies {
+            if schedule.title != movieName{continue}
+            for s in schedule.schedules {
+                if let selectedDateString, let d = s.date,
+                   dateFormatter.string(from: d) != selectedDateString {
+                    continue
+                }
+                for area in s.areas {
+                    if !theater.isEmpty && area.name != theater {
+                        continue
+                    }
+                    for item in area.items {
+                        showtimes.append(contentsOf: item.showtimes)
+                    }
+                }
+            }
+        }
+            
+        DispatchQueue.main.async {
+            print("필터링 호출됨: 영화=\(movieName), 극장=\(theater), 날짜=\(date?.description ?? "없음")")
+            self.filteredShowtimes = showtimes
+            self.screeningMessage = showtimes.isEmpty
+                            ? "선택한 극장에 상영시간표가 없습니다"
+                            : ""
+        }
+    }
 }

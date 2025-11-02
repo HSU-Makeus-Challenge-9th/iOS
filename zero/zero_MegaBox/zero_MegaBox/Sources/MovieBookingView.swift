@@ -13,29 +13,20 @@ struct MovieBookingView: View {
     @StateObject private var bookingViewModel = MovieViewModel()
     @State private var selectedName : String? = ""
     @State private var showMovieSearch: Bool = false
-//        .init()
-        private let columns = [
-            GridItem(.flexible(), spacing: 24)
-        ]
+    
+    private let columns = [
+        GridItem(.flexible(), spacing: 24)
+    ]
+    private let dateFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.dateFormat = "HH:mm"
+        return f
+    }()
     
     var body: some View {
         
         VStack{
-            HStack{//헤더
-                //            Button(action: {
-                //                if !path.isEmpty {
-                //                        path.removeLast()
-                //                    } else {
-                //                        dismiss()
-                //                    }
-                //            })
-                //            {
-                //                Image(systemName: "arrow.left")
-                //                    .resizable()
-                //                    .frame(width: 16, height: 16)
-                //                    .foregroundStyle(Color("black"))
-                //            }
-                
+            HStack{
                 Spacer()
                 Text("영화별 예매")
                     .font(.bold22)
@@ -147,10 +138,14 @@ struct MovieBookingView: View {
                         .stroke(Color("gray03"), lineWidth: 1))
                 }
                 if bookingViewModel.showScreeningInfo {
-                    Text("선택한 극장 상영정보")
-                        .font(.semiBold16)
-                        .foregroundStyle(.black)
-                } else if bookingViewModel.selectedTheaterName != nil {
+                    VStack(alignment: .leading, spacing: 6) {
+                            ForEach(bookingViewModel.filteredShowtimes, id: \.start) { showtime in
+                                Text("\(showtime.start!, formatter: dateFormatter) ~ \(showtime.end!, formatter: dateFormatter)")
+                                    .font(.semiBold16)
+                            }
+                        }
+                    
+                } else if bookingViewModel.selectedTheaterName != "" {
                     Text("선택한 극장에 상영시간표가 없습니다")
                         .font(.semiBold16)
                         .foregroundStyle(.gray)
@@ -162,12 +157,18 @@ struct MovieBookingView: View {
         }
         .sheet(isPresented: $showMovieSearch) {
             MovieSearchView(
-                    onMovieSelected: { movie in
-                        bookingViewModel.selectedMovieModel = movie
-                        selectedName = movie.returnMovieName()
-                        showMovieSearch = false
-                    }
-                )
+                onMovieSelected: { movie in
+                    bookingViewModel.selectedMovieModel = movie
+                    selectedName = movie.returnMovieName()
+                    showMovieSearch = false
+                }
+            )
+        }
+        .onAppear {
+            Task {
+                await bookingViewModel.loadMovieSchedule()
+                print("View가 나타남 — 영화 데이터 로드 시도")
+            }
         }
         
     }
@@ -194,6 +195,7 @@ private func makeMovieCard(_ model: MovieModel, isSelected: Bool = false) -> som
                         .stroke(Color("purple03"), lineWidth: 1)
                 )
         }
+        
     }
 }
 
