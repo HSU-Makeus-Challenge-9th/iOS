@@ -35,9 +35,9 @@ enum MovieModel: CaseIterable {
         case .f1:
             return Movie(id: .init(), title: "F1 더 무비", image: "f1", count: "누적관객수 1111")
         case .yadang:
-            return Movie(id: .init(), title: "야당", image: "야당", count: "누적관객수 1")            
+            return Movie(id: .init(), title: "어쩔수가없다", image: "어쩔수가없다", count: "누적관객수 1")
         case .infinite:
-            return Movie(id: .init(), title: "무한성", image: "무한성", count: "누적관객수 100만")
+            return Movie(id: .init(), title: "귀멸의 칼날: 무한성", image: "무한성", count: "누적관객수 100만")
         case .boss:
             return Movie(id: .init(), title: "보스", image: "보스", count: "누적관객수 10만")
         case .mono:
