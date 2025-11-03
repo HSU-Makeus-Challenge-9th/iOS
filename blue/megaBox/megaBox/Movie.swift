@@ -21,4 +21,3 @@ struct Article: Identifiable, Hashable {
     let subtitle: String
     let thumbnailName: String?
 }
-

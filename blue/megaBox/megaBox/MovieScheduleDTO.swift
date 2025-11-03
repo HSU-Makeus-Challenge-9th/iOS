@@ -34,7 +34,6 @@ struct ScheduleDTO: Codable {
     let areas: [AreaDTO]
 }
 
-// MARK: - areas
 struct AreaDTO: Codable {
     let area: String              // 지역명 (e.g. "강남", "홍대")
     let items: [AreaItemDTO]
