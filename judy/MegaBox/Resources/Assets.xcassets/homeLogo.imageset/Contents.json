@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Property 1=모노노케 히메.png",
+      "filename" : "meboxLogo 1.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Property 1=모노노케 히메 (1).png",
+      "filename" : "meboxLogo 1 (1).png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Property 1=모노노케 히메 (2).png",
+      "filename" : "meboxLogo 1 (2).png",
       "idiom" : "universal",
       "scale" : "3x"
     }
