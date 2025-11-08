@@ -16,6 +16,7 @@ class MovieViewModel: ObservableObject {
     
     @Published var isTheaterSelectable: Bool = false
     @Published var isDaySelectable: Bool = false
+    @Published var selectedMovieId: String? = nil
 
     var showScreeningInfo: Bool {
         selectedMovieModel != nil &&
@@ -43,6 +44,7 @@ class MovieViewModel: ObservableObject {
     @Published var filteredShowtimes: [ShowTime] = []
     
     @Published var allSchedules: [MovieSchedule] = []
+    @Published var movies: [MovieDomain] = [] // JSON에서 로드한 영화 목록
     
     
     init(){
@@ -56,9 +58,9 @@ class MovieViewModel: ObservableObject {
             .receive(on: RunLoop.main)
             .assign(to: &$isTheaterSelectable)
         
-        Publishers.CombineLatest3($selectedMovieModel, $selectedTheaterName, $selectedDate)
-                   .sink { [weak self] movie, theater, date in
-                       self?.filterShowtimes(movie: movie, theater: theater, date: date)
+        Publishers.CombineLatest3($selectedMovieId, $selectedTheaterName, $selectedDate)
+                   .sink { [weak self] movieId, theater, date in
+                       self?.filterShowtimes(movieId: movieId, theater: theater, date: date)
                    }
                    .store(in: &bag)
         $query
@@ -122,17 +124,14 @@ class MovieViewModel: ObservableObject {
             
             DispatchQueue.main.async {
                 self.movieSchedule = domainData
+                self.movies = domainData.movies
                 self.isLoading = false
                 print("ViewModel에 영화 데이터 저장 완료: \(domainData.movies.count)개 영화")
             }
         }
     
-    private func filterShowtimes(movie: MovieModel?, theater: String, date: Date?) {
-            guard let schedule = movieSchedule else {
-                filteredShowtimes = []
-                return
-            }
-            guard let movieName = movie?.returnMovieName() else {
+    private func filterShowtimes(movieId: String?, theater: String, date: Date?) {
+            guard let schedule = movieSchedule, let movieId = movieId  else {
                 filteredShowtimes = []
                 return
             }
@@ -146,7 +145,7 @@ class MovieViewModel: ObservableObject {
             
         
         for schedule in schedule.movies {
-            if schedule.title != movieName{continue}
+            if schedule.id != movieId{continue}
             for s in schedule.schedules {
                 if let selectedDateString, let d = s.date,
                    dateFormatter.string(from: d) != selectedDateString {
@@ -164,7 +163,6 @@ class MovieViewModel: ObservableObject {
         }
             
         DispatchQueue.main.async {
-            print("필터링 호출됨: 영화=\(movieName), 극장=\(theater), 날짜=\(date?.description ?? "없음")")
             self.filteredShowtimes = showtimes
             self.screeningMessage = showtimes.isEmpty
                             ? "선택한 극장에 상영시간표가 없습니다"

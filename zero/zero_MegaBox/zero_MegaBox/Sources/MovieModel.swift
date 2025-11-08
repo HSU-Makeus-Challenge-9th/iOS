@@ -52,3 +52,16 @@ enum MovieModel: CaseIterable {
     }
     
 }
+extension MovieModel {
+    static func fromDomain(_ domain: MovieDomain) -> MovieModel {
+        switch domain.title {
+        case "F1 더 무비": return .f1
+        case "귀멸의 칼날: 무한성": return .infinite
+        case "어쩔수가없다": return .yadang
+        case "보스": return .boss
+        case "모노노케 히메": return .mono
+        case "얼굴": return .face
+        default: return .f1 // default
+        }
+    }
+}

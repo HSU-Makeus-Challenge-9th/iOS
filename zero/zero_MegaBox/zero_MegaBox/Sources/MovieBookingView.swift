@@ -73,13 +73,16 @@ struct MovieBookingView: View {
                 }
                 ScrollView(.horizontal, showsIndicators: false) {
                     LazyHGrid(rows: columns, spacing: 8) {
-                        ForEach(MovieModel.allCases, id: \.self) { movie in
-                            makeMovieCard(movie, isSelected: movie == bookingViewModel.selectedMovieModel)
+                        ForEach(bookingViewModel.movies, id: \.id) { movie in
+                            makeMovieCard(movie, isSelected: movie.id == bookingViewModel.selectedMovieId)
                                 .onTapGesture {
-                                    bookingViewModel.selectedMovieModel = movie
-                                    selectedName = movie.returnMovieName()
+                                    bookingViewModel.selectedMovieId = movie.id
+                                    bookingViewModel.selectedMovieModel = MovieModel.fromDomain(movie)
+                                    selectedName = movie.title
+                                    
                                 }
                         }
+
                     }
                 }
                 HStack(spacing:8){
@@ -175,54 +178,49 @@ struct MovieBookingView: View {
 }
 
 
-
-private func makeMovieCard(_ model: MovieModel, isSelected: Bool = false) -> some View {
-    let movie = model.returnMovie()
-    return VStack(alignment: .leading, spacing: 8){
-        if(!isSelected){
-            Image(movie.image)
-                .resizable()
-                .frame(maxWidth: 62, maxHeight: 89)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
-        }
-        else{//선택된 영화
-            Image(movie.image)
-                .resizable()
-                .frame(maxWidth: 62, maxHeight: 89)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color("purple03"), lineWidth: 1)
-                )
-        }
-        
-    }
-}
-
-
-//private func makeMovieCard(_ model: CalendarViewModel, isSelected: Bool = false) -> some View {
-//    let movie = model
-//    return VStack(alignment: .leading, spacing: 8){
-//        if(!isSelected){
-//            Image(movie.image)
-//                .resizable()
-//                .frame(maxWidth: 62, maxHeight: 89)
-//                .clipShape(RoundedRectangle(cornerRadius: 10))
-//        }
-//        else{//선택된 영화
-//            Image(movie.image)
-//                .resizable()
-//                .frame(maxWidth: 62, maxHeight: 89)
-//                .clipShape(RoundedRectangle(cornerRadius: 10))
-//                .overlay(
-//                    RoundedRectangle(cornerRadius: 10)
-//                        .stroke(Color("purple03"), lineWidth: 1)
-//                )
-//        }
+//private func makeMovieCard(_ model: Movie, isSelected: Bool = false) -> some View {
+//    return VStack(alignment: .leading, spacing: 8) {
+//        Image(model.image)
+//            .resizable()
+//            .frame(maxWidth: 62, maxHeight: 89)
+//            .clipShape(RoundedRectangle(cornerRadius: 10))
+//            .overlay(
+//                RoundedRectangle(cornerRadius: 10)
+//                    .stroke(isSelected ? Color("purple03") : .clear, lineWidth: 1)
+//            )
 //    }
 //}
-
-
+private func makeMovieCard(_ model: MovieDomain, isSelected: Bool = false) -> some View {
+    // 서버 데이터에는 image 정보가 없으므로 title 기준으로 Asset 매핑
+    let imageName: String
+    switch model.title {
+    case "F1 더 무비":
+        imageName = "f1"
+    case "귀멸의 칼날: 무한성":
+        imageName = "무한성"
+    case "어쩔수가없다":
+        imageName = "어쩔수가없다"
+    case "보스":
+        imageName = "보스"
+    case "모노노케 히메":
+        imageName = "모노노케히메"
+    case "얼굴":
+        imageName = "movieface"
+    default:
+        imageName = "default_movie"
+    }
+    
+    return VStack(alignment: .leading, spacing: 8) {
+        Image(imageName)
+            .resizable()
+            .frame(maxWidth: 62, maxHeight: 89)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(isSelected ? Color("purple03") : .clear, lineWidth: 1)
+            )
+    }
+}
 
 
 #Preview {
