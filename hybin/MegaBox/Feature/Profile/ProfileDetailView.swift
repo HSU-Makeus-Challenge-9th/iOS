@@ -15,36 +15,6 @@ struct ProfileDetailView: View {
     @State var isNameEditing: Bool = false
     @State var tempName : String = ""
     
-//    private var customHeader: some View {
-//        HStack {
-//            Button {
-//                dismiss()
-//            } label: {
-//                Image(systemName: "chevron.left")
-//                    .resizable()
-//                    .scaledToFit()
-//                    .frame(width: 12, height: 18)
-//                    .foregroundStyle(Color.black)
-//            }
-//            .padding(.trailing, 20)
-//            
-//            Spacer()
-//            
-//            Text("회원정보 관리")
-//                .font(.pretend(type: .medium, size: 18))
-//                .multilineTextAlignment(.center)
-//                .foregroundStyle(Color.black)
-//            
-//            Spacer()
-//            
-//            Rectangle()
-//                .fill(Color.clear)
-//                .frame(width: 12 + 20, height: 18)
-//        }
-//        .padding(.horizontal, 20)
-//        .padding(.top, 10)
-//    }
-    //SwiftUI 내장 네비게이션 UI 사용
     var body: some View {
         VStack(spacing: 0) {
             if let user = usm.currentUser{
@@ -54,7 +24,7 @@ struct ProfileDetailView: View {
                     
                     VStack(spacing: 0){
                         HStack{
-                            Text(user.userId)
+                            Text(user.id)
                                 .frame(maxWidth: .infinity, alignment:.leading)
                                 .font(.pretend(type: .medium, size: 16))
                                 .foregroundStyle(Color.black)
@@ -69,7 +39,7 @@ struct ProfileDetailView: View {
                                     .textFieldStyle(.roundedBorder)
                                     .font(.system(size: 16, weight: .medium))
                             } else {
-                                Text(user.userName)
+                                Text(user.name)
                                     .frame(maxWidth: .infinity, alignment:.leading)
                                     .font(.system(size: 16, weight: .medium))
                                     .foregroundStyle(Color.black)
@@ -79,10 +49,10 @@ struct ProfileDetailView: View {
                             
                             Button(action: {
                                 if isNameEditing == true {
-                                    usm.updateUserName(editName: tempName)
+                                    usm.updateUserName(newName: tempName)
                                     isNameEditing = false
                                 } else {
-                                    tempName = user.userName
+                                    tempName = user.name
                                     isNameEditing = true
                                 }
                             }, label: {

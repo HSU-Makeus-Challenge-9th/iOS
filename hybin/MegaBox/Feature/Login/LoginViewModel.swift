@@ -12,7 +12,7 @@ import SwiftUI
 class LoginViewModel {
     
     var userIDInput: String = ""
-    var passwordInput: String = ""
+    var userPWDInput: String = ""
     var userName: String = "전효빈"
     var membership: String = "WELLCOME"
     var membershipPoints: Int = 500

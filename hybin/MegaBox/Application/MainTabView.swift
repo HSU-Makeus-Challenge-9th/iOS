@@ -9,6 +9,9 @@ import Foundation
 import SwiftUI
 
 struct MainTabView : View {
+    
+    @Environment(UserSessionManager.self) var userSessionManager
+    
     var body : some View {
         TabView{
             Tab("Home", systemImage: "house.fill"){
@@ -17,9 +20,11 @@ struct MainTabView : View {
             Tab("Profile", systemImage: "person.fill"){
                 ProfileView()
             }
-            
         }
-
+        .fullScreenCover(isPresented: .constant(!userSessionManager.isLoggedIn)){
+            LoginView()
+                .environment(userSessionManager)
+        }
     }
 }
 

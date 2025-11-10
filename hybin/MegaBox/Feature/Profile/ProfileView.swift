@@ -25,6 +25,7 @@ struct ProfileView: View {
                         if let user = usm.currentUser{
                             userInformation(user: user)
                             membershipPoint(user: user)
+                            logoutButton
                         } else {
                             // 로그아웃 상태일 때 대체 UI
                             Text("로그인 상태가 아닙니다.").font(.title).padding(.leading, 10)
@@ -46,12 +47,22 @@ struct ProfileView: View {
         }
     }
     
+    //로그아웃버튼
+    private var logoutButton: some View {
+        ZStack{
+            Button("로그아웃"){
+                usm.logout()
+            }
+            .buttonStyle(PlainButtonStyle())
+            .padding(.top, 10)
+        }
+    }
 
     // 사용자 정보 (이름, 등급, 회원정보 버튼 포함)
-    private func userInformation(user : UserModel) -> some View{
+    private func userInformation(user : User) -> some View{
         HStack{
             
-            Text(user.userName + "님")
+            Text(user.name + "님")
                 .font(.pretend(type: .bold, size: 24))
             
             Text(user.membership.rawValue)
@@ -78,7 +89,7 @@ struct ProfileView: View {
     }
     
     // 멤버십 포인트 정보
-    private func membershipPoint(user:UserModel) -> some View {
+    private func membershipPoint(user:User) -> some View {
         HStack{
             Text("멤버십 포인트")
                 .font(.pretend(type:.semiBold, size:14))
