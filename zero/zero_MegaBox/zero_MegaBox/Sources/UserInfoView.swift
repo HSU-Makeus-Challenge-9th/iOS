@@ -11,18 +11,18 @@ import SwiftUI
 struct UserInfoView: View
 {
     @Binding var path: NavigationPath
-    @AppStorage("userId") private var userId: String = "zero"
-    @AppStorage("userName") private var userName: String = "sumini"
+//    @AppStorage("userId") private var userId: String = "zero"
+//    @AppStorage("userName") private var userName: String = "sumini"
+    @EnvironmentObject var loginModel: LoginViewModel  // <- 로그인 상태 공유
+    @State private var tempUserName: String = ""
+    @State private var showProfileSettings = false
     
-    
-    var body: some View
-    {
+    var body: some View{
             VStack{
                 HStack(alignment: .center){//헤더
                     VStack{
                         HStack(alignment: .center){
-                            
-                            Text("\(userName)님")
+                            Text("\(loginModel.userName)님")
                                 .font(.bold24)
                                 .foregroundStyle(Color("black"))
                                 .frame(height: 36, alignment: .center)
@@ -34,13 +34,16 @@ struct UserInfoView: View
                                 .frame(maxWidth: 81, maxHeight: 25)
                             Spacer()
                             Button(action: {
-                                path.append(Route.profile)
-                                print("회원정보 버튼 클릭 \(path)")
+                                showProfileSettings = true
                             }) {
                                 Text("회원정보")
                                     .frame(alignment: .center)
                                     .font(.semiBold14)
                                     .foregroundStyle(Color("white"))
+                            }
+                            .sheet(isPresented: $showProfileSettings){
+                                ProfileSettingsView(path: $path)
+                                    .environmentObject(loginModel)
                             }
                             .frame(maxWidth: 72, maxHeight: 28)
                             .background(Color("gray07"))
@@ -58,13 +61,9 @@ struct UserInfoView: View
                                 .frame(height: 36, alignment: .center)
                             Spacer()
                         }
-                        
-                        
                     }
                 }
-                Button(action: {
-                }) {
-                    
+                Button(action: {}) {
                     Text("클럽 멤버십")
                         .padding(8)
                         .font(.semiBold16)
@@ -72,7 +71,6 @@ struct UserInfoView: View
                     Image("chevron.right")
                     Spacer()
                 }
-                
                 .frame(maxWidth: .infinity, maxHeight: 46)
                 .background(
                     LinearGradient(
@@ -82,13 +80,15 @@ struct UserInfoView: View
                     )
                 )
                 .clipShape(RoundedRectangle(cornerRadius: 8))
-                
                 UserStateView()
                 BookingView()
                 Spacer()
             }
             .padding(10)
             .navigationBarBackButtonHidden(true)
+            .onAppear{
+                tempUserName = loginModel.userName
+            }
         }
     }
     

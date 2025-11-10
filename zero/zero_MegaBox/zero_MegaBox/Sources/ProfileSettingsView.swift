@@ -12,9 +12,10 @@ import SwiftUI
 struct ProfileSettingsView: View
 {
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var loginModel: LoginViewModel
     @Binding var path: NavigationPath
-    @AppStorage("userId") private var userId: String = "zero"
     
+    @AppStorage("userId") private var userId: String = "zero"
     @AppStorage("userName") private var userName: String = "sumini"
     
     @State private var tempUserName: String = ""
@@ -48,7 +49,7 @@ struct ProfileSettingsView: View
                 .foregroundStyle(Color("black"))
                 .frame(maxWidth: .infinity, alignment: .leading)
             VStack(){
-                Text(userId)//회원 아이디
+                Text(loginModel.id.isEmpty ? userId : loginModel.id)
                     .font(.medium18)
                     .foregroundStyle(Color("black"))
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -56,11 +57,12 @@ struct ProfileSettingsView: View
                     .foregroundStyle(Color("gray02"))
                 
                 HStack{
-                    TextField("\(userName)", text: $tempUserName)//회원 이름
+                    TextField(loginModel.userName.isEmpty ? userName : loginModel.userName, text: $tempUserName)
                         .font(.medium18)
                         .foregroundStyle(Color("black"))
                         .frame(maxWidth: .infinity, alignment: .leading)
                     Button(action: {
+                        loginModel.userName = tempUserName
                         userName = tempUserName
                     }) {
                         Text("변경")
@@ -81,6 +83,9 @@ struct ProfileSettingsView: View
         }
         .padding(10)
         .navigationBarBackButtonHidden(true)
+        .onAppear{
+            tempUserName = loginModel.userName.isEmpty ? userName : loginModel.userName
+        }
     }
 }
     

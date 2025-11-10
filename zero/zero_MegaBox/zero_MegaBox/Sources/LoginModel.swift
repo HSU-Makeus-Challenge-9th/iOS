@@ -9,6 +9,6 @@ import Foundation
 import SwiftUI
 
 struct LoginModel {
-    let id : String
-    let pwd : String
+    var id : String = ""
+    var pwd : String = ""
 }

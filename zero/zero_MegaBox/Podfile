@@ -1,0 +1,18 @@
+# Uncomment the next line to define a global platform for your project
+
+platform :ios, '26.0'
+
+target 'zero_MegaBox' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+ # pods for Using Alaomofire
+
+  # Pods for zero_MegaBox
+
+  target 'zero_MegaBoxTests' do
+pod 'Alamofire', '~> 5.2'
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end

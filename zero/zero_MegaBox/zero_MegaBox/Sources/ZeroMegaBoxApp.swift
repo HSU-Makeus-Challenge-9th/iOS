@@ -4,8 +4,9 @@ import SwiftUI
 struct ZeroMegaBoxApp: App {
     var body: some Scene {
         WindowGroup {
-//            LoginView()
-            MovieBookingView()
+//            LoginView_Key()
+//            MovieBookingView()
+            LoginView()
         }
     }
 }

@@ -17,7 +17,7 @@ enum Route: Hashable, Equatable {
 
 struct LoginView: View
 {
-    @State private var loginModel = LoginViewModel()
+    @StateObject private var loginModel = LoginViewModel()
     @State var path: NavigationPath = NavigationPath()
     @AppStorage("id") private var userId: String = ""
     @AppStorage("pwd") private var userPwd: String = ""
@@ -33,7 +33,6 @@ struct LoginView: View
                         .font(.semiBold24)
                         .foregroundStyle(Color("black"))
                         .frame(height: 36, alignment: .center)
-                    
                 }
                 VStack{
                     Spacer()
@@ -55,7 +54,6 @@ struct LoginView: View
                     Spacer()
                     
                     Button(action: {
-                        
                         if loginModel.id == userId && loginModel.pwd == userPwd {
                             isLoggedIn = true
                             print("로그인 성공")
@@ -76,10 +74,12 @@ struct LoginView: View
                         switch route {
                         case .logined:
                             MainTabView(path: $path)
+                                .environmentObject(loginModel)
                         case .home:
                             HomeView(path: $path)
                         case .profile:
                             ProfileSettingsView(path: $path)
+                                .environmentObject(loginModel)
                         case .profileSettings:
                             ProfileSettingsView(path: $path)
                         case .movieDetail(let movie):
@@ -95,7 +95,20 @@ struct LoginView: View
                         Spacer()
                         Image("naver")
                         Spacer()
-                        Image("kakao")
+                        Button(action: {
+                            let kakaoRestToken = "GmEysvzXDY0VkOXm81QFY5B3N9PNgERVAAAAAQoXC2sAAAGabQK1ZP8D"
+                            loginModel.kakaoLogin(restToken: kakaoRestToken){success in
+                                if success {
+                                    DispatchQueue.main.async {
+                                        print("로그인 성공")
+                                        
+                                            path.append(Route.logined)
+                                    }
+                                }
+                            }
+                        }){
+                            Image("kakao")
+                        }
                         Spacer()
                         Image("apple")
                         Spacer()
@@ -112,6 +125,7 @@ struct LoginView: View
     }
     
 }
+
 #Preview {
     LoginView(path: NavigationPath())
 }
