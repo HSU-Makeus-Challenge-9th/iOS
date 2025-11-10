@@ -1,5 +1,6 @@
 import Foundation
 
+// MARK: - DTOs (JSON)
 struct MovieScheduleResponseDTO: Codable {
     let status: String
     let message: String
@@ -18,18 +19,18 @@ struct MovieDTO: Codable, Identifiable {
 }
 
 struct ScheduleDTO: Codable {
-    let date: String                // "yyyy-MM-dd"
+    let date: String // "yyyy-MM-dd"
     let areas: [AreaDTO]
 }
 
 struct AreaDTO: Codable {
-    let area: String                // 지역명 (강남/홍대 등)
+    let area: String
     let items: [ItemDTO]
 }
 
 struct ItemDTO: Codable {
-    let auditorium: String          // 상영관 이름
-    let format: String              // 2D/IMAX/4DX 등
+    let auditorium: String
+    let format: String
     let showtimes: [ShowtimeDTO]
 }
 
@@ -38,6 +39,17 @@ struct ShowtimeDTO: Codable {
     let end: String
     let available: Int
     let total: Int
+}
+
+// MARK: - App Model
+struct AppMovie: Identifiable, Equatable {
+    let id: String
+    let titleKo: String
+    let titleEn: String
+    let posterHome: String
+    let posterDetail: String
+    let audience: String
+    let schedules: [BookingSchedule]
 }
 
 // Booking Domain
@@ -65,77 +77,63 @@ struct BookingShowtime: Equatable, Identifiable {
     let total: Int
 }
 
-// Mapper 준비
+// MARK: - Mapper 준비
 private let ymdFormatter: DateFormatter = {
     let f = DateFormatter()
     f.locale = Locale(identifier: "ko_KR")
-    f.timeZone = TimeZone(secondsFromGMT: 0)
+    f.timeZone = TimeZone(secondsFromGMT: 9 * 3600) // KST
     f.dateFormat = "yyyy-MM-dd"
     return f
 }()
 
-// 상영정보로 변환
 extension ScheduleDTO {
     func toBooking() -> BookingSchedule {
-        let d = ymdFormatter.date(from: date) ?? Date()
-        return BookingSchedule(date: d, areas: areas.map { $0.toBooking() })
+        BookingSchedule(
+            date: ymdFormatter.date(from: date) ?? Date(),
+            areas: areas.map { $0.toBooking() }
+        )
     }
 }
-
 extension AreaDTO {
     func toBooking() -> BookingArea {
         BookingArea(name: area, items: items.map { $0.toBooking() })
     }
 }
-
 extension ItemDTO {
     func toBooking() -> BookingAuditorium {
-        BookingAuditorium(
-            name: auditorium,
-            format: format,
-            showtimes: showtimes.map { $0.toBooking() }
-        )
+        BookingAuditorium(name: auditorium, format: format, showtimes: showtimes.map { $0.toBooking() })
     }
 }
-
 extension ShowtimeDTO {
     func toBooking() -> BookingShowtime {
         BookingShowtime(start: start, end: end, available: available, total: total)
     }
 }
 
-// 기존 Movie 로 변환 + 상영정보 맵 생성
+// MARK: - DTO → App Model
 extension MovieScheduleResponseDTO {
-    
-    ///  기존 프로젝트의 Movie 생성자를 사용
-    func toMoviesForList() -> [Movie] {
-        data.movies.map { dto in
-            Movie(
-                titleKo: dto.title,
-                titleEn: dto.title,
-                posterHome: mapPoster(id: dto.id),  // 에셋 이름 매핑
-                posterDetail: mapPoster(id: dto.id),
-                audience: dto.age_rating
-            )
-        }
-    }
 
-    /// 상영정보 맵: 제목(ko) -> [BookingSchedule]
-    func toSchedulesByTitle() -> [String: [BookingSchedule]] {
-        var map: [String: [BookingSchedule]] = [:]
-        for m in data.movies {
-            map[m.title] = m.schedules.map { $0.toBooking() }
-        }
-        return map
-    }
-
-    /// 필요 시 포스터 에셋 이름 매핑
     private func mapPoster(id: String) -> String {
         switch id {
         case "m-001": return "poster-m-001"
         case "m-002": return "poster-m-002"
         case "m-003": return "poster-m-003"
-        default: return "poster-default"
+        default:      return "poster-default"
+        }
+    }
+
+    // ViewModel에서 바로 사용할 리스트
+    func toMoviesForList() -> [AppMovie] {
+        data.movies.map { dto in
+            AppMovie(
+                id: dto.id,
+                titleKo: dto.title,
+                titleEn: dto.title,
+                posterHome: mapPoster(id: dto.id),
+                posterDetail: mapPoster(id: dto.id),
+                audience: dto.age_rating,
+                schedules: dto.schedules.map { $0.toBooking() }
+            )
         }
     }
 }

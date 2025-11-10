@@ -34,8 +34,9 @@ struct MovieBookingView: View {
     }
 }
 
-// Subviews
+// MARK: - Sections
 extension MovieBookingView {
+    
     private var movieSelectionSection: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
@@ -75,7 +76,7 @@ extension MovieBookingView {
                                         .stroke(vm.selectedMovie == movie ? Color("purple03") : .clear, lineWidth: 3)
                                 )
                                 .clipShape(RoundedRectangle(cornerRadius: 8))
-                                .onTapGesture { vm.selectMovie(movie) }   // 선택 헬퍼 사용
+                                .onTapGesture { vm.selectedMovie = movie }
                             
                             Text(movie.titleKo)
                                 .font(.pretendCaption)
@@ -101,7 +102,6 @@ extension MovieBookingView {
                     ForEach(vm.theaters, id: \.self) { theater in
                         let isOn = (vm.selectedTheater == theater)
                         Button {
-                            guard vm.selectedMovie != nil else { return }
                             vm.selectedTheater = theater
                         } label: {
                             Text(theater)
@@ -112,8 +112,6 @@ extension MovieBookingView {
                                 .foregroundColor(isOn ? .white : .primary)
                                 .clipShape(Capsule())
                         }
-                        .disabled(vm.selectedMovie == nil)
-                        .opacity(vm.selectedMovie == nil ? 0.4 : 1.0)
                     }
                 }
             }
@@ -134,7 +132,6 @@ extension MovieBookingView {
                         let weekday = cal.component(.weekday, from: date)
                         let label = ["일","월","화","수","목","금","토"][weekday-1]
                         
-                        // 날짜 색상
                         let textColor: Color = {
                             if weekday == 1 { return Color("red01") }
                             if weekday == 7 { return Color("green01") }
@@ -142,7 +139,6 @@ extension MovieBookingView {
                         }()
                         
                         Button {
-                            guard vm.selectedTheater != nil else { return }
                             vm.selectedDate = date
                         } label: {
                             VStack(spacing: 4) {
@@ -157,14 +153,12 @@ extension MovieBookingView {
                             .background(vm.selectedDate == date ? Color("purple03").opacity(0.15) : .clear)
                             .clipShape(RoundedRectangle(cornerRadius: 8))
                         }
-                        .disabled(vm.selectedTheater == nil)
-                        .opacity(vm.selectedTheater == nil ? 0.4 : 1.0)
                     }
                 }
             }
         }
     }
-
+    
     private var showtimeSection: some View {
         VStack(alignment: .leading, spacing: 24) {
             if vm.hasShowtime == false {
@@ -176,7 +170,6 @@ extension MovieBookingView {
                     .foregroundStyle(.secondary)
                     .padding(.top, 40)
             } else {
-                // JSON 기반 실제 상영정보
                 ForEach(vm.showtimeGroups, id: \.hall) { group in
                     showtimeBlock(
                         theater: vm.selectedTheater ?? "",
@@ -190,7 +183,6 @@ extension MovieBookingView {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
     
-    // BookingShowtime을 직접 받아 실제 좌석/시간 표시
     private func showtimeBlock(
         theater: String,
         hall: String,
@@ -213,21 +205,6 @@ extension MovieBookingView {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 12) {
                         ForEach(shows) { s in
-                            VStack(spacing: 4) {
-                                Text(s.start)
-                                    .font(.pretendSemiBold(14))
-                                Text("\(s.available) / \(s.total)")
-                                    .font(.pretendCaption)
-                                    .foregroundColor(Color("purple03"))
-                            }
-                            .frame(width: 80, height: 60)
-                            .background(Color(uiColor: .systemBackground))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color.gray.opacity(0.25), lineWidth: 1)
-                            )
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                            .shadow(color: .black.opacity(0.05), radius: 1, x: 0, y: 1)
                         }
                     }
                 }

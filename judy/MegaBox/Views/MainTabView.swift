@@ -1,11 +1,12 @@
 import SwiftUI
 
 struct MainTabView: View {
-    @State private var selected = 0
+    @State private var selected: Int = 0
+    @EnvironmentObject var vm: LoginViewModel
 
     var body: some View {
         TabView(selection: $selected) {
-            
+
             // 홈
             NavigationStack {
                 HomeView()
@@ -48,3 +49,12 @@ struct MainTabView: View {
         }
     }
 }
+
+#if DEBUG
+struct MainTabView_Previews: PreviewProvider {
+    static var previews: some View {
+        MainTabView()
+            .environmentObject(LoginViewModel()) // 미리보기용 주입
+    }
+}
+#endif

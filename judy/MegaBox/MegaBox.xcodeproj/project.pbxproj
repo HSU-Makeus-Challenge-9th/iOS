@@ -34,6 +34,12 @@
 		215D4EA02E9BE1A400188B80 /* TicketView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215D4E9F2E9BE1A400188B80 /* TicketView.swift */; };
 		215D4ECC2EB0B36600188B80 /* MovieSchedule.json in Resources */ = {isa = PBXBuildFile; fileRef = 215D4EC72EAF4A0500188B80 /* MovieSchedule.json */; };
 		215D4ECE2EB1AC4000188B80 /* MobileOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215D4ECD2EB1AC3700188B80 /* MobileOrderView.swift */; };
+		215D4ED32EBFAEBB00188B80 /* KeyChainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215D4ED22EBFAEA700188B80 /* KeyChainService.swift */; };
+		215D4ED52EBFAEDE00188B80 /* KakaoConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215D4ED42EBFAED400188B80 /* KakaoConfig.swift */; };
+		215D4ED72EBFAF0700188B80 /* KakaoAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215D4ED62EBFAF0200188B80 /* KakaoAuthManager.swift */; };
+		2183C2BC2EC2193100E4B917 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 2183C2BB2EC2193100E4B917 /* KakaoSDKAuth */; };
+		2183C2C22EC2193100E4B917 /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 2183C2C12EC2193100E4B917 /* KakaoSDKCommon */; };
+		2183C2D02EC2193100E4B917 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = 2183C2CF2EC2193100E4B917 /* KakaoSDKUser */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,6 +71,10 @@
 		215D4E9F2E9BE1A400188B80 /* TicketView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketView.swift; sourceTree = "<group>"; };
 		215D4EC72EAF4A0500188B80 /* MovieSchedule.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = MovieSchedule.json; sourceTree = "<group>"; };
 		215D4ECD2EB1AC3700188B80 /* MobileOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileOrderView.swift; sourceTree = "<group>"; };
+		215D4ED22EBFAEA700188B80 /* KeyChainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainService.swift; sourceTree = "<group>"; };
+		215D4ED42EBFAED400188B80 /* KakaoConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoConfig.swift; sourceTree = "<group>"; };
+		215D4ED62EBFAF0200188B80 /* KakaoAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoAuthManager.swift; sourceTree = "<group>"; };
+		2183C29D2EC1D4E800E4B917 /* Secret.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secret.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -90,6 +100,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2183C2C22EC2193100E4B917 /* KakaoSDKCommon in Frameworks */,
+				2183C2D02EC2193100E4B917 /* KakaoSDKUser in Frameworks */,
+				2183C2BC2EC2193100E4B917 /* KakaoSDKAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,15 +112,20 @@
 		215D4C362E7BD6E600188B80 = {
 			isa = PBXGroup;
 			children = (
+				215D4ED62EBFAF0200188B80 /* KakaoAuthManager.swift */,
+				215D4ED42EBFAED400188B80 /* KakaoConfig.swift */,
+				215D4ED22EBFAEA700188B80 /* KeyChainService.swift */,
 				215D4EC72EAF4A0500188B80 /* MovieSchedule.json */,
 				215D4D552E84274E00188B80 /* MegaBox-info.plist */,
 				215D4D472E84199100188B80 /* ContentView.swift */,
 				215D4D462E84190F00188B80 /* MegaBoxApp.swift */,
+				2183C29D2EC1D4E800E4B917 /* Secret.xcconfig */,
 				215D4C4D2E7BF60D00188B80 /* Views */,
 				215D4D192E83E09000188B80 /* MegaBox.app */,
 				215D4D572E87A8D700188B80 /* ViewModels */,
 				215D4D5D2E87A95700188B80 /* Models */,
 				215D4D442E83EF5D00188B80 /* Resources */,
+				2183C29E2EC217CD00E4B917 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -165,6 +183,13 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		2183C29E2EC217CD00E4B917 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -187,6 +212,9 @@
 			);
 			name = MegaBox;
 			packageProductDependencies = (
+				2183C2BB2EC2193100E4B917 /* KakaoSDKAuth */,
+				2183C2C12EC2193100E4B917 /* KakaoSDKCommon */,
+				2183C2CF2EC2193100E4B917 /* KakaoSDKUser */,
 			);
 			productName = Week1_Practice;
 			productReference = 215D4D192E83E09000188B80 /* MegaBox.app */;
@@ -216,6 +244,10 @@
 			);
 			mainGroup = 215D4C362E7BD6E600188B80;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				2183C2A72EC2190300E4B917 /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */,
+				2183C2B82EC2193100E4B917 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 215D4C362E7BD6E600188B80;
 			projectDirPath = "";
@@ -259,6 +291,7 @@
 				215D4D622E87D5AB00188B80 /* MemverView.swift in Sources */,
 				215D4D492E841CC800188B80 /* MegaBoxApp.swift in Sources */,
 				215D4D452E8417B400188B80 /* Fonts.swift in Sources */,
+				215D4ED32EBFAEBB00188B80 /* KeyChainService.swift in Sources */,
 				215D4E972E9BE15800188B80 /* MovieBookingView.swift in Sources */,
 				215D4ECE2EB1AC4000188B80 /* MobileOrderView.swift in Sources */,
 				215D4E9A2E9BE16900188B80 /* OutlineChipStyle.swift in Sources */,
@@ -267,7 +300,9 @@
 				215D4D712E87D84B00188B80 /* MemberInfoManageView.swift in Sources */,
 				215D4D9F2E8E86D800188B80 /* MovieDetailView.swift in Sources */,
 				215D4C532E7DBB6600188B80 /* LoginView.swift in Sources */,
+				215D4ED72EBFAF0700188B80 /* KakaoAuthManager.swift in Sources */,
 				215D4D982E8E5C7700188B80 /* MainTabView.swift in Sources */,
+				215D4ED52EBFAEDE00188B80 /* KakaoConfig.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,6 +311,7 @@
 /* Begin XCBuildConfiguration section */
 		215D4C482E7BD6E800188B80 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2183C29D2EC1D4E800E4B917 /* Secret.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -340,6 +376,7 @@
 		};
 		215D4C492E7BD6E800188B80 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2183C29D2EC1D4E800E4B917 /* Secret.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -397,6 +434,7 @@
 		};
 		215D4C4B2E7BD6E800188B80 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2183C29D2EC1D4E800E4B917 /* Secret.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -406,6 +444,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "MegaBox-Info.plist";
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -430,6 +469,7 @@
 		};
 		215D4C4C2E7BD6E800188B80 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2183C29D2EC1D4E800E4B917 /* Secret.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -439,6 +479,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "MegaBox-Info.plist";
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -483,6 +524,43 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2183C2A72EC2190300E4B917 /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kakao/kakao-ios-sdk-rx";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		2183C2B82EC2193100E4B917 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kakao/kakao-ios-sdk";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2183C2BB2EC2193100E4B917 /* KakaoSDKAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2183C2B82EC2193100E4B917 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKAuth;
+		};
+		2183C2C12EC2193100E4B917 /* KakaoSDKCommon */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2183C2B82EC2193100E4B917 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKCommon;
+		};
+		2183C2CF2EC2193100E4B917 /* KakaoSDKUser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2183C2B82EC2193100E4B917 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKUser;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 215D4C372E7BD6E600188B80 /* Project object */;
 }

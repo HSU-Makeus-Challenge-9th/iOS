@@ -5,7 +5,7 @@ struct MovieSearchView: View {
     @ObservedObject var vm: BookingViewModel
 
     @State private var searchText: String = ""
-    @State private var filteredMovies: [Movie] = []
+    @State private var filteredMovies: [AppMovie] = []   // ✅ AppMovie로 변경
     private let searchTextSubject = PassthroughSubject<String, Never>()
 
     private let columnsCount: Int = 3
