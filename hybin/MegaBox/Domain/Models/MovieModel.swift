@@ -1,5 +1,5 @@
 //
-//  MovieModel.swift
+//  Movie.swift
 //  MegaBox
 //
 //  Created by 전효빈 on 10/2/25.
@@ -10,7 +10,7 @@ import SwiftUI
 
 
 struct MovieModel: Identifiable {
-    let id = UUID()
+    let id : String
     
     let title : String
     
@@ -18,7 +18,7 @@ struct MovieModel: Identifiable {
     
     let audience : Int
     
-    let bookranking : Int
+    let bookRanking : Int
     
 }
 

@@ -10,36 +10,63 @@ import SwiftUI
 import Combine
 
 struct MovieReserveView: View {
-    @ObservedObject var vm: MovieReserveViewModel
-    @State var calendarVM = CalendarViewModel()
+    
+    @State private var vm: MovieReserveViewModel
+    
+    init(selectedMovie: MovieModel) {
+        _vm = State(initialValue: MovieReserveViewModel(selectedMovie: selectedMovie))
+    }
+    
     @Environment(\.dismiss) private var dismiss
     @State private var isShowingSearchSheet = false
     
     var body : some View {
-        
-        VStack{
-            header
-            movieList
-                .padding(.horizontal , 16)
-                .padding(.top , 10)
-                .padding(.bottom, 32)
-            movieTheaterList
-                .padding(.horizontal , 16)
-            calendarSection
-                .padding(.bottom, 32)
-            if vm.canReserve {
-                selectDetailView
+        ScrollView(.vertical){
+            VStack{
+                header
+                movieList
+                    .padding(.horizontal , 16)
+                    .padding(.top , 10)
+                    .padding(.bottom, 32)
+                movieTheaterList
+                    .padding(.horizontal , 16)
+                calendarSection
+                    .padding(.bottom, 32)
+                if vm.canReserve {
+                    selectDetailView
+                }
+                Spacer()
             }
-            Spacer()
         }
         .sheet(isPresented: $isShowingSearchSheet, content: {
             MovieSearchSheetView(
-                allMovies: $vm.movies, onMovieSelected: { selectedMovie in
+                vm: vm,
+                onMovieSelected: { selectedMovie in
                     vm.selectedMovie = selectedMovie
-                }, vm: vm
+                }
             )
         })
         .navigationBarBackButtonHidden(true)
+
+        
+        .task {
+            await vm.loadAllMovies()
+        }
+        .onChange(of: vm.selectedMovie?.id) {
+            Task{
+                await vm.loadSchedules()
+            }
+        }
+        .onChange(of: vm.selectedTheater) {
+            Task {
+                await vm.loadSchedules()
+            }
+        }
+        .onChange(of: vm.calendarVM.selectedDate) {
+            Task {
+                await vm.loadSchedules()
+            }
+        }
     }
     
     
@@ -47,30 +74,34 @@ struct MovieReserveView: View {
     //MARK: - 하위뷰
     
     private var header: some View {
-        ZStack {
-            
-            Text("영화별 예매")
-                .font(.pretend(type: .bold, size: 22))
-                .foregroundStyle(Color.white)
-                .frame(maxWidth: .infinity, alignment: .center)
-            
-            HStack {
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: "chevron.left")
-                        .font(.title2)
-                        .foregroundStyle(Color.white)
-                }
-                .padding(.leading, 16)
+            ZStack {
                 
-                Spacer()
+                ZStack {
+                    Text("영화별 예매")
+                        .font(.pretend(type: .bold, size: 22))
+                        .foregroundStyle(Color.white)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                    
+                    HStack {
+                        Button {
+                            dismiss()
+                        } label: {
+                            Image(systemName: "chevron.left")
+                                .font(.title2)
+                                .foregroundStyle(Color.white)
+                        }
+                        .padding(.leading, 16)
+                        
+                        Spacer()
+                    }
+                }
+                .padding(.top, 50)
+                .padding(.bottom, 10)
+                
             }
+            .frame(maxWidth: .infinity)
+            .background(Color.loginBackgroundColor, ignoresSafeAreaEdges: .top)
         }
-        .padding(.bottom, 10)
-        .frame(maxWidth: .infinity)
-        .background(Color.loginBackgroundColor)
-    }
     
     private var movieList : some View {
         VStack(alignment: .leading,spacing: 20){
@@ -193,10 +224,10 @@ struct MovieReserveView: View {
     private var calendarSection: some View {
         VStack(spacing: 20) {
             HStack{
-                let days = calendarVM.daysForCurrentWeek()
+                let days = vm.calendarVM.daysForCurrentWeek()
                 ForEach(days.indices, id: \.self) { index in
                     let day = days[index]
-                    let isSelected = calendarVM.calendar.isDate(day.date, inSameDayAs: calendarVM.selectedDate)
+                    let isSelected = vm.calendarVM.calendar.isDate(day.date, inSameDayAs: vm.calendarVM.selectedDate)
                     VStack {
                         
                         // 날짜 표시
@@ -205,7 +236,7 @@ struct MovieReserveView: View {
                             .foregroundStyle(isSelected ? Color.white : Color.primary)
                             .foregroundStyle(day.isCurrentMonth ? Color.primary : Color.gray)
                             .onTapGesture {
-                                calendarVM.changeSelectedDate(day.date)
+                                vm.calendarVM.changeSelectedDate(day.date)
                             }
                         
                         // 요일 표시
@@ -216,7 +247,7 @@ struct MovieReserveView: View {
                                     localizedWeekdaySymbols[index] == "토" ? Color.blue : Color.gray
                             )
                             .font(.pretend(type: .semiBold, size: 14))
-                    
+                        
                     }
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 8)
@@ -250,35 +281,30 @@ struct MovieReserveView: View {
     //MARK: - 디테일
     
     private var selectDetailView: some View {
-       
+        
         VStack(alignment: .leading, spacing: 10) {
             
-            // 상영 시간표가 없을시 출력
-            if calendarVM.calendar.isDateInToday(calendarVM.selectedDate) == false || vm.selectedMovie == nil || vm.selectedTheater == nil || vm.selectedTheater == "신촌" {
-                
-                // 신촌을 선택했거나, 날짜/영화/극장이 만족되지 않은 경우 메시지 출력
+            if vm.schedules.isEmpty {
                 Text("선택한 극장에 상영시간표가 없습니다")
                     .font(.pretend(type:.semiBold, size:20))
                     .foregroundStyle(Color.gray)
                     .frame(maxWidth: .infinity, alignment: .center)
                     .padding(.top, 50)
                 
-                
             } else {
-                // 2. 상영 시간표 표시
-                ForEach(vm.filteredSchedules) { schedule in
+                ForEach(vm.schedules) { schedule in
                     Text(schedule.theaterName)
                         .font(.pretend(type: .bold, size: 18))
                         .padding(.bottom, 5)
-
+                    
                     let grouped = Dictionary(grouping: schedule.rooms, by: { $0.specialTheaterName ?? "일반관" })
-
+                    
                     ForEach(grouped.keys.sorted(), id: \.self) { key in
                         Text(key)
                             .font(.pretend(type: .semiBold, size: 16))
                             .padding(.top, 5)
                             .padding(.bottom, 21)
-
+                        
                         LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 4), spacing: 12) {
                             ForEach(grouped[key] ?? []) { screening in
                                 ScreeningTimeButton(screening: screening)
@@ -323,7 +349,7 @@ struct MovieReserveView: View {
                     }
                     .padding(0)
                 }
-    
+                
                 .frame(minWidth:75, maxWidth: .infinity, minHeight: 70, maxHeight: .infinity)
                 .padding(4)
                 .background{
@@ -338,5 +364,4 @@ struct MovieReserveView: View {
 }
 
 #Preview {
-    MovieReserveView(vm: MovieReserveViewModel(homeVM:HomeViewModel()))
 }

@@ -30,6 +30,138 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		4CA2D65C2EA91CA2009D27BE /* Exceptions for "Feature" folder in "MegaBox" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Home/HomeView.swift,
+				Home/HomeViewModel.swift,
+				Login/LoginView.swift,
+				Movie/CalendarModel.swift,
+				Movie/CalendarViewModel.swift,
+				Movie/MovieDetailView.swift,
+				Movie/MovieReserveView.swift,
+				Movie/MovieReserveViewModel.swift,
+				Movie/MovieSearchSheetView.swift,
+				Profile/ProfileDetailView.swift,
+				Profile/ProfileView.swift,
+			);
+			target = 4CF19AF32E8806EE0078679E /* MegaBox */;
+		};
+		4CA2D65D2EA91CA2009D27BE /* Exceptions for "Feature" folder in "MegaBoxTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Home/HomeView.swift,
+				Home/HomeViewModel.swift,
+				Login/LoginView.swift,
+				Movie/CalendarModel.swift,
+				Movie/CalendarViewModel.swift,
+				Movie/MovieDetailView.swift,
+				Movie/MovieReserveView.swift,
+				Movie/MovieReserveViewModel.swift,
+				Movie/MovieSearchSheetView.swift,
+				Profile/ProfileDetailView.swift,
+				Profile/ProfileView.swift,
+			);
+			target = 4CF19B002E8806F00078679E /* MegaBoxTests */;
+		};
+		4CA2D65E2EA91CA2009D27BE /* Exceptions for "Feature" folder in "MegaBoxUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Home/HomeView.swift,
+				Home/HomeViewModel.swift,
+				Login/LoginView.swift,
+				Movie/CalendarModel.swift,
+				Movie/CalendarViewModel.swift,
+				Movie/MovieDetailView.swift,
+				Movie/MovieReserveView.swift,
+				Movie/MovieReserveViewModel.swift,
+				Movie/MovieSearchSheetView.swift,
+				Profile/ProfileDetailView.swift,
+				Profile/ProfileView.swift,
+			);
+			target = 4CF19B0A2E8806F00078679E /* MegaBoxUITests */;
+		};
+		4CA2D6632EA91D13009D27BE /* Exceptions for "Application" folder in "MegaBox" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				MainTabView.swift,
+				MegaBoxApp.swift,
+			);
+			target = 4CF19AF32E8806EE0078679E /* MegaBox */;
+		};
+		4CA2D6642EA91D13009D27BE /* Exceptions for "Application" folder in "MegaBoxTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				MainTabView.swift,
+				MegaBoxApp.swift,
+			);
+			target = 4CF19B002E8806F00078679E /* MegaBoxTests */;
+		};
+		4CA2D6652EA91D13009D27BE /* Exceptions for "Application" folder in "MegaBoxUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				MainTabView.swift,
+				MegaBoxApp.swift,
+			);
+			target = 4CF19B0A2E8806F00078679E /* MegaBoxUITests */;
+		};
+		4CA2D66A2EA91DE5009D27BE /* Exceptions for "Domain" folder in "MegaBox" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Models/MovieModel.swift,
+				Models/UserModel.swift,
+				Services/MovieService.swift,
+				Services/UserSessionManager.swift,
+			);
+			target = 4CF19AF32E8806EE0078679E /* MegaBox */;
+		};
+		4CA2D66B2EA91DE5009D27BE /* Exceptions for "Domain" folder in "MegaBoxTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Models/MovieModel.swift,
+				Models/UserModel.swift,
+				Services/MovieService.swift,
+				Services/UserSessionManager.swift,
+			);
+			target = 4CF19B002E8806F00078679E /* MegaBoxTests */;
+		};
+		4CA2D66C2EA91DE5009D27BE /* Exceptions for "Domain" folder in "MegaBoxUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Models/MovieModel.swift,
+				Models/UserModel.swift,
+				Services/MovieService.swift,
+				Services/UserSessionManager.swift,
+			);
+			target = 4CF19B0A2E8806F00078679E /* MegaBoxUITests */;
+		};
+		4CA2D6802EAF17C3009D27BE /* Exceptions for "Data" folder in "MegaBox" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				DTOs/MovieScheduleDTOs.swift,
+				Mappers/MovieMapper.swift,
+				Mappers/ScheduleMapper.swift,
+			);
+			target = 4CF19AF32E8806EE0078679E /* MegaBox */;
+		};
+		4CA2D6812EAF17C3009D27BE /* Exceptions for "Data" folder in "MegaBoxTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				DTOs/MovieScheduleDTOs.swift,
+				Mappers/MovieMapper.swift,
+				Mappers/ScheduleMapper.swift,
+			);
+			target = 4CF19B002E8806F00078679E /* MegaBoxTests */;
+		};
+		4CA2D6822EAF17C3009D27BE /* Exceptions for "Data" folder in "MegaBoxUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				DTOs/MovieScheduleDTOs.swift,
+				Mappers/MovieMapper.swift,
+				Mappers/ScheduleMapper.swift,
+			);
+			target = 4CF19B0A2E8806F00078679E /* MegaBoxUITests */;
+		};
 		4CF19B772E88075A0078679E /* Exceptions for "MegaBox" folder in "MegaBox" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -53,6 +185,7 @@
 				"Font/Pretendard-Thin.otf",
 				Fonts.swift,
 				MegaBoxColors.swift,
+				MovieSchedule.json,
 				"Preview Content/Preview Assets.xcassets",
 			);
 			target = 4CF19B002E8806F00078679E /* MegaBoxTests */;
@@ -73,31 +206,8 @@
 				"Font/Pretendard-Thin.otf",
 				Fonts.swift,
 				MegaBoxColors.swift,
+				MovieSchedule.json,
 				"Preview Content/Preview Assets.xcassets",
-			);
-			target = 4CF19B0A2E8806F00078679E /* MegaBoxUITests */;
-		};
-		4CF19C202E880B8C0078679E /* Exceptions for "Sources" folder in "MegaBox" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				ContentView.swift,
-				MegaBoxApp.swift,
-			);
-			target = 4CF19AF32E8806EE0078679E /* MegaBox */;
-		};
-		4CF19C212E880B8C0078679E /* Exceptions for "Sources" folder in "MegaBoxTests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				ContentView.swift,
-				MegaBoxApp.swift,
-			);
-			target = 4CF19B002E8806F00078679E /* MegaBoxTests */;
-		};
-		4CF19C222E880B8C0078679E /* Exceptions for "Sources" folder in "MegaBoxUITests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				ContentView.swift,
-				MegaBoxApp.swift,
 			);
 			target = 4CF19B0A2E8806F00078679E /* MegaBoxUITests */;
 		};
@@ -122,72 +232,49 @@
 			);
 			target = 4CF19B0A2E8806F00078679E /* MegaBoxUITests */;
 		};
-		4CF19D352E8812790078679E /* Exceptions for "Login" folder in "MegaBox" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				CalendarModel.swift,
-				CalendarViewModel.swift,
-				HomeView.swift,
-				HomeViewModel.swift,
-				LoginView.swift,
-				MainTabView.swift,
-				MovieDetailView.swift,
-				MovieModel.swift,
-				MovieReserveView.swift,
-				MovieReserveViewModel.swift,
-				MovieSearchSheetView.swift,
-				ProfileDetailView.swift,
-				ProfileView.swift,
-				UserModel.swift,
-				UserSessionManager.swift,
-			);
-			target = 4CF19AF32E8806EE0078679E /* MegaBox */;
-		};
-		4CF19D362E8812790078679E /* Exceptions for "Login" folder in "MegaBoxTests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				CalendarModel.swift,
-				CalendarViewModel.swift,
-				HomeView.swift,
-				HomeViewModel.swift,
-				LoginView.swift,
-				MainTabView.swift,
-				MovieDetailView.swift,
-				MovieModel.swift,
-				MovieReserveView.swift,
-				MovieReserveViewModel.swift,
-				MovieSearchSheetView.swift,
-				ProfileDetailView.swift,
-				ProfileView.swift,
-				UserModel.swift,
-				UserSessionManager.swift,
-			);
-			target = 4CF19B002E8806F00078679E /* MegaBoxTests */;
-		};
-		4CF19D372E8812790078679E /* Exceptions for "Login" folder in "MegaBoxUITests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				CalendarModel.swift,
-				CalendarViewModel.swift,
-				HomeView.swift,
-				HomeViewModel.swift,
-				LoginView.swift,
-				MainTabView.swift,
-				MovieDetailView.swift,
-				MovieModel.swift,
-				MovieReserveView.swift,
-				MovieReserveViewModel.swift,
-				MovieSearchSheetView.swift,
-				ProfileDetailView.swift,
-				ProfileView.swift,
-				UserModel.swift,
-				UserSessionManager.swift,
-			);
-			target = 4CF19B0A2E8806F00078679E /* MegaBoxUITests */;
-		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		4CA2D61D2EA91C85009D27BE /* Feature */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4CA2D65C2EA91CA2009D27BE /* Exceptions for "Feature" folder in "MegaBox" target */,
+				4CA2D65D2EA91CA2009D27BE /* Exceptions for "Feature" folder in "MegaBoxTests" target */,
+				4CA2D65E2EA91CA2009D27BE /* Exceptions for "Feature" folder in "MegaBoxUITests" target */,
+			);
+			path = Feature;
+			sourceTree = "<group>";
+		};
+		4CA2D6622EA91CFE009D27BE /* Application */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4CA2D6632EA91D13009D27BE /* Exceptions for "Application" folder in "MegaBox" target */,
+				4CA2D6642EA91D13009D27BE /* Exceptions for "Application" folder in "MegaBoxTests" target */,
+				4CA2D6652EA91D13009D27BE /* Exceptions for "Application" folder in "MegaBoxUITests" target */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		4CA2D6672EA91DB2009D27BE /* Domain */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4CA2D66A2EA91DE5009D27BE /* Exceptions for "Domain" folder in "MegaBox" target */,
+				4CA2D66B2EA91DE5009D27BE /* Exceptions for "Domain" folder in "MegaBoxTests" target */,
+				4CA2D66C2EA91DE5009D27BE /* Exceptions for "Domain" folder in "MegaBoxUITests" target */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		4CA2D66D2EA91E04009D27BE /* Data */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4CA2D6802EAF17C3009D27BE /* Exceptions for "Data" folder in "MegaBox" target */,
+				4CA2D6812EAF17C3009D27BE /* Exceptions for "Data" folder in "MegaBoxTests" target */,
+				4CA2D6822EAF17C3009D27BE /* Exceptions for "Data" folder in "MegaBoxUITests" target */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
 		4CF19AF62E8806EE0078679E /* MegaBox */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -205,16 +292,6 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		4CF19BE02E880B8C0078679E /* Sources */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				4CF19C202E880B8C0078679E /* Exceptions for "Sources" folder in "MegaBox" target */,
-				4CF19C212E880B8C0078679E /* Exceptions for "Sources" folder in "MegaBoxTests" target */,
-				4CF19C222E880B8C0078679E /* Exceptions for "Sources" folder in "MegaBoxUITests" target */,
-			);
-			path = Sources;
-			sourceTree = "<group>";
-		};
 		4CF19BE12E880B8C0078679E /* Tests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Tests;
@@ -228,16 +305,6 @@
 				4CF19C252E880B8C0078679E /* Exceptions for "View" folder in "MegaBoxUITests" target */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		4CF19D342E8812700078679E /* Login */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				4CF19D352E8812790078679E /* Exceptions for "Login" folder in "MegaBox" target */,
-				4CF19D362E8812790078679E /* Exceptions for "Login" folder in "MegaBoxTests" target */,
-				4CF19D372E8812790078679E /* Exceptions for "Login" folder in "MegaBoxUITests" target */,
-			);
-			path = Login;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -270,9 +337,11 @@
 		4CF19AEB2E8806EE0078679E = {
 			isa = PBXGroup;
 			children = (
-				4CF19D342E8812700078679E /* Login */,
+				4CA2D6622EA91CFE009D27BE /* Application */,
+				4CA2D61D2EA91C85009D27BE /* Feature */,
+				4CA2D6672EA91DB2009D27BE /* Domain */,
+				4CA2D66D2EA91E04009D27BE /* Data */,
 				4CF19BDC2E880B8C0078679E /* Resources */,
-				4CF19BE02E880B8C0078679E /* Sources */,
 				4CF19BE12E880B8C0078679E /* Tests */,
 				4CF19BE42E880B8C0078679E /* View */,
 				4CF19AF62E8806EE0078679E /* MegaBox */,
