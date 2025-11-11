@@ -1,16 +1,22 @@
 import SwiftUI
 
 struct MemberInfoManageView: View {
-    @AppStorage("login.id") private var storedId: String = ""
-    @AppStorage("profile.name") private var storedName: String = ""
-
     @State private var nameInput: String = ""
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var vm: LoginViewModel
+
+    // Keychain에서 읽기
+    private var storedId: String {
+        KeyChainService.read(KCKey.username).flatMap { String(data: $0, encoding: .utf8) } ?? ""
+    }
+    private var storedName: String {
+        KeyChainService.read(KCKey.displayName).flatMap { String(data: $0, encoding: .utf8) } ?? ""
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 24) {
 
-            // 커스텀 네비게이션바
+            // 커스텀 네비게이션바 (기존 유지)
             MemberInfoNavBar(
                 title: "회원정보 관리",
                 backAction: { dismiss() }
@@ -19,21 +25,23 @@ struct MemberInfoManageView: View {
             MemberInfoBasicTitle()
 
             VStack(alignment: .leading, spacing: 0) {
+                // 아이디는 고정 노출
                 MemberInfoFixedRow(text: storedId)
 
-                Divider()
-                    .background(Color("grey02"))
+                Divider().background(Color("grey02"))
 
+                // 이름 수정 → Keychain 저장
                 MemberInfoEditableRow(
                     placeholder: "이름을 입력하세요",
                     text: $nameInput,
                     onTapChange: {
-                        storedName = nameInput.trimmingCharacters(in: .whitespacesAndNewlines)
+                        let newName = nameInput.trimmingCharacters(in: .whitespacesAndNewlines)
+                        KeyChainService.save(Data(newName.utf8), for: KCKey.displayName)
+                        vm.displayName = newName
                     }
                 )
 
-                Divider()
-                    .background(Color("grey02"))
+                Divider().background(Color("grey02"))
             }
 
             Spacer()
@@ -42,9 +50,8 @@ struct MemberInfoManageView: View {
         .padding(.top, 12)
         .toolbar(.hidden, for: .navigationBar)
         .onAppear {
+            // 최초 진입 시 입력값 채움
             nameInput = storedName.isEmpty ? storedId : storedName
         }
     }
 }
-
-#Preview { NavigationStack { MemberInfoManageView() } }
