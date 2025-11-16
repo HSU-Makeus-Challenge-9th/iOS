@@ -1,4 +1,18 @@
 # Xcode 설정 등 기본적으로 무시할 것들
 .DS_Store
+.AppleDouble
 UserInterfaceState.xcuserstate
 xcuserdata/
+*.xcscmblueprint
+*.xccheckout
+*.xcuserdatad
+
+DerivedData/
+Build/
+.build/
+
+Packages/
+.swiftpm/
+
+#  Secret Key, Config
+*.xcconfig

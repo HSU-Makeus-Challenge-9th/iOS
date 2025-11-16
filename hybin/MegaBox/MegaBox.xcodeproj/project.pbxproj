@@ -159,11 +159,11 @@
 			membershipExceptions = (
 				Models/MovieModel.swift,
 				Models/UserModel.swift,
-				Services/Config.xcconfig,
 				Services/KakaoAuthService.swift,
 				Services/KakaoConfig.swift,
 				Services/KeychainService.swift,
 				Services/MovieService.swift,
+				Services/Secret.xcconfig,
 				Services/UserSessionManager.swift,
 			);
 			target = 4CF19AF32E8806EE0078679E /* MegaBox */;
@@ -173,11 +173,11 @@
 			membershipExceptions = (
 				Models/MovieModel.swift,
 				Models/UserModel.swift,
-				Services/Config.xcconfig,
 				Services/KakaoAuthService.swift,
 				Services/KakaoConfig.swift,
 				Services/KeychainService.swift,
 				Services/MovieService.swift,
+				Services/Secret.xcconfig,
 				Services/UserSessionManager.swift,
 			);
 			target = 4CF19B002E8806F00078679E /* MegaBoxTests */;
@@ -187,11 +187,11 @@
 			membershipExceptions = (
 				Models/MovieModel.swift,
 				Models/UserModel.swift,
-				Services/Config.xcconfig,
 				Services/KakaoAuthService.swift,
 				Services/KakaoConfig.swift,
 				Services/KeychainService.swift,
 				Services/MovieService.swift,
+				Services/Secret.xcconfig,
 				Services/UserSessionManager.swift,
 			);
 			target = 4CF19B0A2E8806F00078679E /* MegaBoxUITests */;
@@ -625,6 +625,8 @@
 /* Begin XCBuildConfiguration section */
 		4CF19B132E8806F00078679E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 4CA2D6672EA91DB2009D27BE /* Domain */;
+			baseConfigurationReferenceRelativePath = Services/Secret.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -688,6 +690,8 @@
 		};
 		4CF19B142E8806F00078679E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReferenceAnchor = 4CA2D6672EA91DB2009D27BE /* Domain */;
+			baseConfigurationReferenceRelativePath = Services/Secret.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;

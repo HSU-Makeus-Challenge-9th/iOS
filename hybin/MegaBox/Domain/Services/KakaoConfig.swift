@@ -8,9 +8,13 @@
 import Foundation
 
 enum KakaoConfig {
-    static let restAPIKey = "df7b27f278031b4c96ced44370279f3d"
-    static let nativeAppKey = "6abbcbd37e07ddddea948676ad11e61e"
-    static var redirectURI : String = "http://Jeon.MegaBox//oauth"
+    static var restAPIKey = info("REST_APP_KEY")
+    static let nativeAppKey = info("NATIVE_APP_KEY")
+    static var redirectURI: String { "kakao\(nativeAppKey)://oauth" }
+}
 
-//    static var redirectURI: String { "kakao\(nativeAppKey)://oauth" }
+private extension KakaoConfig {
+    static func info(_ key: String) -> String {
+        Bundle.main.object(forInfoDictionaryKey: key) as? String ?? ""
+    }
 }
