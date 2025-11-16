@@ -7,16 +7,15 @@
 
 import Foundation
 import SwiftUI
-
-
+import Kingfisher
 
 struct MovieDetailView : View {
-    let movie : MovieModel
+    let movie : MovieCardModel
     
     @Environment(\.dismiss) private var dismiss
     
     var body : some View{
-        VStack{
+        VStack(spacing: 0){
             HStack {
                 Button(action: {
                     dismiss()
@@ -26,79 +25,95 @@ struct MovieDetailView : View {
                         .foregroundStyle(Color.black)
                 }
                 Spacer()
-                Text(movie.title)
+                Text(movie.movieTitle)
                     .font(.pretend(type: .bold, size: 20))
                     .lineLimit(1)
                 Spacer()
-                Spacer().frame(width: 44) // 오른쪽 빈 공간
+                Spacer().frame(width: 44)
             }
             .padding(.horizontal)
             .padding(.top, 10)
             
-            VStack{
-                movieImageDetailView
-                movieTitleDetailView
-                movieDescriptionView
-            }
-            VStack(alignment:.leading){
-                HStack(alignment: .center){
-                    //탭버튼 위치
-                    Text("상세정보")
-                        .frame(maxWidth: .infinity)
-                    Text("관람후기")
-                        .frame(maxWidth: .infinity)
+            
+            ScrollView {
+                VStack{
+                    movieImageDetailView
+                    movieTitleDetailView
+                        .padding(.top, 10)
+                    movieDescriptionView
+                        .padding(.top, 20)
                 }
-                Divider()
-                HStack(alignment:.top){
-                    movie.posterImage
-                        .resizable()
-                        .frame(width:100, height:120)
-                        .scaledToFit()
-                    VStack(spacing: 10){
-                        Text("12세 이상 관람가")
-                        Text("2025.10.2 개봉")
+                
+                VStack(alignment:.leading){
+                    HStack(alignment: .center){
+                        Text("상세정보")
+                            .frame(maxWidth: .infinity)
+                        Text("관람후기")
+                            .frame(maxWidth: .infinity)
                     }
+                    Divider()
+                    
+                    
+                    HStack(alignment:.top){
+                        
+                        KFImage(URL(string: movie.moviePoster))
+                            .placeholder { ProgressView() }
+                            .resizable()
+                            .frame(width:100, height:120)
+                            .scaledToFit()
+                        
+                        VStack(alignment: .leading, spacing: 10){
+                            Text(movie.ageLimit) //
+                            Text("\(movie.releaseDate) 개봉")
+                        }
+                        .padding(.leading, 10)
+                    }
+                    .padding(.horizontal, 20)
                 }
-                .padding(.horizontal, 20)
-            }.padding(.top ,20)
+                .padding(.top ,20)
+            }
             
             Spacer()
-            
         }
         .navigationBarBackButtonHidden(true)
-        
+//        .ignoresSafeArea(edges: .top)
     }
     
+    
     private var movieImageDetailView: some View{
-        Rectangle()
-            .foregroundStyle(Color.clear)
-            .frame(maxWidth: .infinity,minHeight: 248, maxHeight: 248)
-            .background(
-                Image(.exampleMovieDetailView)
-                    .resizable()
-                    .scaledToFit()
-                    .clipped()
-            )
+        KFImage(URL(string: movie.backdropPath))
+            .placeholder {
+                ZStack {
+                    Color.gray.opacity(0.1)
+                    ProgressView()
+                }
+                .frame(maxWidth: .infinity, minHeight: 248, maxHeight: 248)
+            }
+            .resizable()
+            .scaledToFill() //
+            .frame(maxWidth: .infinity, minHeight: 248, maxHeight: 248)
+            .clipped()
     }
+    
     
     private var movieTitleDetailView: some View{
         Group {
-            Text(movie.title)
-                .font(.pretend(type: .bold  ,size: 24))
-            Text("영어" + movie.title)//영어
+            Text(movie.movieTitle)
+                .font(.pretend(type: .bold ,size: 24))
+            Text(movie.originalTitle)
                 .font(.pretend(type: .semiBold, size: 14))
-                .foregroundStyle(Color.loginTextBackground)
+                .foregroundStyle(Color.loginTextBackgroundColor)
         }
     }
     
+    
     private var movieDescriptionView: some View{
-        Text("최고가 되지 못한 전설 VS 최고가 되고 싶은 루키\n\n한때 주목받는 유망주였지만 끔찍한 사고로 F1에서 우승하지 못하고\n한순간에 추락한 드라이버 ‘손; 헤이스'(브래드 피트).\n그의 오랜 동료인 ‘루벤 세르반테스'(하비에르 바르뎀)에게\n레이싱 복귀를 제안받으며 최하위 팀인 APGXP에 합류한다.")
+        Text(movie.overview) 
             .font(.pretend(type: .semiBold, size: 18))
-            .foregroundStyle(Color.loginTextBackground)
+            .foregroundStyle(Color.loginTextBackgroundColor)
             .padding(.horizontal, 10)
     }
 }
-
 //#Preview {
 //    MovieDetailView()
 

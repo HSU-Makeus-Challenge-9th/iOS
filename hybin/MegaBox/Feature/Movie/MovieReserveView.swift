@@ -8,12 +8,16 @@
 import Foundation
 import SwiftUI
 import Combine
+import Kingfisher
 
 struct MovieReserveView: View {
     
-    @State private var vm: MovieReserveViewModel
+    @State var vm: MovieReserveViewModel
     
-    init(selectedMovie: MovieModel) {
+    let selectedMovie: MovieCardModel
+    
+    init(selectedMovie: MovieCardModel) {
+        self.selectedMovie = selectedMovie
         _vm = State(initialValue: MovieReserveViewModel(selectedMovie: selectedMovie))
     }
     
@@ -48,24 +52,24 @@ struct MovieReserveView: View {
             )
         })
         .navigationBarBackButtonHidden(true)
-
+        
         
         .task {
             await vm.loadAllMovies()
         }
         .onChange(of: vm.selectedMovie?.id) {
             Task{
-                await vm.loadSchedules()
+                vm.loadSchedules()
             }
         }
         .onChange(of: vm.selectedTheater) {
             Task {
-                await vm.loadSchedules()
+                vm.loadSchedules()
             }
         }
         .onChange(of: vm.calendarVM.selectedDate) {
             Task {
-                await vm.loadSchedules()
+                vm.loadSchedules()
             }
         }
     }
@@ -75,35 +79,35 @@ struct MovieReserveView: View {
     //MARK: - 하위뷰
     
     private var header: some View {
+        
+        
+        ZStack {
+            Text("영화별 예매")
+                .font(.pretend(type: .bold, size: 22))
+                .foregroundStyle(Color.white)
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding(.top,16)
             
-                
-                ZStack {
-                    Text("영화별 예매")
-                        .font(.pretend(type: .bold, size: 22))
+            HStack {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "chevron.left")
+                        .font(.title2)
                         .foregroundStyle(Color.white)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .padding(.top,16)
-                    
-                    HStack {
-                        Button {
-                            dismiss()
-                        } label: {
-                            Image(systemName: "chevron.left")
-                                .font(.title2)
-                                .foregroundStyle(Color.white)
-                        }
-                        .padding(.leading, 16)
-                        
-                        Spacer()
-                    }
                 }
-                .padding(.top, 50)
-                .padding(.bottom, 10)
+                .padding(.leading, 16)
                 
-            
-            .frame(maxWidth: .infinity)
-            .background(Color.loginBackgroundColor)
+                Spacer()
+            }
         }
+        .padding(.top, 50)
+        .padding(.bottom, 10)
+        
+        
+        .frame(maxWidth: .infinity)
+        .background(Color.loginBackgroundColor)
+    }
     
     private var movieList : some View {
         VStack(alignment: .leading,spacing: 20){
@@ -116,7 +120,7 @@ struct MovieReserveView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 4))
                     
                     
-                    Text("15")
+                    Text(selectedMovie.ageLimit)
                         .font(.pretend(type: .bold, size: 18))
                         .multilineTextAlignment(.center)
                         .foregroundStyle(Color.white)
@@ -124,7 +128,7 @@ struct MovieReserveView: View {
                 }.padding(.trailing, 34)
                 
                 if let selected = vm.selectedMovie{
-                    Text(selected.title)
+                    Text(selected.movieTitle)
                         .font(.pretend(type: .bold, size: 18))
                 } else {
                     Text("영화를 선택해주세요")
@@ -161,24 +165,21 @@ struct MovieReserveView: View {
         }
     }
     
-    private func movieCardView(movie: MovieModel) -> some View{
+    private func movieCardView(movie: MovieCardModel) -> some View{
         Button(action:{
             vm.selectedMovie = movie
         }) {
-            Rectangle()
-                .foregroundStyle(Color.clear)
+            KFImage(URL(string: movie.moviePoster))
+                .placeholder { ProgressView() }
+                .resizable()
+                .scaledToFill() // (scaledToFit보다 Fill이 나음)
                 .frame(width: 62, height: 89)
-                .background{
-                    movie.posterImage
-                        .resizable()
-                        .scaledToFit()
-                        .clipped()
-                }
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
                         .inset(by: 0.5)
                         .stroke(
+                            // ⭐️ [수정!] ID 비교
                             vm.selectedMovie?.id == movie.id ? Color.loginBackgroundColor : Color.clear ,lineWidth: 2
                         )
                 )
@@ -365,21 +366,4 @@ struct MovieReserveView: View {
     
 }
 
-#Preview {
-    
-    // --- 1. 프리뷰 전용 "가짜" 영화 1개 만들기 ---
-    // (이 MovieModel은 실제 앱의 MovieModel과 구조가 같아야 함)
-    let fakeMovie = MovieModel(
-        id: "m-001",
-        title: "어쩔수가없다",
-        posterImage: Image("어쩔수가없다"), // (Assets에 있는 이름)
-        audience: 0,
-        bookRanking: 0
-    )
-    
-    // --- 2. 프리뷰에서 사용할 '공용 init'을 사용 ---
-    // (이 뷰는 .task { } 에서 데이터를 로드하므로,
-    //  프리뷰에서는 빈 화면으로 시작하는 것이 정상입니다.)
-    return MovieReserveView(selectedMovie: fakeMovie)
-}
 

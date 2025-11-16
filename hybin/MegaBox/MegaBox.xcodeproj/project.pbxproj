@@ -11,6 +11,9 @@
 		4C0C30082EC9AFBC0079566D /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 4C0C30072EC9AFBC0079566D /* .gitignore */; };
 		4C0C30092EC9AFBC0079566D /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 4C0C30072EC9AFBC0079566D /* .gitignore */; };
 		4C0C300A2EC9AFBC0079566D /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 4C0C30072EC9AFBC0079566D /* .gitignore */; };
+		4C0C30C02EC9F3CF0079566D /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 4C0C30BF2EC9F3CF0079566D /* CombineMoya */; };
+		4C0C30C22EC9F3CF0079566D /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 4C0C30C12EC9F3CF0079566D /* Moya */; };
+		4C0C30C92EC9FCF10079566D /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 4C0C30C82EC9FCF10079566D /* Kingfisher */; };
 		4CACFB152EC2298500643999 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 4CACFB142EC2298500643999 /* KakaoSDK */; };
 		4CACFB172EC2298500643999 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 4CACFB162EC2298500643999 /* KakaoSDKAuth */; };
 		4CACFB192EC2298500643999 /* KakaoSDKCert in Frameworks */ = {isa = PBXBuildFile; productRef = 4CACFB182EC2298500643999 /* KakaoSDKCert */; };
@@ -162,7 +165,9 @@
 				Services/KakaoAuthService.swift,
 				Services/KakaoConfig.swift,
 				Services/KeychainService.swift,
+				Services/MovieAPIService.swift,
 				Services/MovieService.swift,
+				Services/MoyaExtension.swift,
 				Services/UserSessionManager.swift,
 			);
 			target = 4CF19AF32E8806EE0078679E /* MegaBox */;
@@ -175,7 +180,9 @@
 				Services/KakaoAuthService.swift,
 				Services/KakaoConfig.swift,
 				Services/KeychainService.swift,
+				Services/MovieAPIService.swift,
 				Services/MovieService.swift,
+				Services/MoyaExtension.swift,
 				Services/UserSessionManager.swift,
 			);
 			target = 4CF19B002E8806F00078679E /* MegaBoxTests */;
@@ -188,7 +195,9 @@
 				Services/KakaoAuthService.swift,
 				Services/KakaoConfig.swift,
 				Services/KeychainService.swift,
+				Services/MovieAPIService.swift,
 				Services/MovieService.swift,
+				Services/MoyaExtension.swift,
 				Services/UserSessionManager.swift,
 			);
 			target = 4CF19B0A2E8806F00078679E /* MegaBoxUITests */;
@@ -196,6 +205,7 @@
 		4CA2D6802EAF17C3009D27BE /* Exceptions for "Data" folder in "MegaBox" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				DTOs/MovieResponseDTO.swift,
 				DTOs/MovieScheduleDTOs.swift,
 				Mappers/MovieMapper.swift,
 				Mappers/ScheduleMapper.swift,
@@ -205,6 +215,7 @@
 		4CA2D6812EAF17C3009D27BE /* Exceptions for "Data" folder in "MegaBoxTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				DTOs/MovieResponseDTO.swift,
 				DTOs/MovieScheduleDTOs.swift,
 				Mappers/MovieMapper.swift,
 				Mappers/ScheduleMapper.swift,
@@ -214,6 +225,7 @@
 		4CA2D6822EAF17C3009D27BE /* Exceptions for "Data" folder in "MegaBoxUITests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				DTOs/MovieResponseDTO.swift,
 				DTOs/MovieScheduleDTOs.swift,
 				Mappers/MovieMapper.swift,
 				Mappers/ScheduleMapper.swift,
@@ -374,7 +386,10 @@
 			files = (
 				4CACFB1D2EC2298500643999 /* KakaoSDKCommon in Frameworks */,
 				4CACFB1B2EC2298500643999 /* KakaoSDKCertCore in Frameworks */,
+				4C0C30C22EC9F3CF0079566D /* Moya in Frameworks */,
+				4C0C30C92EC9FCF10079566D /* Kingfisher in Frameworks */,
 				4CACFB152EC2298500643999 /* KakaoSDK in Frameworks */,
+				4C0C30C02EC9F3CF0079566D /* CombineMoya in Frameworks */,
 				4C0C2FFE2EC2300A0079566D /* Alamofire in Frameworks */,
 				4CACFB172EC2298500643999 /* KakaoSDKAuth in Frameworks */,
 				4CACFB192EC2298500643999 /* KakaoSDKCert in Frameworks */,
@@ -460,6 +475,9 @@
 				4CACFB1A2EC2298500643999 /* KakaoSDKCertCore */,
 				4CACFB1C2EC2298500643999 /* KakaoSDKCommon */,
 				4C0C2FFD2EC2300A0079566D /* Alamofire */,
+				4C0C30BF2EC9F3CF0079566D /* CombineMoya */,
+				4C0C30C12EC9F3CF0079566D /* Moya */,
+				4C0C30C82EC9FCF10079566D /* Kingfisher */,
 			);
 			productName = MegaBox;
 			productReference = 4CF19AF42E8806EE0078679E /* MegaBox.app */;
@@ -542,6 +560,8 @@
 			packageReferences = (
 				4CACFB132EC2298500643999 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				4C0C2FFC2EC2300A0079566D /* XCRemoteSwiftPackageReference "Alamofire" */,
+				4C0C30BE2EC9F3CF0079566D /* XCRemoteSwiftPackageReference "Moya" */,
+				4C0C30C72EC9FCF10079566D /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 4CF19AF52E8806EE0078679E /* Products */;
@@ -755,6 +775,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MegaBox/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -787,6 +808,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MegaBox/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -939,6 +961,22 @@
 				minimumVersion = 5.10.2;
 			};
 		};
+		4C0C30BE2EC9F3CF0079566D /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Moya/Moya";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 15.0.3;
+			};
+		};
+		4C0C30C72EC9FCF10079566D /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.6.1;
+			};
+		};
 		4CACFB132EC2298500643999 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kakao/kakao-ios-sdk";
@@ -954,6 +992,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4C0C2FFC2EC2300A0079566D /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		4C0C30BF2EC9F3CF0079566D /* CombineMoya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4C0C30BE2EC9F3CF0079566D /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = CombineMoya;
+		};
+		4C0C30C12EC9F3CF0079566D /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4C0C30BE2EC9F3CF0079566D /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
+		4C0C30C82EC9FCF10079566D /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4C0C30C72EC9FCF10079566D /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 		4CACFB142EC2298500643999 /* KakaoSDK */ = {
 			isa = XCSwiftPackageProductDependency;
