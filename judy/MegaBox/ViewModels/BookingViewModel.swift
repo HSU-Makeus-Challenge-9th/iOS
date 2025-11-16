@@ -1,37 +1,115 @@
 import Foundation
 import Combine
+import SwiftUI
 
 @MainActor
 final class BookingViewModel: ObservableObject {
-    // 영화 리스트
-    @Published var movies: [Movie] = [
-        Movie(titleKo: "F1 더 무비", titleEn: "F1 The Movie", posterHome: "F1main", posterDetail: "F1main", audience: "12"),
-        Movie(titleKo: "귀멸의 칼날: 무한성편", titleEn: "Demon Slayer", posterHome: "movie1", posterDetail: "movie1", audience: "15"),
-        Movie(titleKo: "어쩔수가없다", titleEn: "No Choice", posterHome: "movie2", posterDetail: "movie2", audience: "15"),
-        Movie(titleKo: "얼굴", titleEn: "Face", posterHome: "movie3", posterDetail: "movie3", audience: "12"),
-        Movie(titleKo: "모노노케 히메", titleEn: "Princess Mononoke", posterHome: "movie4", posterDetail: "movie4", audience: "12"),
-        Movie(titleKo: "보스", titleEn: "The Boss", posterHome: "movie5", posterDetail: "movie5", audience: "12"),
-        Movie(titleKo: "야당", titleEn: "Harang", posterHome: "movie6", posterDetail: "movie6", audience: "12"),
-        Movie(titleKo: "The Roses", titleEn: "The Roses", posterHome: "movie7", posterDetail: "movie7", audience: "15")
-    ]
-    
-    @Published var selectedMovie: Movie? = nil
+
+    // MARK: Published
+    @Published var movies: [AppMovie] = []
+    @Published var selectedMovie: AppMovie? = nil
     @Published var selectedTheater: String? = nil
     @Published var selectedDate: Date? = nil
-    
+    @Published var debugText: String = ""
     @Published var showSearchSheet: Bool = false
-    
-    // 극장 버튼
-    let theaters = ["강남", "홍대", "신촌"]
-    
-    // 날짜 리스트
-    var weekDates: [Date] {
-        let today = Date()
-        return (0..<7).compactMap { Calendar.current.date(byAdding: .day, value: $0, to: today) }
+
+    private var cancellables = Set<AnyCancellable>()
+
+    // MARK: Derived
+    var theaters: [String] {
+        guard let m = selectedMovie else { return [] }
+        let all = m.schedules.flatMap { $0.areas.map(\.name) }
+        return Array(Set(all)).sorted()
     }
-    
-    // 상영관 표시 로직
-    var hasShowtime: Bool {
-        selectedMovie != nil && selectedTheater != nil && selectedDate != nil
+
+    var availableDates: [Date] {
+        selectedMovie?.schedules.map(\.date).sorted() ?? []
+    }
+
+    var filteredAuditoriums: [BookingAuditorium] {
+        guard
+            let movie = selectedMovie,
+            let theater = selectedTheater,
+            let date = selectedDate
+        else { return [] }
+        let cal = Calendar.current
+        guard
+            let schedule = movie.schedules.first(where: { cal.isDate($0.date, inSameDayAs: date) }),
+            let area = schedule.areas.first(where: { $0.name == theater })
+        else { return [] }
+        return area.items
+    }
+
+    var showtimeGroups: [(hall: String, format: String, shows: [BookingShowtime])] {
+        filteredAuditoriums.map { ($0.name, $0.format, $0.showtimes) }
+    }
+
+    var hasShowtime: Bool { selectedMovie != nil && selectedTheater != nil && selectedDate != nil }
+
+    // MARK: Convenience Bindings (Picker 등에 사용)
+    func bindingSelectedMovieID() -> Binding<String> {
+        Binding<String>(
+            get: { [weak self] in
+                guard let self = self else { return "" }
+                return self.selectedMovie?.id ?? self.movies.first?.id ?? ""
+            },
+            set: { [weak self] newID in
+                self?.selectedMovie = self?.movies.first(where: { $0.id == newID })
+            }
+        )
+    }
+    func bindingSelectedDate() -> Binding<Date> {
+        Binding<Date>(
+            get: { [weak self] in
+                guard let self = self else { return Date() }
+                return self.selectedDate ?? self.availableDates.first ?? Date()
+            },
+            set: { [weak self] newDate in self?.selectedDate = newDate }
+        )
+    }
+    func bindingSelectedTheater() -> Binding<String> {
+        Binding<String>(
+            get: { [weak self] in
+                guard let self = self else { return "" }
+                return self.selectedTheater ?? self.theaters.first ?? ""
+            },
+            set: { [weak self] newTheater in self?.selectedTheater = newTheater }
+        )
+    }
+
+    // MARK: Init
+    init() {
+        $selectedMovie
+            .removeDuplicates { $0?.id == $1?.id }
+            .sink { [weak self] _ in
+                guard let self = self else { return }
+                if self.selectedDate == nil || !(self.availableDates.contains(self.selectedDate!)) {
+                    self.selectedDate = self.availableDates.first
+                }
+                if self.selectedTheater == nil || !(self.theaters.contains(self.selectedTheater!)) {
+                    self.selectedTheater = self.theaters.first
+                }
+            }
+            .store(in: &cancellables)
+
+        Task { await loadSchedules() }
+    }
+
+    // MARK: Actions
+    func loadSchedules() async {
+        guard let url = Bundle.main.url(forResource: "MovieSchedule", withExtension: "json") else {
+            debugText = "❌ MovieSchedule.json 파일을 번들에서 찾지 못했습니다."
+            print(debugText); return
+        }
+        do {
+            let data = try Data(contentsOf: url)
+            let decoded = try JSONDecoder().decode(MovieScheduleResponseDTO.self, from: data)
+            let mapped = decoded.toMoviesForList()
+            self.movies = mapped
+            if selectedMovie == nil { selectedMovie = movies.first }
+        } catch {
+            debugText = "❌ 디코딩 실패: \(error)"
+            print(debugText)
+        }
     }
 }

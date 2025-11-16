@@ -4,14 +4,13 @@ import Combine
 struct MovieSearchView: View {
     @ObservedObject var vm: BookingViewModel
 
-    // 검색 상태
     @State private var searchText: String = ""
-    @State private var filteredMovies: [Movie] = []
+    @State private var filteredMovies: [AppMovie] = []   // ✅ AppMovie로 변경
     private let searchTextSubject = PassthroughSubject<String, Never>()
 
     private let columnsCount: Int = 3
     private let gridHSpacing: CGFloat = 18
-    private let gridVSpacing: CGFloat = 24 줄임
+    private let gridVSpacing: CGFloat = 24
     private let contentHPadding: CGFloat = 20
 
     var body: some View {
@@ -53,7 +52,7 @@ struct MovieSearchView: View {
                     }
                     .padding(.horizontal, contentHPadding)
                     .padding(.top, 8)
-                    .padding(.bottom, 120) // 하단 툴바 공간
+                    .padding(.bottom, 120)
                     .background(Color(uiColor: .systemBackground))
                 }
                 .background(Color(uiColor: .systemBackground))
@@ -68,11 +67,8 @@ struct MovieSearchView: View {
             .toolbarBackground(Color(uiColor: .systemBackground), for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
             .toolbarColorScheme(.light, for: .navigationBar)
-
-            // 화면 전체 흰색
             .background(Color(uiColor: .systemBackground).ignoresSafeArea())
 
-            // iOS 17 onChange (Deprecated 아님)
             .onChange(of: searchText, initial: false) { _, newValue in
                 searchTextSubject.send(newValue)
             }
@@ -88,23 +84,22 @@ struct MovieSearchView: View {
                 }
             }
             .onAppear { filteredMovies = vm.movies }
+
+            // 하단 검색 툴바
             .safeAreaInset(edge: .bottom) {
                 SearchToolbar(text: $searchText, placeholder: "영화명을 입력해주세요")
-                    .padding(.horizontal, 0)
                     .background(Color(uiColor: .systemBackground))
             }
         }
     }
 }
 
-// Search Toolbar
 private struct SearchToolbar: View {
     @Binding var text: String
     var placeholder: String
 
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
-            // 검색 입력 바
             HStack(spacing: 8) {
                 Image(systemName: "magnifyingglass")
                     .font(.system(size: 18, weight: .regular))
@@ -116,8 +111,7 @@ private struct SearchToolbar: View {
                     .font(.pretendBody)
                     .foregroundStyle(.primary)
 
-                Button {
-                } label: {
+                Button { /* voice */ } label: {
                     Image(systemName: "mic.fill")
                         .font(.system(size: 18, weight: .regular))
                         .foregroundStyle(.gray)
@@ -131,9 +125,7 @@ private struct SearchToolbar: View {
                     .shadow(color: .black.opacity(0.08), radius: 8, x: 0, y: 2)
             )
 
-            Button {
-                text = ""
-            } label: {
+            Button { text = "" } label: {
                 ZStack {
                     Circle()
                         .fill(Color(uiColor: .systemBackground))

@@ -88,7 +88,6 @@ struct MovieDetailView: View {
                     Group {
                         if selectedTab == 0 {
                             VStack(alignment: .leading, spacing: 12) {
-                                // ✅ alignment: .top 추가
                                 HStack(alignment: .top, spacing: 12) {
                                     Image("c2movie")
                                         .resizable()
