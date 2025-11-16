@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		4C0C2FFE2EC2300A0079566D /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 4C0C2FFD2EC2300A0079566D /* Alamofire */; };
+		4C0C30082EC9AFBC0079566D /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 4C0C30072EC9AFBC0079566D /* .gitignore */; };
+		4C0C30092EC9AFBC0079566D /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 4C0C30072EC9AFBC0079566D /* .gitignore */; };
+		4C0C300A2EC9AFBC0079566D /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 4C0C30072EC9AFBC0079566D /* .gitignore */; };
 		4CACFB152EC2298500643999 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 4CACFB142EC2298500643999 /* KakaoSDK */; };
 		4CACFB172EC2298500643999 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 4CACFB162EC2298500643999 /* KakaoSDKAuth */; };
 		4CACFB192EC2298500643999 /* KakaoSDKCert in Frameworks */ = {isa = PBXBuildFile; productRef = 4CACFB182EC2298500643999 /* KakaoSDKCert */; };
@@ -66,6 +69,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4C0C30072EC9AFBC0079566D /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		4CF19AF42E8806EE0078679E /* MegaBox.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MegaBox.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CF19B012E8806F00078679E /* MegaBoxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MegaBoxTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CF19B0B2E8806F00078679E /* MegaBoxUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MegaBoxUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -155,6 +159,7 @@
 			membershipExceptions = (
 				Models/MovieModel.swift,
 				Models/UserModel.swift,
+				Services/Config.xcconfig,
 				Services/KakaoAuthService.swift,
 				Services/KakaoConfig.swift,
 				Services/KeychainService.swift,
@@ -168,6 +173,7 @@
 			membershipExceptions = (
 				Models/MovieModel.swift,
 				Models/UserModel.swift,
+				Services/Config.xcconfig,
 				Services/KakaoAuthService.swift,
 				Services/KakaoConfig.swift,
 				Services/KeychainService.swift,
@@ -181,6 +187,7 @@
 			membershipExceptions = (
 				Models/MovieModel.swift,
 				Models/UserModel.swift,
+				Services/Config.xcconfig,
 				Services/KakaoAuthService.swift,
 				Services/KakaoConfig.swift,
 				Services/KeychainService.swift,
@@ -404,6 +411,7 @@
 		4CF19AEB2E8806EE0078679E = {
 			isa = PBXGroup;
 			children = (
+				4C0C30072EC9AFBC0079566D /* .gitignore */,
 				4CA2D6622EA91CFE009D27BE /* Application */,
 				4CA2D61D2EA91C85009D27BE /* Feature */,
 				4CA2D6672EA91DB2009D27BE /* Domain */,
@@ -555,6 +563,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C0C30082EC9AFBC0079566D /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -562,6 +571,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C0C30092EC9AFBC0079566D /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -569,6 +579,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C0C300A2EC9AFBC0079566D /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
