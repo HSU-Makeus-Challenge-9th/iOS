@@ -10,10 +10,27 @@ import SwiftUI
 
 
 struct SplashView : View {
+    
+    @State private var isActive: Bool = false
+    
+    @Environment(UserSessionManager.self) var userSessionManager
+    
     var body: some View {
         ZStack(alignment: .center){
             Image(.meboxLogo)
-        }.foregroundStyle(Color.white)
+        }
+        .foregroundStyle(Color.white)
+        .onAppear {
+            Task {
+                _ = await userSessionManager.checkAutoLogin()
+                
+                self.isActive = true
+            }
+        }
+        .fullScreenCover(isPresented: $isActive) {
+            MainTabView()
+                .environment(userSessionManager)
+        }
     }
 }
 

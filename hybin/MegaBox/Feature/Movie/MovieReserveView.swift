@@ -38,6 +38,7 @@ struct MovieReserveView: View {
                 Spacer()
             }
         }
+        .ignoresSafeArea(edges: .top)
         .sheet(isPresented: $isShowingSearchSheet, content: {
             MovieSearchSheetView(
                 vm: vm,
@@ -74,13 +75,14 @@ struct MovieReserveView: View {
     //MARK: - 하위뷰
     
     private var header: some View {
-            ZStack {
+            
                 
                 ZStack {
                     Text("영화별 예매")
                         .font(.pretend(type: .bold, size: 22))
                         .foregroundStyle(Color.white)
                         .frame(maxWidth: .infinity, alignment: .center)
+                        .padding(.top,16)
                     
                     HStack {
                         Button {
@@ -98,9 +100,9 @@ struct MovieReserveView: View {
                 .padding(.top, 50)
                 .padding(.bottom, 10)
                 
-            }
+            
             .frame(maxWidth: .infinity)
-            .background(Color.loginBackgroundColor, ignoresSafeAreaEdges: .top)
+            .background(Color.loginBackgroundColor)
         }
     
     private var movieList : some View {
@@ -364,4 +366,20 @@ struct MovieReserveView: View {
 }
 
 #Preview {
+    
+    // --- 1. 프리뷰 전용 "가짜" 영화 1개 만들기 ---
+    // (이 MovieModel은 실제 앱의 MovieModel과 구조가 같아야 함)
+    let fakeMovie = MovieModel(
+        id: "m-001",
+        title: "어쩔수가없다",
+        posterImage: Image("어쩔수가없다"), // (Assets에 있는 이름)
+        audience: 0,
+        bookRanking: 0
+    )
+    
+    // --- 2. 프리뷰에서 사용할 '공용 init'을 사용 ---
+    // (이 뷰는 .task { } 에서 데이터를 로드하므로,
+    //  프리뷰에서는 빈 화면으로 시작하는 것이 정상입니다.)
+    return MovieReserveView(selectedMovie: fakeMovie)
 }
+

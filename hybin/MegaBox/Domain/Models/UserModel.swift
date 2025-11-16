@@ -8,10 +8,10 @@
 import Foundation
 
 
-struct UserModel {
-    var userId: String
+struct User {
+    var id: String
     var password: String
-    var userName: String
+    var name: String
     var membership: MembershipLevel //enum 처리
     var membershipPoints : Int
     
