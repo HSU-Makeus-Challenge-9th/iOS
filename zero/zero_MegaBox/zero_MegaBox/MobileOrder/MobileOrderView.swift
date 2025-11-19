@@ -19,7 +19,23 @@ struct MobileOrderView: View {
                 Spacer()
             }
             TheaterBar(location:"홍대", backgroundColor: Color("blue03"))
-            
+            HStack{
+                Text("추천 메뉴")
+                    .font(.bold22)
+                    .foregroundColor(.black)
+                    .padding(.leading, 20)
+                Spacer()
+            }
+            HStack{
+                Text("영화 볼 때 뭐먹지 고민될 땐 추천 메뉴!")
+                    .font(.regular12)
+                    .foregroundColor(Color("gray03"))
+                    .padding(.leading, 20)
+                    .padding(.top,10)
+                Spacer()
+            }
+            .padding(.bottom, 20)
+            MenuCard(menu: MenuItemModel.love.returnMenu())
         }
     }
 }
