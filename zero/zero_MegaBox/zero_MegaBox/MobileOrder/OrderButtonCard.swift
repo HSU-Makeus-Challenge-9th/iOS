@@ -14,7 +14,6 @@ struct OrderButtonCard: View {
     var buttonDescription: String = ""
     
     var body: some View {
-        Button(action: {}) {
             VStack(alignment: .leading) {
                 Text(buttonText)
                     .font(.bold22)
@@ -35,7 +34,6 @@ struct OrderButtonCard: View {
                         .padding(.bottom, 10)
                 }
             }
-        }
         .frame(width: CGFloat(buttonWidth), height: CGFloat(buttonHeight))
         .overlay(
             RoundedRectangle(cornerRadius: 10)

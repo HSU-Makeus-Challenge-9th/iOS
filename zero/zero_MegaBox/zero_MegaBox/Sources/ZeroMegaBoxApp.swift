@@ -5,7 +5,8 @@ struct ZeroMegaBoxApp: App {
     var body: some Scene {
         WindowGroup {
 //            LoginView()
-            MovieBookingView()
+//            MovieBookingView()
+            MobileOrderView()
 //            MovieBookingView()
 //            LoginView()
         }

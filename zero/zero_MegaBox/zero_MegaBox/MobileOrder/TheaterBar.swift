@@ -9,15 +9,19 @@ import SwiftUI
 struct TheaterBar: View {
     var location: String = "강남"
     var backgroundColor: Color = Color("purple04")
+    var foregroundColor: Color = Color("white")
+    var textColor: Color = Color("white")
     
     var body: some View {
         HStack{
             Image("map_pin_fill")
+                .renderingMode(.template)
                 .frame(width: 27, height: 27)
                 .padding(.leading, 16)
+                .tint(foregroundColor)
             Text(location)
                 .font(.semiBold13)
-                .foregroundStyle(Color("white"))
+                .foregroundStyle(foregroundColor)
                 .padding(.leading, 10)
             Spacer()
             Button(action: {
@@ -25,12 +29,12 @@ struct TheaterBar: View {
             }){
                 Text("극장 변경")
                     .font(.semiBold13)
-                    .foregroundStyle(Color("white"))
+                    .foregroundStyle(textColor)
             }
             .frame(width: 65, height: 36)
             .overlay(
                 RoundedRectangle(cornerRadius: 5)
-                    .stroke(Color.white, lineWidth: 1)
+                    .stroke(Color(foregroundColor), lineWidth: 1)
             )
             .padding(.trailing, 20)
         }
