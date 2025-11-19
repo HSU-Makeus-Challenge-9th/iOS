@@ -6,6 +6,8 @@ struct ZeroMegaBoxApp: App {
         WindowGroup {
 //            LoginView()
             MovieBookingView()
+//            MovieBookingView()
+//            LoginView()
         }
     }
 }

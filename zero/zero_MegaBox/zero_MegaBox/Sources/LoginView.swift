@@ -96,6 +96,20 @@ struct LoginView: View
                         Image("naver")
                         Spacer()
                         Image("kakao")
+//                        Button(action: {
+//                            let kakaoRestToken = "GmEysvzXDY0VkOXm81QFY5B3N9PNgERVAAAAAQoXC2sAAAGabQK1ZP8D"
+////                            loginModel.kakaoLogin(restToken: kakaoRestToken){success in
+//                                if success {
+//                                    DispatchQueue.main.async {
+//                                        print("로그인 성공")
+//                                        
+//                                            path.append(Route.logined)
+//                                    }
+//                                }
+//                            }
+//                        }){
+//                            Image("kakao")
+//                        }
                         Spacer()
                         Image("apple")
                         Spacer()
