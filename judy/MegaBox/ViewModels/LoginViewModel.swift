@@ -12,7 +12,6 @@ final class LoginViewModel: ObservableObject {
 
     var isLoginEnabled: Bool { !id.isEmpty && !pwd.isEmpty }
 
-    // 🔄 자동 로그인 제거: 초기화 시 '입력값만' 복원 (isLoggedIn은 건드리지 않음)
     init() {
         if let uid = KeyChainService.read(KCKey.username) {
             id = String(decoding: uid, as: UTF8.self)

@@ -45,6 +45,11 @@ struct HomeView: View {
         }
         .navigationTitle("홈")
         .navigationBarTitleDisplayMode(.inline)
+        .task {
+            if vm.allMovies.isEmpty {
+                await vm.fetchNowPlaying()
+            }
+        }
     }
 
     // MARK: - Components
@@ -111,8 +116,12 @@ struct HomeView: View {
                 .background(
                     Capsule()
                         .fill(isSelected ? Color("grey07") : Color("grey02"))
-                        .shadow(color: Color.black.opacity(isSelected ? 0.12 : 0.06),
-                                radius: isSelected ? 8 : 6, x: 0, y: 3)
+                        .shadow(
+                            color: Color.black.opacity(isSelected ? 0.12 : 0.06),
+                            radius: isSelected ? 8 : 6,
+                            x: 0,
+                            y: 3
+                        )
                 )
                 .foregroundStyle(isSelected ? Color.white : Color("grey04"))
         }

@@ -44,13 +44,28 @@ struct ShowtimeDTO: Codable {
 // MARK: - App Model
 struct AppMovie: Identifiable, Equatable {
     let id: String
+    
+    // 기본 텍스트 정보
     let titleKo: String
     let titleEn: String
+    let overview: String
+    let releaseDate: String
+
+    // 기존 JSON용 에셋 이미지
     let posterHome: String
     let posterDetail: String
+
+    // TMDB 전용 이미지 URL
+    let posterURL: URL?
+    let backdropURL: URL?
+
+    // 관람 등급 (TMDB에 없어서 하드코딩)
     let audience: String
+
+    // JSON 일정 정보
     let schedules: [BookingSchedule]
 }
+
 
 // Booking Domain
 struct BookingSchedule: Equatable {
@@ -77,7 +92,7 @@ struct BookingShowtime: Equatable, Identifiable {
     let total: Int
 }
 
-// MARK: - Mapper 준비
+// MARK: - Mapper
 private let ymdFormatter: DateFormatter = {
     let f = DateFormatter()
     f.locale = Locale(identifier: "ko_KR")
@@ -110,7 +125,7 @@ extension ShowtimeDTO {
     }
 }
 
-// MARK: - DTO → App Model
+// MARK: - DTO → App Model (JSON 스케줄 → AppMovie)
 extension MovieScheduleResponseDTO {
 
     private func mapPoster(id: String) -> String {
@@ -122,15 +137,18 @@ extension MovieScheduleResponseDTO {
         }
     }
 
-    // ViewModel에서 바로 사용할 리스트
     func toMoviesForList() -> [AppMovie] {
         data.movies.map { dto in
             AppMovie(
                 id: dto.id,
                 titleKo: dto.title,
                 titleEn: dto.title,
+                overview: "",          // 기본값
+                releaseDate: "",       // 기본값
                 posterHome: mapPoster(id: dto.id),
                 posterDetail: mapPoster(id: dto.id),
+                posterURL: nil,
+                backdropURL: nil,
                 audience: dto.age_rating,
                 schedules: dto.schedules.map { $0.toBooking() }
             )
