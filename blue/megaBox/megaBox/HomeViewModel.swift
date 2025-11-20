@@ -58,10 +58,6 @@ final class HomeViewModel: ObservableObject {
 
         } catch {
             print("❌ TMDB now_playing 호출/디코딩 실패:", error)
-
-            // 네가 원하면 여기 더미 데이터 넣어서 화면이 완전 비지 않게 할 수도 있고,
-            // 진짜 실시간만 중요하면 그냥 비워둬도 됨.
-            // 지금은 디버깅 편하게 하기 위해 아무 것도 넣지 않고 둘게.
         }
     }
 }

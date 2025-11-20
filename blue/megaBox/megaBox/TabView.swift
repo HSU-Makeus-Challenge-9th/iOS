@@ -32,9 +32,9 @@ struct TabView: View {
                 }
                 .tag(Tab.search)
 
-            BookingView()
+            LableView()
                 .tabItem {
-                    Label("예매", systemImage: "ticket")
+                    Label("예매", systemImage: "popcorn")
                 }
                 .tag(Tab.ticket)
 
