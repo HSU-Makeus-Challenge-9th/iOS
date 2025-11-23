@@ -22,6 +22,21 @@ struct MovieModel: Identifiable {
     
 }
 
+struct MovieCardModel : Identifiable {
+    var id: Int
+    
+    let movieTitle: String
+    let moviePoster: String
+    let releaseDate: String
+    let ageLimit: String
+    let bookRanking: Double
+    let totalAudience: String
+    
+    let backdropPath: String
+    let originalTitle: String
+    let overview: String
+}
+
 struct ScreeningTime: Identifiable {
     let id = UUID()
     let time: String // "11:30"

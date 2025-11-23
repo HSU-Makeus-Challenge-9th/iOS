@@ -1,10 +1,11 @@
 import Foundation
+import Kingfisher
 import SwiftUI
 
 struct MovieSearchSheetView: View {
     
     @Bindable var vm: MovieReserveViewModel
-    var onMovieSelected: (MovieModel) -> Void
+    var onMovieSelected: (MovieCardModel) -> Void
     
     @Environment(\.dismiss) var dismiss
     
@@ -14,11 +15,11 @@ struct MovieSearchSheetView: View {
         GridItem(.flexible(), spacing: 15)
     ]
     
-    var filteredMovies: [MovieModel] {
+    var filteredMovies: [MovieCardModel] {
         if vm.debouncedText.isEmpty {
             return vm.movies // 'allMovies'가 아닌 vm.movies
         } else {
-            return vm.movies.filter { $0.title.localizedCaseInsensitiveContains(vm.debouncedText) }
+            return vm.movies.filter { $0.movieTitle.localizedCaseInsensitiveContains(vm.debouncedText) }
         }
     }
     
@@ -40,14 +41,14 @@ struct MovieSearchSheetView: View {
                     Spacer()
                 }
             }
-            .navigationTitle("영화 선택") // 5. ⭐️ 상단 제목
+            .navigationTitle("영화 선택") // 5.상단 제목
             .navigationBarTitleDisplayMode(.inline)
             .toolbar { // 닫기 버튼
                 ToolbarItem(placement: .cancellationAction) {
                     Button("닫기") { dismiss() }
                 }
             }
-            .safeAreaInset(edge: .bottom) { // 6. ⭐️ 하단 검색창
+            .safeAreaInset(edge: .bottom) { // 6.하단 검색창
                 searchBar
             }
         }
@@ -66,7 +67,7 @@ struct MovieSearchSheetView: View {
                 Image(systemName: "magnifyingglass")
                     .foregroundStyle(.gray)
                 
-                // 7. ⭐️ VM의 searchText와 정상적으로 바인딩
+                // 7.VM의 searchText와 정상적으로 바인딩
                 TextField("Search", text: $vm.searchText)
                     .textFieldStyle(PlainTextFieldStyle())
                     .frame(maxWidth: .infinity)
@@ -92,8 +93,8 @@ struct MovieSearchSheetView: View {
 
 // MARK: - 영화 포스터 셀 컴포넌트 (개별 셀)
 private struct MoviePosterCell: View {
-    let movie: MovieModel
-    var action: (MovieModel) -> Void
+    let movie: MovieCardModel
+    var action: (MovieCardModel) -> Void
     
     var body: some View {
         Button {
@@ -101,7 +102,7 @@ private struct MoviePosterCell: View {
         } label: {
             VStack(spacing: 8) {
                 // 포스터 이미지
-                movie.posterImage
+                KFImage(URL(string: movie.moviePoster))
                     .resizable()
                     .scaledToFill()
                     .frame(width: 95, height: 135)
@@ -112,9 +113,8 @@ private struct MoviePosterCell: View {
                     }
                 
                 // 영화 제목
-                Text(movie.title)
+                Text(movie.movieTitle)
                     .font(.pretend(type: .semiBold, size: 14)) // 폰트가 있다면
-                    // .font(.system(size: 14, weight: .semibold)) // 폰트가 없다면
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.black)
                     .lineLimit(2) // 제목이 길 경우 두 줄로 제한
