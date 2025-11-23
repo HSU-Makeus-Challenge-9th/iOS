@@ -40,6 +40,10 @@
 		217B14972ECAF95100BE6499 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 217B14962ECAF95100BE6499 /* Moya */; };
 		217B149A2ECAF96200BE6499 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 217B14992ECAF96200BE6499 /* Kingfisher */; };
 		217B14A62ECB1E5900BE6499 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 217B14A52ECB1E5000BE6499 /* Secrets.swift */; };
+		217B15852ED34D0400BE6499 /* TheaterChangeBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 217B15842ED34D0200BE6499 /* TheaterChangeBar.swift */; };
+		217B15872ED34D9500BE6499 /* MenuItemCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 217B15862ED34D9400BE6499 /* MenuItemCardView.swift */; };
+		217B15892ED34DA700BE6499 /* MenuViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 217B15882ED34DA200BE6499 /* MenuViewModifiers.swift */; };
+		217B158B2ED34DBE00BE6499 /* MobileOrderDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 217B158A2ED34DBC00BE6499 /* MobileOrderDetailView.swift */; };
 		2183C2BC2EC2193100E4B917 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 2183C2BB2EC2193100E4B917 /* KakaoSDKAuth */; };
 		2183C2C22EC2193100E4B917 /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 2183C2C12EC2193100E4B917 /* KakaoSDKCommon */; };
 		2183C2D02EC2193100E4B917 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = 2183C2CF2EC2193100E4B917 /* KakaoSDKUser */; };
@@ -78,6 +82,10 @@
 		215D4ED42EBFAED400188B80 /* KakaoConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoConfig.swift; sourceTree = "<group>"; };
 		215D4ED62EBFAF0200188B80 /* KakaoAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoAuthManager.swift; sourceTree = "<group>"; };
 		217B14A52ECB1E5000BE6499 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
+		217B15842ED34D0200BE6499 /* TheaterChangeBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheaterChangeBar.swift; sourceTree = "<group>"; };
+		217B15862ED34D9400BE6499 /* MenuItemCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemCardView.swift; sourceTree = "<group>"; };
+		217B15882ED34DA200BE6499 /* MenuViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModifiers.swift; sourceTree = "<group>"; };
+		217B158A2ED34DBC00BE6499 /* MobileOrderDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileOrderDetailView.swift; sourceTree = "<group>"; };
 		2183C29D2EC1D4E800E4B917 /* Secret.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secret.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -145,6 +153,7 @@
 		215D4C4D2E7BF60D00188B80 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				217B158A2ED34DBC00BE6499 /* MobileOrderDetailView.swift */,
 				215D4ECD2EB1AC3700188B80 /* MobileOrderView.swift */,
 				215D4E9F2E9BE1A400188B80 /* TicketView.swift */,
 				215D4E9D2E9BE18E00188B80 /* MovieSearchView.swift */,
@@ -191,6 +200,9 @@
 		215D4E992E9BE16900188B80 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				217B15882ED34DA200BE6499 /* MenuViewModifiers.swift */,
+				217B15862ED34D9400BE6499 /* MenuItemCardView.swift */,
+				217B15842ED34D0200BE6499 /* TheaterChangeBar.swift */,
 				215D4E982E9BE16900188B80 /* OutlineChipStyle.swift */,
 			);
 			path = Components;
@@ -304,10 +316,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				215D4EA02E9BE1A400188B80 /* TicketView.swift in Sources */,
+				217B15852ED34D0400BE6499 /* TheaterChangeBar.swift in Sources */,
 				215D4C512E7DBB0500188B80 /* SplashView.swift in Sources */,
 				215D4E9E2E9BE18E00188B80 /* MovieSearchView.swift in Sources */,
 				215D4D622E87D5AB00188B80 /* MemverView.swift in Sources */,
 				215D4D492E841CC800188B80 /* MegaBoxApp.swift in Sources */,
+				217B15872ED34D9500BE6499 /* MenuItemCardView.swift in Sources */,
 				215D4D452E8417B400188B80 /* Fonts.swift in Sources */,
 				215D4ED32EBFAEBB00188B80 /* KeyChainService.swift in Sources */,
 				215D4E972E9BE15800188B80 /* MovieBookingView.swift in Sources */,
@@ -315,9 +329,11 @@
 				215D4E9A2E9BE16900188B80 /* OutlineChipStyle.swift in Sources */,
 				215D4D9A2E8E5CE900188B80 /* HomeView.swift in Sources */,
 				215D4D482E841CC200188B80 /* ContentView.swift in Sources */,
+				217B15892ED34DA700BE6499 /* MenuViewModifiers.swift in Sources */,
 				215D4D712E87D84B00188B80 /* MemberInfoManageView.swift in Sources */,
 				215D4D9F2E8E86D800188B80 /* MovieDetailView.swift in Sources */,
 				215D4C532E7DBB6600188B80 /* LoginView.swift in Sources */,
+				217B158B2ED34DBE00BE6499 /* MobileOrderDetailView.swift in Sources */,
 				215D4ED72EBFAF0700188B80 /* KakaoAuthManager.swift in Sources */,
 				217B14A62ECB1E5900BE6499 /* Secrets.swift in Sources */,
 				215D4D982E8E5C7700188B80 /* MainTabView.swift in Sources */,
