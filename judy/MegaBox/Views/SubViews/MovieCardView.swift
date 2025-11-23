@@ -1,19 +1,29 @@
 import SwiftUI
+import Kingfisher
 
 struct MovieCardView: View {
-    let movie: AppMovie   // ✅ AppMovie로 통일
-
+    let movie: AppMovie
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
 
-            // 포스터 이미지
-            Image(movie.posterHome)
-                .resizable()
-                .scaledToFill()
-                .frame(width: 148, height: 220)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
-                .clipped()
-
+            // 포스터 이미지 (TMDB 우선, 없으면 에셋)
+            Group {
+                if let url = movie.posterURL {
+                    KFImage(url)
+                        .placeholder { ProgressView() }
+                        .resizable()
+                        .scaledToFill()
+                } else {
+                    Image(movie.posterHome)
+                        .resizable()
+                        .scaledToFill()
+                }
+            }
+            .frame(width: 148, height: 220)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .clipped()
+            
             // 바로 예매 버튼
             Button {
                 // TODO: 예매 화면으로 네비게이션/시트 등 연결
@@ -40,7 +50,7 @@ struct MovieCardView: View {
                 .lineLimit(1)
                 .foregroundColor(.primary)
 
-            // 관람 등급/표시
+            // 관람 등급
             Text("\(movie.audience)세 이상 관람가")
                 .font(.pretend(type: .regular, size: 15, relativeTo: .body))
                 .foregroundColor(.primary)
