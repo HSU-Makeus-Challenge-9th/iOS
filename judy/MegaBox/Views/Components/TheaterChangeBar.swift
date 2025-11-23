@@ -6,28 +6,43 @@ struct TheaterChangeBar: View {
 
     var body: some View {
         HStack(spacing: 8) {
-            Image(systemName: "mappin.and.ellipse")
-                .font(.subheadline)
+            // 핀 아이콘
+            Image("pin")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 16, height: 16)
+                .foregroundColor(.white)
 
+            // 지역명
             Text(theaterName)
-                .font(.subheadline)
-                .fontWeight(.semibold)
+                .font(
+                    Font.custom("Pretendard", size: 15)
+                        .weight(.semibold)
+                )
+                .foregroundColor(.white)
 
             Spacer()
 
+            // 극장 변경 버튼
             Button(action: onTapChange) {
                 Text("극장 변경")
-                    .font(.caption)
-                    .fontWeight(.semibold)
+                    .font(
+                        Font.custom("Pretendard", size: 13)
+                            .weight(.semibold)
+                    )
+                    .foregroundColor(.white)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 6)
-                    .background(
+                    .overlay(
                         Capsule()
-                            .strokeBorder(lineWidth: 1)
+                            .stroke(Color.white, lineWidth: 1)
                     )
             }
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 10)
+        .background(
+            Color("purple03")
+        )
     }
 }
