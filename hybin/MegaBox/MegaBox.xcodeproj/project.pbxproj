@@ -200,6 +200,7 @@
 				Services/KakaoConfig.swift,
 				Services/KeychainService.swift,
 				Services/MovieService.swift,
+				Services/MoyaExtension.swift,
 				Services/UserSessionManager.swift,
 			);
 			target = 4CF19AF32E8806EE0078679E /* MegaBox */;
@@ -214,6 +215,7 @@
 				Services/KakaoConfig.swift,
 				Services/KeychainService.swift,
 				Services/MovieService.swift,
+				Services/MoyaExtension.swift,
 				Services/UserSessionManager.swift,
 			);
 			target = 4CF19B002E8806F00078679E /* MegaBoxTests */;
@@ -228,6 +230,7 @@
 				Services/KakaoConfig.swift,
 				Services/KeychainService.swift,
 				Services/MovieService.swift,
+				Services/MoyaExtension.swift,
 				Services/UserSessionManager.swift,
 			);
 			target = 4CF19B0A2E8806F00078679E /* MegaBoxUITests */;
