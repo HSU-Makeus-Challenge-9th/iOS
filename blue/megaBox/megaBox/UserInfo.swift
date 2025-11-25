@@ -6,11 +6,15 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct UserInfo: View {
     @AppStorage("login_id") private var loginId: String = ""
     @AppStorage("member_name") private var memberName: String = ""
     @AppStorage("is_logged_in") private var isLoggedIn: Bool = false
+    
+    @State private var profileImage: UIImage?
+    @State private var isShowingImagePicker = false
     
     private let primary = Color.purple
 
@@ -29,13 +33,17 @@ struct UserInfo: View {
                 .padding(.top, 16)
             }
         }
+        .sheet(isPresented: $isShowingImagePicker) {
+            ImagePicker(image: $profileImage)
+        }
     }
 
     private var header: some View {
-        HStack(alignment: .top) {
+        HStack(alignment: .center, spacing: 12) {
+            profileView
             VStack(alignment: .leading, spacing: 8) {
                 HStack(spacing: 8) {
-                    Text(displayName() + "님") // ← 이름 우선 표시
+                    Text(displayName() + "님")
                         .font(.system(size: 24, weight: .bold))
                         .foregroundStyle(.black)
                     Text("WELCOME")
@@ -56,7 +64,6 @@ struct UserInfo: View {
                 }
             }
             Spacer()
-            
             NavigationLink {
                 UserInfoManage()
             } label: {
@@ -70,6 +77,26 @@ struct UserInfo: View {
                             .fill(Color("gray07"))
                     )
             }
+        }
+    }
+    
+    private var profileView: some View {
+        Group {
+            if let image = profileImage {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFill()
+            } else {
+                Image(systemName: "person.crop.circle")
+                    .resizable()
+                    .scaledToFit()
+                    .foregroundStyle(.black)
+            }
+        }
+        .frame(width: 56, height: 56)
+        .clipShape(Circle())
+        .onLongPressGesture(minimumDuration: 1.0) {
+            isShowingImagePicker = true
         }
     }
 
@@ -160,13 +187,48 @@ struct UserInfo: View {
         .frame(maxWidth: .infinity)
     }
 
-    // 이름이 저장되어 있으면 이름, 아니면 아이디를 마스킹해서 반환
     private func displayName() -> String {
         let base = memberName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? loginId : memberName
         if base.count <= 2 { return base }
         let first = String(base.prefix(1))
         let last = String(base.suffix(1))
         return first + "＊" + last
+    }
+}
+
+struct ImagePicker: UIViewControllerRepresentable {
+    @Binding var image: UIImage?
+    
+    func makeUIViewController(context: Context) -> UIImagePickerController {
+        let picker = UIImagePickerController()
+        picker.delegate = context.coordinator
+        picker.sourceType = .photoLibrary
+        return picker
+    }
+    
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) { }
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+    
+    final class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+        let parent: ImagePicker
+        
+        init(_ parent: ImagePicker) {
+            self.parent = parent
+        }
+        
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            if let uiImage = info[.originalImage] as? UIImage {
+                parent.image = uiImage
+            }
+            picker.dismiss(animated: true)
+        }
+        
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            picker.dismiss(animated: true)
+        }
     }
 }
 
