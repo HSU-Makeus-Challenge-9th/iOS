@@ -5,7 +5,3 @@ struct TicketView: View {
         Text("안녕하세요")
     }
 }
-
-#Preview {
-    TicketView()
-}
