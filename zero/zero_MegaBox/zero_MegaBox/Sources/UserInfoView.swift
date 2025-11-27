@@ -13,15 +13,45 @@ struct UserInfoView: View
     @Binding var path: NavigationPath
     @AppStorage("userId") private var userId: String = "zero"
     @AppStorage("userName") private var userName: String = "sumini"
+
+    @State private var selectedImage: UIImage? = nil
+    @State private var showImagePicker: Bool = false
+    
     
     
     var body: some View
     {
             VStack{
                 HStack(alignment: .center){//헤더
+                    Group {
+                        if let selectedImage {
+                            Image(uiImage: selectedImage)
+                                .resizable()
+                                .scaledToFill()
+                        } else {
+                            Image("profile")
+                                .resizable()
+                                .scaledToFill()
+                        }
+                    }
+                    .frame(width: 55, height: 55)
+                    .clipShape(Circle())
+                    .onLongPressGesture(minimumDuration: 1.0) {
+                        showImagePicker = true
+                    }
+                    .sheet(isPresented: $showImagePicker) {
+                        ImagePicker(
+                            sourceType: .photoLibrary,
+                            onImagePicked: { image in
+                                selectedImage = image
+                            },
+                            onDismiss: {
+                                showImagePicker = false
+                            }
+                        )
+                    }
                     VStack{
                         HStack(alignment: .center){
-                            
                             Text("\(userName)님")
                                 .font(.bold24)
                                 .foregroundStyle(Color("black"))
@@ -198,9 +228,9 @@ struct UserInfoView: View
     
     
     
-    //#Preview {
-    //    UserInfoView()
-    //}
+//    #Preview {
+//        UserInfoView()
+//    }
     
     //struct UserInfoView_Preview: PreviewProvider {
     //    static var previews: some View {

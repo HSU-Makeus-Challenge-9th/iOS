@@ -24,9 +24,6 @@ class MovieViewModel: ObservableObject {
         !filteredShowtimes.isEmpty
     }
     
-    
-    
-    
     @Published var screeningMessage: String = "선택한 극장에 상영시간표가 없습니다"
     @Published var selectedCinemaType: String = ""
         
@@ -136,8 +133,7 @@ class MovieViewModel: ObservableObject {
                 filteredShowtimes = []
                 return
             }
-            
-            // 날짜 변환
+        
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             let selectedDateString = date.flatMap { dateFormatter.string(from: $0) }

@@ -69,9 +69,6 @@ struct MovieSearchView: View {
                 
             }
     }
-                
-        
-
 }
 
 

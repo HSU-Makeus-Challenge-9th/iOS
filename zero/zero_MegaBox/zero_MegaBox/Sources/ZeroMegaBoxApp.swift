@@ -4,11 +4,11 @@ import SwiftUI
 struct ZeroMegaBoxApp: App {
     var body: some Scene {
         WindowGroup {
-//            LoginView()
+//            UserInfoView()
+            LoginView()
 //            MovieBookingView()
-            MobileOrderView()
+//            MobileOrderView()
 //            MovieBookingView()
-//            LoginView()
         }
     }
 }
