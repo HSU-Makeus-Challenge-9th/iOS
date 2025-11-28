@@ -7,23 +7,15 @@
 
 import Foundation
 import SwiftUI
+import Kingfisher
 
 struct HomeView: View{
     @State private var viewModel = HomeViewModel()
     
     var body: some View {
         
-        if let errorMessage = viewModel.errorMessage {
-                        VStack {
-                            Text("데이터 로딩 실패")
-                                .font(.headline)
-                            Text(errorMessage) // 👈 여기에 에러 내용이 뜹니다.
-                                .font(.caption)
-                                .foregroundStyle(.red)
-                        }
-                        .padding()
-                    }
-        else{NavigationStack{
+        
+        NavigationStack{
             ScrollView(.vertical) {
                 megaboxLogoView
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
@@ -43,9 +35,9 @@ struct HomeView: View{
                 movieArticleView
             }
             .task {
-                await viewModel.loadMovies()
+                await viewModel.fetchNowPlayingMovies()
             }
-        }}
+        }
     }
     
     private var megaboxLogoView : some View {
@@ -79,64 +71,61 @@ struct HomeView: View{
         VStack{
             HStack(spacing: 24) {
                 Button {
-//                            viewModel.selectTab(.movieChart)
+                    //                            viewModel.selectTab(.movieChart)
                     print("hi")
-                        } label: {
-                            Text("무비차트")
-                                // 색상을 흰색으로 지정
-                                .foregroundStyle(Color.white)
-                                .font(.pretend(type: .medium, size: 14))
-                                .padding(.horizontal, 16)
-                                .padding(.vertical, 9)
-                                .background(Color.black)
-                                .clipShape(Capsule())
-                        }
+                } label: {
+                    Text("무비차트")
+                    // 색상을 흰색으로 지정
+                        .foregroundStyle(Color.white)
+                        .font(.pretend(type: .medium, size: 14))
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 9)
+                        .background(Color.black)
+                        .clipShape(Capsule())
+                }
                 Button {
-//                            viewModel.selectTab(.movieChart)
+                    //                            viewModel.selectTab(.movieChart)
                     print("hi")
-                        } label: {
-                            Text("상영예정")
-                                // 색상을 흰색으로 지정
-                                .foregroundStyle(Color.white)
-                                .font(.pretend(type: .medium, size: 14))
-                                .padding(.horizontal, 16)
-                                .padding(.vertical, 9)
-                                .background(Color.gray)
-                                .clipShape(Capsule())
-                        }
+                } label: {
+                    Text("상영예정")
+                    // 색상을 흰색으로 지정
+                        .foregroundStyle(Color.white)
+                        .font(.pretend(type: .medium, size: 14))
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 9)
+                        .background(Color.gray)
+                        .clipShape(Capsule())
+                }
             }.frame(width:192)
         }
     }
     
-//    private func moviePosterView(movieVM: HomeViewModel) -> some View {
-//        ScrollView(.horizontal) {
-//            LazyHStack(spacing:24){
-//                ForEach(movieVM.movieModel) { movie in
-//                    
-//                    movieCardView(movie: movie)
-//                }
-//            }
-//        }
-//    }
-    
     private var moviePoster : some View{
         ScrollView(.horizontal){
             LazyHStack(spacing:24){
-                ForEach(viewModel.movieModel) { movie in
+                ForEach(viewModel.movieCharts, id: \.id) { movie in
                     movieCardView(movie: movie)
                 }
             }
         }
     }
     
-    private func movieCardView(movie: MovieModel) -> some View{
+    private func movieCardView(movie: MovieCardModel) -> some View{
         
         VStack(alignment:.leading,spacing:4){
-            NavigationLink(destination: MovieDetailView(movie: movie)) {
-                movie.posterImage
+            NavigationLink(destination: MovieDetailView(movie:movie)) {
+                KFImage(URL(string: movie.moviePoster))
+                    .placeholder { // 로딩 중
+                        ProgressView()
+                            .frame(width: 170, height: 240) // (크기 고정)
+                            .background(Color.gray.opacity(0.1))
+                    }
                     .resizable()
+                    .scaledToFill()
+                    .frame(width: 170, height: 240) // (크기 고정)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
             }
-// ---MARK: 여기 고치기
+            // ---MARK: 여기 고치기
             
             NavigationLink(destination: MovieReserveView(selectedMovie: movie)) {
                 Text("바로 예매")
@@ -153,10 +142,10 @@ struct HomeView: View{
                     )
             }
             
-            Text(movie.title)
+            Text(movie.movieTitle)
                 .font(.pretend(type:.bold, size: 22))
                 .frame(alignment:.leading)
-            Text("누적 관객수 \(movie.audience)만")
+            Text("누적 관객수 \(movie.totalAudience)만")
                 .font(.pretend(type:.medium, size: 18))
             //            Text("\(movie.bookranking)")
         }
@@ -179,8 +168,8 @@ struct HomeView: View{
                         .foregroundStyle(Color.black)
                 })
             }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-                .padding(0)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+            .padding(0)
             
             Image(.exampleMovieFeed)
                 .resizable()
@@ -202,7 +191,7 @@ struct HomeView: View{
                             .resizable()
                             .scaledToFit()
                             .clipped()
-                        )
+                    )
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                 VStack(alignment:.leading,spacing: 25){
                     Text("9월, 메가박스의 영화들(1) - 명작들의 재개봉’")
@@ -225,14 +214,14 @@ struct HomeView: View{
                             .resizable()
                             .scaledToFit()
                             .clipped()
-                        )
+                    )
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                 VStack(alignment:.leading,spacing:25){
                     Text("메가박스 오리지널 티켓 Re.37 <얼굴>")
                         .font(.pretend(type: .semiBold, size: 16))
                         .foregroundStyle(Color.black)
                     
-
+                    
                     
                     Text("영화 속 양극적인 감정의 대비")
                         .font(.pretend(type: .semiBold, size: 11))

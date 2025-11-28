@@ -41,35 +41,31 @@ import Foundation
 
 struct ScheduleMapper {
     
-    static func toDomain
-    (from dto:ScheduleResponseDTO, for movieID: String, on date: String)
-    -> [TheaterSchedule] {
-        
-        guard let movieDTO = dto.data.movies.first(where: { $0.id == movieID }) else {return []}
-        
-        guard let scheduleDTO = movieDTO.schedules.first(where: { $0.date == date }) else {return []}
-        
-        let theaterSchedules = scheduleDTO.areas.map{areaDTO in
+    static func mapToDomain(areas: [AreaDTO]) -> [TheaterSchedule] {
             
-            let rooms: [ScreeningTime] = areaDTO.items.flatMap { itemDTO in
+            // 1. DTO -> Domain Model
+            return areas.map { areaDTO in
                 
-                return itemDTO.showtimes.map{ showtimeDTO in
-                    
-                    return ScreeningTime(
-                        time: showtimeDTO.start,
-                        endTime: "~" + showtimeDTO.end,
-                        remainingSeats: showtimeDTO.available,
-                        totalSeats: showtimeDTO.total,
-                        is2D: itemDTO.format.uppercased() == "2D",
-                        specialTheaterName: itemDTO.auditorium
-                    )
+                // 2. [AreaDTO] 안의 [ItemDTO]를 -> [ScreeningTime]으로 변환
+                //    (ItemDTO 1개가 방(auditorium)이고, 그 안에 상영시간(showtimes)이 여러 개 있음)
+                let screeningTimes = areaDTO.items.flatMap { itemDTO in
+                    // 3. 'flatMap'을 사용해 ShowTimeDTOs -> ScreeningTime 배열로 "펼침"
+                    itemDTO.showtimes.map { showtimeDTO in
+                        ScreeningTime(
+                            time: showtimeDTO.start,
+                            endTime: showtimeDTO.end,
+                            remainingSeats: showtimeDTO.available,
+                            totalSeats: showtimeDTO.total,
+                            is2D: (itemDTO.format == "2D"), // (format으로 2D 여부 추정)
+                            specialTheaterName: itemDTO.auditorium // (auditorium을 방 이름으로 사용)
+                        )
+                    }
                 }
+                
+                return TheaterSchedule(
+                    theaterName: areaDTO.area,
+                    rooms: screeningTimes
+                )
             }
-            
-            return TheaterSchedule(
-                theaterName: areaDTO.area, rooms: rooms
-            )
         }
-        return theaterSchedules
     }
-}

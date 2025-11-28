@@ -64,7 +64,6 @@ struct RootRouterView: View {
                 TabView()
             }
         }
-        // ⬇️ 카카오 REST 로그인 redirect 처리 (megabox://oauth?code=...)
         .onOpenURL { url in
             KakaoAuthManager.shared.handleRedirectURL(url) { result in
                 switch result {

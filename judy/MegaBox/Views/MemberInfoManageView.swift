@@ -17,8 +17,8 @@ struct MemberInfoManageView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 24) {
-
-            // 커스텀 네비게이션 바
+          
+            // 커스텀 네비게이션바
             MemberInfoNavBar(
                 title: "회원정보 관리",
                 backAction: { dismiss() }

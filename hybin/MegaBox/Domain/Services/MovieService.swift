@@ -51,25 +51,25 @@ class MovieService {
     }
     
     //---MARK: MovieReserveView용
-    func fetchSchedules(for movieID: String, on date: Date) async throws
-    -> [TheaterSchedule] {
-        
-        let responseDTO = try await decodeLocalJSON()
-        
-        guard responseDTO.status == "success" else {
-            throw ApiError.serverError(responseDTO.message)
-        }
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let dateString = dateFormatter.string(from: date)
-        
-        let schedules = ScheduleMapper.toDomain(
-            from: responseDTO, for: movieID, on: dateString
-        )
-        return schedules
-    }
-    
+//    func fetchSchedules(for movieID: String, on date: Date) async throws
+//    -> [TheaterSchedule] {
+//        
+//        let responseDTO = try await decodeLocalJSON()
+//        
+//        guard responseDTO.status == "success" else {
+//            throw ApiError.serverError(responseDTO.message)
+//        }
+//        
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "yyyy-MM-dd"
+//        let dateString = dateFormatter.string(from: date)
+//        
+//        let schedules = ScheduleMapper.toDomain(
+//            from: responseDTO, for: movieID, on: dateString
+//        )
+//        return schedules
+//    }
+//    
     private func decodeLocalJSON() async throws -> ScheduleResponseDTO {
         
         //url찾기
