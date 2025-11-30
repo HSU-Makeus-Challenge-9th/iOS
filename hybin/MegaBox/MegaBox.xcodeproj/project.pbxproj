@@ -119,6 +119,7 @@
 				Order/OrderItemDetailView.swift,
 				Order/OrderItemView.swift,
 				Order/OrderItemViewModel.swift,
+				Profile/ImagePicker.swift,
 				Profile/ProfileDetailView.swift,
 				Profile/ProfileView.swift,
 			);
@@ -140,6 +141,7 @@
 				Order/OrderItemDetailView.swift,
 				Order/OrderItemView.swift,
 				Order/OrderItemViewModel.swift,
+				Profile/ImagePicker.swift,
 				Profile/ProfileDetailView.swift,
 				Profile/ProfileView.swift,
 			);
@@ -161,6 +163,7 @@
 				Order/OrderItemDetailView.swift,
 				Order/OrderItemView.swift,
 				Order/OrderItemViewModel.swift,
+				Profile/ImagePicker.swift,
 				Profile/ProfileDetailView.swift,
 				Profile/ProfileView.swift,
 			);

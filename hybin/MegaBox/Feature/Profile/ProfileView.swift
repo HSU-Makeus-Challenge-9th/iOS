@@ -13,19 +13,20 @@ struct ProfileView: View {
     
     // 환경 객체 주입
     @Environment(UserSessionManager.self) var usm : UserSessionManager
+    @State private var profileImage: UIImage? = nil
+    @State private var isImagePickerPresented: Bool = false
     
     var body: some View {
         NavigationStack{
-
+            
             ScrollView {
                 VStack(alignment: .leading,spacing:33){
                     
                     VStack(alignment:.leading){
- 
+                        
                         if let user = usm.currentUser{
                             userInformation(user: user)
-                            membershipPoint(user: user)
-                            logoutButton
+                            //                            logoutButton
                         } else {
                             // 로그아웃 상태일 때 대체 UI
                             Text("로그인 상태가 아닙니다.").font(.title).padding(.leading, 10)
@@ -38,9 +39,9 @@ struct ProfileView: View {
                     customerStatus
                     bottomImage
                     
-
+                    
                 }
-
+                
                 .padding(.top, 20)
                 .padding(.horizontal, 15)
             }
@@ -57,53 +58,93 @@ struct ProfileView: View {
             .padding(.top, 10)
         }
     }
-
+    
     // 사용자 정보 (이름, 등급, 회원정보 버튼 포함)
     private func userInformation(user : User) -> some View{
         HStack{
             
-            Text(user.name + "님")
-                .font(.pretend(type: .bold, size: 24))
-            
-            Text(user.membership.rawValue)
-                .font(.pretend(type:.medium, size:14))
-                .foregroundStyle(Color.white)
-                .padding(.horizontal, 8)
-                .padding(.vertical, 4)
-                .background(Color(red: 0.28, green: 0.8, blue: 0.82))
-                .clipShape(RoundedRectangle(cornerRadius: 6))
-            
-            Spacer() // 오른쪽 버튼 밀어내기
-            
-            // 회원정보 관리 NavigationLink
-            NavigationLink(destination: ProfileDetailView()){
-                Text("회원정보")
-                    .font(.pretend(type:.semiBold, size:14))
-                    .foregroundStyle(Color.white)
-                    .padding(4)
-                    .frame(width: 72, alignment: .center)
-                    .background(Color(red: 0.28, green: 0.28, blue: 0.28))
-                    .clipShape(RoundedRectangle(cornerRadius: 16))
+            VStack {
+                if let image = profileImage {
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 55, height: 55)
+                        .clipShape(Circle())
+                } else {
+                    Image("gg_profile")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 55, height: 55)
+                }
             }
-        }.padding(0)
-    }
-    
-    // 멤버십 포인트 정보
-    private func membershipPoint(user:User) -> some View {
-        HStack{
-            Text("멤버십 포인트")
-                .font(.pretend(type:.semiBold, size:14))
-                .padding(.horizontal,10)
-                .padding(.top,15)
+            .onLongPressGesture(minimumDuration: 1.0) {
+                print("press.")
+                isImagePickerPresented = true
+            }
+            .sheet(isPresented: $isImagePickerPresented) {
+                ImagePicker(selectedImage: $profileImage)
+            }
             
-            Text(String(user.membershipPoints) + "P")
-                .font(.pretend(type:.medium, size:14))
-                .padding(.top,15)
-            Spacer()
+            VStack(spacing: 0){
+                HStack{
+                    
+                    Text(user.name + "님")
+                        .font(.pretend(type: .bold, size: 24))
+                    
+                    Text(user.membership.rawValue)
+                        .font(.pretend(type:.medium, size:14))
+                        .foregroundStyle(Color.white)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(Color(red: 0.28, green: 0.8, blue: 0.82))
+                        .clipShape(RoundedRectangle(cornerRadius: 6))
+                    
+                    Spacer() // 오른쪽 버튼 밀어내기
+                    
+                    // 회원정보 관리 NavigationLink
+                    NavigationLink(destination: ProfileDetailView()){
+                        Text("회원정보")
+                            .font(.pretend(type:.semiBold, size:14))
+                            .foregroundStyle(Color.white)
+                            .padding(4)
+                            .frame(width: 72, alignment: .center)
+                            .background(Color(red: 0.28, green: 0.28, blue: 0.28))
+                            .clipShape(RoundedRectangle(cornerRadius: 16))
+                    }
+                }
+                .padding(0)
+                
+                HStack{
+                    Text("멤버십 포인트")
+                        .font(.pretend(type:.semiBold, size:14))
+                        .padding(.horizontal,10)
+                        .padding(.top,15)
+                    
+                    Text(String(user.membershipPoints) + "P")
+                        .font(.pretend(type:.medium, size:14))
+                        .padding(.top,15)
+                    Spacer()
+                }
+            }
         }
     }
     
-
+    //    // 멤버십 포인트 정보
+    //    private func membershipPoint(user:User) -> some View {
+    //        HStack{
+    //            Text("멤버십 포인트")
+    //                .font(.pretend(type:.semiBold, size:14))
+    //                .padding(.horizontal,10)
+    //                .padding(.top,15)
+    //
+    //            Text(String(user.membershipPoints) + "P")
+    //                .font(.pretend(type:.medium, size:14))
+    //                .padding(.top,15)
+    //            Spacer()
+    //        }
+    //    }
+    
+    
     
     private var clubMembership: some View {
         HStack(alignment: .center, spacing: 3) {
@@ -204,8 +245,8 @@ struct ProfileView: View {
                         .font(.pretend(type:.medium,size:14))
                 }
             }.frame(width:66, height:67)
-            .padding(.horizontal, 10) // 중앙 정렬을 위해 padding 추가
-
+                .padding(.horizontal, 10) // 중앙 정렬을 위해 padding 추가
+            
             Spacer()
             
             // 극장별예매
@@ -220,8 +261,8 @@ struct ProfileView: View {
                         .font(.pretend(type:.medium,size:14))
                 }
             }.frame(width:66, height:67)
-            .padding(.horizontal, 10)
-
+                .padding(.horizontal, 10)
+            
             Spacer()
             
             // 특별관예매
@@ -236,7 +277,7 @@ struct ProfileView: View {
                         .font(.pretend(type:.medium,size:14))
                 }
             }.frame(width:66, height:67)
-            .padding(.horizontal, 10)
+                .padding(.horizontal, 10)
             
             Spacer()
             
@@ -252,7 +293,7 @@ struct ProfileView: View {
                         .font(.pretend(type:.medium,size:14))
                 }
             }.frame(width:66, height:67)
-            .padding(.horizontal, 10)
+                .padding(.horizontal, 10)
         }
         .padding(.horizontal, 5)
     }
