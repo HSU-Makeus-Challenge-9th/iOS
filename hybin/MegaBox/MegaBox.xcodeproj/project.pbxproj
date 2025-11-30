@@ -79,6 +79,30 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		4C0C30DF2ED310C20079566D /* Exceptions for "Moya" folder in "MegaBox" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				MovieAPIService.swift,
+				MoyaExtension.swift,
+			);
+			target = 4CF19AF32E8806EE0078679E /* MegaBox */;
+		};
+		4C0C30E02ED310C20079566D /* Exceptions for "Moya" folder in "MegaBoxTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				MovieAPIService.swift,
+				MoyaExtension.swift,
+			);
+			target = 4CF19B002E8806F00078679E /* MegaBoxTests */;
+		};
+		4C0C30E12ED310C20079566D /* Exceptions for "Moya" folder in "MegaBoxUITests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				MovieAPIService.swift,
+				MoyaExtension.swift,
+			);
+			target = 4CF19B0A2E8806F00078679E /* MegaBoxUITests */;
+		};
 		4CA2D65C2EA91CA2009D27BE /* Exceptions for "Feature" folder in "MegaBox" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -92,6 +116,9 @@
 				Movie/MovieReserveView.swift,
 				Movie/MovieReserveViewModel.swift,
 				Movie/MovieSearchSheetView.swift,
+				Order/OrderItemDetailView.swift,
+				Order/OrderItemView.swift,
+				Order/OrderItemViewModel.swift,
 				Profile/ProfileDetailView.swift,
 				Profile/ProfileView.swift,
 			);
@@ -110,6 +137,9 @@
 				Movie/MovieReserveView.swift,
 				Movie/MovieReserveViewModel.swift,
 				Movie/MovieSearchSheetView.swift,
+				Order/OrderItemDetailView.swift,
+				Order/OrderItemView.swift,
+				Order/OrderItemViewModel.swift,
 				Profile/ProfileDetailView.swift,
 				Profile/ProfileView.swift,
 			);
@@ -128,6 +158,9 @@
 				Movie/MovieReserveView.swift,
 				Movie/MovieReserveViewModel.swift,
 				Movie/MovieSearchSheetView.swift,
+				Order/OrderItemDetailView.swift,
+				Order/OrderItemView.swift,
+				Order/OrderItemViewModel.swift,
 				Profile/ProfileDetailView.swift,
 				Profile/ProfileView.swift,
 			);
@@ -160,12 +193,12 @@
 		4CA2D66A2EA91DE5009D27BE /* Exceptions for "Domain" folder in "MegaBox" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Models/MenuItemModel.swift,
 				Models/MovieModel.swift,
 				Models/UserModel.swift,
 				Services/KakaoAuthService.swift,
 				Services/KakaoConfig.swift,
 				Services/KeychainService.swift,
-				Services/MovieAPIService.swift,
 				Services/MovieService.swift,
 				Services/MoyaExtension.swift,
 				Services/UserSessionManager.swift,
@@ -175,12 +208,12 @@
 		4CA2D66B2EA91DE5009D27BE /* Exceptions for "Domain" folder in "MegaBoxTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Models/MenuItemModel.swift,
 				Models/MovieModel.swift,
 				Models/UserModel.swift,
 				Services/KakaoAuthService.swift,
 				Services/KakaoConfig.swift,
 				Services/KeychainService.swift,
-				Services/MovieAPIService.swift,
 				Services/MovieService.swift,
 				Services/MoyaExtension.swift,
 				Services/UserSessionManager.swift,
@@ -190,12 +223,12 @@
 		4CA2D66C2EA91DE5009D27BE /* Exceptions for "Domain" folder in "MegaBoxUITests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Models/MenuItemModel.swift,
 				Models/MovieModel.swift,
 				Models/UserModel.swift,
 				Services/KakaoAuthService.swift,
 				Services/KakaoConfig.swift,
 				Services/KeychainService.swift,
-				Services/MovieAPIService.swift,
 				Services/MovieService.swift,
 				Services/MoyaExtension.swift,
 				Services/UserSessionManager.swift,
@@ -284,6 +317,8 @@
 		4CF19C232E880B8C0078679E /* Exceptions for "View" folder in "MegaBox" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Component/Modifiers.swift,
+				Component/ReusableComponents.swift,
 				SplashView.swift,
 			);
 			target = 4CF19AF32E8806EE0078679E /* MegaBox */;
@@ -291,6 +326,8 @@
 		4CF19C242E880B8C0078679E /* Exceptions for "View" folder in "MegaBoxTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Component/Modifiers.swift,
+				Component/ReusableComponents.swift,
 				SplashView.swift,
 			);
 			target = 4CF19B002E8806F00078679E /* MegaBoxTests */;
@@ -298,6 +335,8 @@
 		4CF19C252E880B8C0078679E /* Exceptions for "View" folder in "MegaBoxUITests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Component/Modifiers.swift,
+				Component/ReusableComponents.swift,
 				SplashView.swift,
 			);
 			target = 4CF19B0A2E8806F00078679E /* MegaBoxUITests */;
@@ -305,6 +344,16 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		4C0C30DE2ED310B20079566D /* Moya */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4C0C30DF2ED310C20079566D /* Exceptions for "Moya" folder in "MegaBox" target */,
+				4C0C30E02ED310C20079566D /* Exceptions for "Moya" folder in "MegaBoxTests" target */,
+				4C0C30E12ED310C20079566D /* Exceptions for "Moya" folder in "MegaBoxUITests" target */,
+			);
+			path = Moya;
+			sourceTree = "<group>";
+		};
 		4CA2D61D2EA91C85009D27BE /* Feature */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -428,9 +477,10 @@
 				4CA2D61D2EA91C85009D27BE /* Feature */,
 				4CA2D6672EA91DB2009D27BE /* Domain */,
 				4CA2D66D2EA91E04009D27BE /* Data */,
+				4C0C30DE2ED310B20079566D /* Moya */,
 				4CF19BDC2E880B8C0078679E /* Resources */,
-				4CF19BE12E880B8C0078679E /* Tests */,
 				4CF19BE42E880B8C0078679E /* View */,
+				4CF19BE12E880B8C0078679E /* Tests */,
 				4CF19AF62E8806EE0078679E /* MegaBox */,
 				4CACFB002EC2286700643999 /* Frameworks */,
 				4CF19AF52E8806EE0078679E /* Products */,

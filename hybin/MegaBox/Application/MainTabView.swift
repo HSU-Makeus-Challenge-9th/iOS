@@ -17,6 +17,9 @@ struct MainTabView : View {
             Tab("Home", systemImage: "house.fill"){
                 HomeView()
             }
+            Tab("Lable", systemImage: "popcorn"){
+                OrderItemView()
+            }
             Tab("Profile", systemImage: "person.fill"){
                 ProfileView()
             }
